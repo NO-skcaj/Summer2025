@@ -169,7 +169,7 @@ namespace CoralPoseConstants
 
     constexpr auto StationElevator        = 0.5_m;
     constexpr auto StationArmAngle        = 45.0_deg;
-    constexpr auto StationWristAngle      = 0.0_deg;
+    constexpr auto StationWristAngle      = 180.0_deg;
     constexpr auto StationGripperVoltage  = 0.0_V;
 
     constexpr auto L1Elevator             = 0.5_m;

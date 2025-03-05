@@ -68,9 +68,9 @@ namespace WristConstants
     constexpr auto I                             = 0.0;              // Integral
     constexpr auto D                             = 1.0;              // Differential
 
-    constexpr auto MaximumVelocity               = 4000.0;            // Rotations per minute (RPM)
-    constexpr auto MaximumAcceleration           = 2000.0;            // Acceleration
-    constexpr auto AllowedError                  = 0.04;             // Allowed error for the pid controller (smaller values are more accurate)
+    constexpr auto MaximumVelocity               = 2000.0;           // Rotations per minute (RPM)
+    constexpr auto MaximumAcceleration           = 1000.0;           // Acceleration
+    constexpr auto AllowedError                  =   0.04;           // Allowed error for the pid controller (smaller values are more accurate)
 
     constexpr auto MaxAmperage                   =  60;
     constexpr auto AngleToTurnsConversionFactor  = 360_deg / 20;     // 20 to 1 gear box
@@ -85,10 +85,6 @@ namespace WristConstants
 #pragma region GripperConstants
 namespace GripperConstants
 {
-    constexpr auto P                    = 1.0;  // Proportional:    A position error of 0.2 rotations results in 12 V output
-    constexpr auto I                    = 0.0;  // Integral:        No output for integrated error
-    constexpr auto D                    = 0.1;  // Differential     A velocity error of 1 rps results in 0.5 V output
-
     constexpr auto MaximumAmperage      =  60;
 
     constexpr auto MeanAnalogInput      = 0.11811 / 2.0;
