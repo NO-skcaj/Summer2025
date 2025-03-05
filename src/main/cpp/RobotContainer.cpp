@@ -111,6 +111,9 @@ void RobotContainer::ConfigureButtonBindings()
     // Scores/Intakes Algae/Coral
     frc2::JoystickButton (&m_operatorController, ControlPanelConstants::Activate)
         .OnTrue(GripperActivate(&m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
+    
+    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::Spare)
+        .OnTrue(GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
 }
 #pragma endregion
 

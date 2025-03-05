@@ -19,6 +19,8 @@
 #include <units/time.h>
 #include <units/velocity.h>
 #include <units/voltage.h>
+
+#include "subsystems/Gripper.h"
 #pragma endregion
 
 #pragma region AutonomousConstants
@@ -159,6 +161,7 @@ namespace ActivateConstants
 #pragma region CoralPoseConstants
 namespace CoralPoseConstants
 {
+    //0.099620
     constexpr auto GroundElevator         = 0.103289_m;
     constexpr auto GroundArmAngle         = 138.765_deg;
     constexpr auto GroundWristAngle       = 180.0_deg;
@@ -223,6 +226,11 @@ namespace AlgaePoseConstants
     constexpr auto BargeArmAngle           = 45.0_deg;
     constexpr auto BargeWristAngle         = 0.0_deg;
     constexpr auto BargeGripperVoltage     = 0.0_V;
+
+    constexpr auto HomeElevator           = 0.0_m;
+    constexpr auto HomeArmAngle           = 25_deg;//ArmConstants::PastElevatorPosition;
+    constexpr auto HomeWristAngle         = 0.0_deg;
+    constexpr auto HomeGripperVoltage     = 0.0_V;
 }
 #pragma endregion
 

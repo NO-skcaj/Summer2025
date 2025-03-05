@@ -37,7 +37,8 @@ namespace ApriltagConstants
 
     constexpr auto LengthOfTagsInches      = 6.5;
 
-    constexpr auto RobotCameraOffset       = -0.305_m;
+    constexpr auto RobotCameraOffset       = 0_m;//-0.305_m;
+    constexpr auto RobotCameraAngleOffset  =  0_deg;
 }
 #pragma endregion
 

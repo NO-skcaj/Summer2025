@@ -316,6 +316,15 @@ void Gripper::SetPose(GripperPoseEnum pose)
             gripperVoltage  = AlgaePoseConstants::BargeGripperVoltage;
             break;
         }
+
+        case GripperPoseEnum::Home:
+        {
+            elevatorHeight  = AlgaePoseConstants::HomeElevator;
+            armAngle        = AlgaePoseConstants::HomeArmAngle;
+            wristAngle      = AlgaePoseConstants::HomeWristAngle;
+            gripperVoltage  = AlgaePoseConstants::HomeGripperVoltage;
+            break;
+        }
     }
 
     // Remember the pose
