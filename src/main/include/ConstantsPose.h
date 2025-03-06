@@ -54,6 +54,135 @@ namespace AutonomousConstants
 };
 #pragma endregion
 
+#pragma region AprilTagToPoseConstants
+namespace AprilTagToPoseConstants
+{
+    constexpr auto ChassisSpeed                  = 1.0_mps;
+    constexpr auto TimeoutTime                   = 10_s;
+
+    constexpr auto CoralStationDistanceOffsetX   = 0.0_m;
+    constexpr auto CoralStationDistanceOffsetY   = 0.0_m;
+    constexpr auto CoralStationAngleOffset       = 0.0_deg;
+
+    constexpr auto CoralReefDistanceOffsetX      = 0.5_m;
+    constexpr auto CoralReefDistanceOffsetY      = 0.5_m;
+    constexpr auto CoralReefAngleOffset          = 0.0_deg;
+
+    constexpr auto AlgaeReefDistanceOffsetX      = 0.0_m;
+    constexpr auto AlgaeReefDistanceOffsetY      = 0.0_m;
+    constexpr auto AlgaeReefAngleOffset          = 0.0_deg;
+
+    constexpr auto AlgaeProcessorDistanceOffsetX = 0.0_m;
+    constexpr auto AlgaeProcessorDistanceOffsetY = 0.0_m;
+    constexpr auto AlgaeProcessorAngleOffset     = 0.0_deg;
+
+    constexpr auto AlgaelBargeDistanceOffsetX    = 0.0_m;
+    constexpr auto AlgaelBargeDistanceOffsetY    = 0.0_m;
+    constexpr auto AlgaelBargeAngleOffset        = 0.0_deg;
+}
+#pragma endregion
+
+#pragma region CoralPoseConstants
+namespace CoralPoseConstants
+{
+    constexpr auto CoralGroundPickupVoltage      = 0.0_m;  // TODO: Set the voltage
+    constexpr auto CoralGripVoltage              = 0.0_m;  // TODO: Set the voltage
+
+    constexpr auto HomeElevator                  = 0.0_m;
+    constexpr auto HomeArmAngle                  = 25_deg;
+    constexpr auto HomeWristAngle                = 0.0_deg;
+    constexpr auto HomeGripperBothWheels         = true;
+    constexpr auto HomeGripperVoltage            = 0.0_V;
+
+    constexpr auto GroundElevator                = 0.103289_m;
+    constexpr auto GroundArmAngle                = 138.765_deg;
+    constexpr auto GroundWristAngle              = 180.0_deg;
+    constexpr auto GroundGripperBothWheels       = false;
+    constexpr auto GroundGripperVoltage          = CoralGroundPickupVoltage;
+
+    constexpr auto StationElevator               = 0.5_m;
+    constexpr auto StationArmAngle               = 45.0_deg;
+    constexpr auto StationWristAngle             = 180.0_deg;
+    constexpr auto StationGripperBothWheels      = true;
+    constexpr auto StationGripperVoltage         = CoralGripVoltage;  // Verify the voltage
+
+    constexpr auto L1Elevator                    = 0.5_m;
+    constexpr auto L1ArmAngle                    = 80.0_deg;
+    constexpr auto L1WristAngle                  = 180.0_deg;
+    constexpr auto L1GripperBothWheels           = true;
+    constexpr auto L1GripperVoltage              = CoralGripVoltage;
+
+    constexpr auto L2Elevator                    = 0.8_m;
+    constexpr auto L2ArmAngle                    = 45.0_deg;
+    constexpr auto L2WristAngle                  = 90.0_deg;
+    constexpr auto L2GripperBothWheels           = true;
+    constexpr auto L2GripperVoltage              = CoralGripVoltage;
+
+    constexpr auto L3Elevator                    = 1.22_m;
+    constexpr auto L3ArmAngle                    = 45.0_deg;
+    constexpr auto L3WristAngle                  = 90.0_deg;
+    constexpr auto L3GripperBothWheels           = true;
+    constexpr auto L3GripperVoltage              = CoralGripVoltage;
+
+    constexpr auto L4Elevator                    = 1.5_m;
+    constexpr auto L4ArmAngle                    = 45.0_deg;
+    constexpr auto L4WristAngle                  = 90.0_deg;
+    constexpr auto L4GripperBothWheels           = true;
+    constexpr auto L4GripperVoltage              = CoralGripVoltage;
+
+    constexpr auto AutonomousL1Elevator          = L1Elevator;
+    constexpr auto AutonomousL1ArmAngle          = L1ArmAngle;
+    constexpr auto AutonomousL1WristAngle        = 0.0_deg;
+    constexpr auto AutonomousL1GripperBothWheels = true;
+    constexpr auto AutonomousL1GripperVoltage    = CoralGripVoltage;  // TODO: Verify the voltage
+}
+#pragma endregion
+
+#pragma region AlgaePoseConstants
+namespace AlgaePoseConstants
+{
+    constexpr auto AlgeaGripVoltage           = 0.0_m;  // TODO: Verify the voltage
+    constexpr auto AlgaePickupVoltage         = 0.0_m;  // TODO: Verify the voltage
+    constexpr auto AlgaeReefGetVoltage        = 0.0_m;  // TODO: Verify the voltage
+
+    constexpr auto GroundElevator             = 0.1_m;
+    constexpr auto GroundArmAngle             = 100.0_deg;
+    constexpr auto GroundWristAngle           = 0.0_deg;
+    constexpr auto GroundGripperBothWheels    = true;
+    constexpr auto GroundGripperVoltage       = AlgaePickupVoltage;
+
+    constexpr auto OnCoralElevator            = 0.3_m;
+    constexpr auto OnCoralArmAngle            = 90.0_deg;
+    constexpr auto OnCoralWristAngle          = 0.0_deg;
+    constexpr auto OnCoralGripperBothWheels   = true;
+    constexpr auto OnCoralGripperVoltage      = AlgaePickupVoltage;
+
+    constexpr auto LowElevator                = 0.8_m;
+    constexpr auto LowArmAngle                = 90.0_deg;
+    constexpr auto LowWristAngle              = 0.0_deg;
+    constexpr auto LowGripperBothWheels       = true;
+    constexpr auto LowGripperVoltage          = AlgaeReefGetVoltage;
+
+    constexpr auto HighElevator               = 1.22_m;
+    constexpr auto HighArmAngle               = 90.0_deg;
+    constexpr auto HighWristAngle             = 0.0_deg;
+    constexpr auto HighGripperBothWheels      = true;
+    constexpr auto HighGripperVoltage         = AlgaeReefGetVoltage;
+
+    constexpr auto ProcessorElevator          = 0.2_m;
+    constexpr auto ProcessorArmAngle          = 100.0_deg;
+    constexpr auto ProcessorWristAngle        = 0.0_deg;
+    constexpr auto ProcessorGripperBothWheels = true;
+    constexpr auto ProcessorGripperVoltage    = AlgeaGripVoltage;
+
+    constexpr auto BargeElevator              = 1.5_m;
+    constexpr auto BargeArmAngle              = 45.0_deg;
+    constexpr auto BargeWristAngle            = 0.0_deg;
+    constexpr auto BargeGripperBothWheels     = true;
+    constexpr auto BargeGripperVoltage        = AlgeaGripVoltage;
+}
+#pragma endregion
+
 #pragma region ActivateConstants
 namespace ActivateConstants
 {
@@ -166,127 +295,5 @@ namespace ActivateConstants
     constexpr auto AlgaeBargeWait3              = 0.0_s;
     constexpr auto AlgaeBargeElevatorFinish     = 0.0_m;
     constexpr auto AlgaeBargeArmFinish          = 0.0_deg;
-}
-#pragma endregion
-
-#pragma region CoralPoseConstants
-namespace CoralPoseConstants
-{
-    constexpr auto HomeElevator                  = 0.0_m;
-    constexpr auto HomeArmAngle                  = 25_deg;
-    constexpr auto HomeWristAngle                = 0.0_deg;
-    constexpr auto HomeGripperBothWheels         = true;
-    constexpr auto HomeGripperVoltage            = 0.0_V;
-
-    constexpr auto GroundElevator                = 0.103289_m;
-    constexpr auto GroundArmAngle                = 138.765_deg;
-    constexpr auto GroundWristAngle              = 180.0_deg;
-    constexpr auto GroundGripperBothWheels       = false;
-    constexpr auto GroundGripperVoltage          = 0.0_V;
-
-    constexpr auto StationElevator               = 0.5_m;
-    constexpr auto StationArmAngle               = 45.0_deg;
-    constexpr auto StationWristAngle             = 180.0_deg;
-    constexpr auto StationGripperBothWheels      = true;
-    constexpr auto StationGripperVoltage         = 0.0_V;
-
-    constexpr auto L1Elevator                    = 0.5_m;
-    constexpr auto L1ArmAngle                    = 80.0_deg;
-    constexpr auto L1WristAngle                  = 180.0_deg;
-    constexpr auto L1GripperBothWheels           = true;
-    constexpr auto L1GripperVoltage              = 0.0_V;
-
-    constexpr auto L2Elevator                    = 0.8_m;
-    constexpr auto L2ArmAngle                    = 45.0_deg;
-    constexpr auto L2WristAngle                  = 90.0_deg;
-    constexpr auto L2GripperBothWheels           = true;
-    constexpr auto L2GripperVoltage              = 0.0_V;
-
-    constexpr auto L3Elevator                    = 1.22_m;
-    constexpr auto L3ArmAngle                    = 45.0_deg;
-    constexpr auto L3WristAngle                  = 90.0_deg;
-    constexpr auto L3GripperBothWheels           = true;
-    constexpr auto L3GripperVoltage              = 1.0_V;
-
-    constexpr auto L4Elevator                    = 1.5_m;
-    constexpr auto L4ArmAngle                    = 45.0_deg;
-    constexpr auto L4WristAngle                  = 90.0_deg;
-    constexpr auto L4GripperBothWheels           = true;
-    constexpr auto L4GripperVoltage              = -1.0_V;
-
-    constexpr auto AutonomousL1Elevator          = L1Elevator;
-    constexpr auto AutonomousL1ArmAngle          = L1ArmAngle;
-    constexpr auto AutonomousL1WristAngle        = 0.0_deg;
-    constexpr auto AutonomousL1GripperBothWheels = true;
-    constexpr auto AutonomousL1GripperVoltage    = 0.0_V;
-}
-#pragma endregion
-
-#pragma region AlgaePoseConstants
-namespace AlgaePoseConstants
-{
-    constexpr auto GroundElevator             = 0.1_m;
-    constexpr auto GroundArmAngle             = 100.0_deg;
-    constexpr auto GroundWristAngle           = 0.0_deg;
-    constexpr auto GroundGripperBothWheels    = true;
-    constexpr auto GroundGripperVoltage       = 0.0_V;
- 
-    constexpr auto OnCoralElevator            = 0.3_m;
-    constexpr auto OnCoralArmAngle            = 90.0_deg;
-    constexpr auto OnCoralWristAngle          = 0.0_deg;
-    constexpr auto OnCoralGripperBothWheels   = true;
-    constexpr auto OnCoralGripperVoltage      = 0.0_V;
- 
-    constexpr auto LowElevator                = 0.8_m;
-    constexpr auto LowArmAngle                = 90.0_deg;
-    constexpr auto LowWristAngle              = 0.0_deg;
-    constexpr auto LowGripperBothWheels       = true;
-    constexpr auto LowGripperVoltage          = 0.0_V;
- 
-    constexpr auto HighElevator               = 1.22_m;
-    constexpr auto HighArmAngle               = 90.0_deg;
-    constexpr auto HighWristAngle             = 0.0_deg;
-    constexpr auto HighGripperBothWheels      = true;
-    constexpr auto HighGripperVoltage         = 0.0_V;
-
-    constexpr auto ProcessorElevator          = 0.2_m;
-    constexpr auto ProcessorArmAngle          = 100.0_deg;
-    constexpr auto ProcessorWristAngle        = 0.0_deg;
-    constexpr auto ProcessorGripperBothWheels = true;
-    constexpr auto ProcessorGripperVoltage    = 0.0_V;
-
-    constexpr auto BargeElevator              = 1.5_m;
-    constexpr auto BargeArmAngle              = 45.0_deg;
-    constexpr auto BargeWristAngle            = 0.0_deg;
-    constexpr auto BargeGripperBothWheels     = true;
-    constexpr auto BargeGripperVoltage        = 0.0_V;
-}
-#pragma endregion
-
-#pragma region AprilTagToPoseConstants
-namespace AprilTagToPoseConstants
-{
-    constexpr auto ChassisSpeed                  = 1.0_mps;
-    constexpr auto TimeoutTime                   = 10_s;
-
-    constexpr auto CoralStationDistanceOffsetX   = 0.0_m;
-    constexpr auto CoralStationDistanceOffsetY   = 0.0_m;
-    constexpr auto CoralStationAngleOffset       = 0.0_deg;
-
-    constexpr auto CoralReefDistanceOffsetX      = 0.5_m;
-    constexpr auto CoralReefDistanceOffsetY      = 0.5_m;
-    constexpr auto CoralReefAngleOffset          = 0.0_deg;
-
-    constexpr auto AlgaeReefDistanceOffsetX      = 0.0_m;
-    constexpr auto AlgaeReefDistanceOffsetY      = 0.0_m;
-    constexpr auto AlgaeReefAngleOffset          = 0.0_deg;
-
-    constexpr auto AlgaeProcessorDistanceOffsetX = 0.0_m;
-    constexpr auto AlgaeProcessorDistanceOffsetY = 0.0_m;
-    constexpr auto AlgaeProcessorAngleOffset     = 0.0_deg;
-
-    constexpr auto AlgaelBargeDistanceOffsetX    = 0.0_m;
-    constexpr auto AlgaelBargeDistanceOffsetY    = 0.0_m;
-    constexpr auto AlgaelBargeAngleOffset        = 0.0_deg;
 }
 #pragma endregion
