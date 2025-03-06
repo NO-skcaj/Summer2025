@@ -23,6 +23,7 @@ struct GripperStateData
     units::time::second_t  Wait1          = 0_s;
     units::angle::degree_t ArmOffset      = 0_deg;
     units::time::second_t  Wait2          = 0_s;
+    bool                   BothWheels     = true;
     units::voltage::volt_t GripperVoltage = 0_V;
     units::time::second_t  Wait3          = 0_s;
 

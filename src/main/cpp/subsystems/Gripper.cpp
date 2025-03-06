@@ -23,7 +23,7 @@ Gripper::Gripper() : m_wristMotor(CanConstants::WristMotorCanId, rev::spark::Spa
     ConfigureGripperMotorLeft();
 
     // Set the gripper wheels voltage
-    SetGripperWheelsVoltage(0_V, 0_V);
+    SetGripperWheelsVoltage(GripperWheelState{true, 0_V});
 }
 #pragma endregion
 
@@ -204,16 +204,28 @@ void Gripper::SetPose(GripperPoseEnum pose)
     auto elevatorHeight  = 0_m;
     auto armAngle        = 0_deg;
     auto wristAngle      = 0_deg;
+    bool bothwheels      = true;
     auto gripperVoltage  = 0.0_V;
 
     // Determine the pose
     switch (pose)
     {
+        case GripperPoseEnum::Home:
+        {
+            elevatorHeight  = CoralPoseConstants::HomeElevator;
+            armAngle        = CoralPoseConstants::HomeArmAngle;
+            wristAngle      = CoralPoseConstants::HomeWristAngle;
+            bothwheels      = CoralPoseConstants::HomeGripperBothWheels;
+            gripperVoltage  = CoralPoseConstants::HomeGripperVoltage;
+            break;
+        }
+
         case GripperPoseEnum::CoralGround:
         {
-            elevatorHeight  = CoralPoseConstants::GroundElevator;
+            elevatorHeight  = CoralPoseConstants::GroundElevator;  // TODO: Set elevator a little higher to allow the operator to set the gripper wheel height
             armAngle        = CoralPoseConstants::GroundArmAngle;
             wristAngle      = CoralPoseConstants::GroundWristAngle;
+            bothwheels      = CoralPoseConstants::HomeGripperBothWheels;
             gripperVoltage  = CoralPoseConstants::GroundGripperVoltage;
             break;
         }
@@ -223,6 +235,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = CoralPoseConstants::StationElevator;
             armAngle        = CoralPoseConstants::StationArmAngle;
             wristAngle      = CoralPoseConstants::StationWristAngle;
+            bothwheels      = CoralPoseConstants::StationGripperBothWheels;
             gripperVoltage  = CoralPoseConstants::StationGripperVoltage;
             break;
         }
@@ -232,6 +245,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = CoralPoseConstants::L1Elevator;
             armAngle        = CoralPoseConstants::L1ArmAngle;
             wristAngle      = CoralPoseConstants::L1WristAngle;
+            bothwheels      = CoralPoseConstants::L1GripperBothWheels;
             gripperVoltage  = CoralPoseConstants::L1GripperVoltage;
             break;
         }
@@ -241,6 +255,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = CoralPoseConstants::L2Elevator;
             armAngle        = CoralPoseConstants::L2ArmAngle;
             wristAngle      = CoralPoseConstants::L2WristAngle;
+            bothwheels      = CoralPoseConstants::L2GripperBothWheels;
             gripperVoltage  = CoralPoseConstants::L2GripperVoltage;
             break;
         }
@@ -250,6 +265,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = CoralPoseConstants::L3Elevator;
             armAngle        = CoralPoseConstants::L3ArmAngle;
             wristAngle      = CoralPoseConstants::L3WristAngle;
+            bothwheels      = CoralPoseConstants::L3GripperBothWheels;
             gripperVoltage  = CoralPoseConstants::L3GripperVoltage;
             break;
         }
@@ -259,7 +275,18 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = CoralPoseConstants::L4Elevator;
             armAngle        = CoralPoseConstants::L4ArmAngle;
             wristAngle      = CoralPoseConstants::L4WristAngle;
+            bothwheels      = CoralPoseConstants::L4GripperBothWheels;
             gripperVoltage  = CoralPoseConstants::L4GripperVoltage;
+            break;
+        }
+
+        case GripperPoseEnum::CoralAutonomousL1:
+        {
+            elevatorHeight  = CoralPoseConstants::AutonomousL1Elevator;
+            armAngle        = CoralPoseConstants::AutonomousL1ArmAngle;
+            wristAngle      = CoralPoseConstants::AutonomousL1WristAngle;
+            bothwheels      = CoralPoseConstants::AutonomousL1GripperBothWheels;
+            gripperVoltage  = CoralPoseConstants::AutonomousL1GripperVoltage;
             break;
         }
 
@@ -268,6 +295,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = AlgaePoseConstants::GroundElevator;
             armAngle        = AlgaePoseConstants::GroundArmAngle;
             wristAngle      = AlgaePoseConstants::GroundWristAngle;
+            bothwheels      = AlgaePoseConstants::GroundGripperBothWheels;
             gripperVoltage  = AlgaePoseConstants::GroundGripperVoltage;
             break;
         }
@@ -277,6 +305,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = AlgaePoseConstants::OnCoralElevator;
             armAngle        = AlgaePoseConstants::OnCoralArmAngle;
             wristAngle      = AlgaePoseConstants::OnCoralWristAngle;
+            bothwheels      = AlgaePoseConstants::OnCoralGripperBothWheels;
             gripperVoltage  = AlgaePoseConstants::OnCoralGripperVoltage;
             break;
         }
@@ -286,6 +315,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = AlgaePoseConstants::LowElevator;
             armAngle        = AlgaePoseConstants::LowArmAngle;
             wristAngle      = AlgaePoseConstants::LowWristAngle;
+            bothwheels      = AlgaePoseConstants::LowGripperBothWheels;
             gripperVoltage  = AlgaePoseConstants::LowGripperVoltage;
             break;
         }
@@ -295,6 +325,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = AlgaePoseConstants::HighElevator;
             armAngle        = AlgaePoseConstants::HighArmAngle;
             wristAngle      = AlgaePoseConstants::HighWristAngle;
+            bothwheels      = AlgaePoseConstants::HighGripperBothWheels;
             gripperVoltage  = AlgaePoseConstants::HighGripperVoltage;
             break;
         }
@@ -304,6 +335,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = AlgaePoseConstants::ProcessorElevator;
             armAngle        = AlgaePoseConstants::ProcessorArmAngle;
             wristAngle      = AlgaePoseConstants::ProcessorWristAngle;
+            bothwheels      = AlgaePoseConstants::ProcessorGripperBothWheels;
             gripperVoltage  = AlgaePoseConstants::ProcessorGripperVoltage;
             break;
         }
@@ -313,16 +345,8 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = AlgaePoseConstants::BargeElevator;
             armAngle        = AlgaePoseConstants::BargeArmAngle;
             wristAngle      = AlgaePoseConstants::BargeWristAngle;
+            bothwheels      = AlgaePoseConstants::BargeGripperBothWheels;
             gripperVoltage  = AlgaePoseConstants::BargeGripperVoltage;
-            break;
-        }
-
-        case GripperPoseEnum::Home:
-        {
-            elevatorHeight  = AlgaePoseConstants::HomeElevator;
-            armAngle        = AlgaePoseConstants::HomeArmAngle;
-            wristAngle      = AlgaePoseConstants::HomeWristAngle;
-            gripperVoltage  = AlgaePoseConstants::HomeGripperVoltage;
             break;
         }
     }
@@ -340,7 +364,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
     SetWristAngle(wristAngle);
 
     // Set the gripper wheels voltage
-    //SetGripperWheelsVoltage(gripperVoltage);
+    SetGripperWheelsVoltage(GripperWheelState{bothwheels, gripperVoltage});
 }
 #pragma endregion
 
@@ -481,35 +505,32 @@ units::angle::degree_t Gripper::GetWristAngle()
 }
 #pragma endregion
 
-#pragma region SetGripperWheelsVoltage
+#pragma region SetGripperWheelsVoltage (GripperWheelState)
 /// @brief Method to set the Gripper wheels voltage.
 /// @param voltage The setpoint for the Gripper wheels voltage.
-void Gripper::SetGripperWheelsVoltage(units::voltage::volt_t voltageFixed,
-                                      units::voltage::volt_t voltageFree)
+void Gripper::SetGripperWheelsVoltage(GripperWheelState gripperWheelState)
 {
     // Show the target gripper wheels voltage
-    frc::SmartDashboard::PutNumber("Wheels Target", voltageFixed.value());
+    frc::SmartDashboard::PutNumber("Wheels Target", gripperWheelState.voltage.value());
 
-    // Set the voltage of the Gripper wheels
-    m_gripperMotorFixed.SetVoltage(voltageFixed);
-    m_gripperMotorFree.SetVoltage(voltageFree);
+    // Set the voltage of the fixed gripper wheel
+    m_gripperMotorFixed.SetVoltage(gripperWheelState.voltage);
+
+    // Set the voltage of the free gripper wheel
+    if (gripperWheelState.bothWheels)
+        m_gripperMotorFree.SetVoltage(gripperWheelState.voltage);
+    else
+        m_gripperMotorFree.SetVoltage(0_V);
 }
 #pragma endregion
 
-#pragma region SetGripperWheelsVoltage
+#pragma region SetGripperWheelsVoltage (functions GripperWheelState())
 /// @brief Method to set the Gripper wheels voltage.
 /// @param voltage The setpoint for the Gripper wheels voltage.
 void Gripper::SetGripperWheelsVoltage(std::function<GripperWheelState()> gripperWheelState)
 {
-    auto gripperWheels = gripperWheelState();
     // Set the voltage of the Gripper wheels
-    if (gripperWheels.bothWheels)
-    {
-        SetGripperWheelsVoltage(gripperWheels.voltage, gripperWheels.voltage);
-    } else
-    {
-        SetGripperWheelsVoltage(gripperWheels.voltage, 0_V);
-    }
+    SetGripperWheelsVoltage(gripperWheelState());
 }
 #pragma endregion
 

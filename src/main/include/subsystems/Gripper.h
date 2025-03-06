@@ -94,15 +94,18 @@ namespace GripperConstants
 }
 #pragma endregion
 
-/// @brief modes for the LED string.
+#pragma region GripperPoseEnum
 enum GripperPoseEnum
 {
+    Home,
+
     CoralGround,
     CoralStation,
     CoralL1,
     CoralL2,
     CoralL3,
     CoralL4,
+    CoralAutonomousL1,
 
     AlgaeGround,
     AlgaeOnCoral,
@@ -110,15 +113,16 @@ enum GripperPoseEnum
     AlgaeHigh,
     AlgaeProcessor,
     AlgaeBarge,
-
-    Home
 };
+#pragma endregion
 
+#pragma region GripperWheelState
 struct GripperWheelState
 {
-    bool bothWheels = true;
-    units::voltage::volt_t voltage;
+    bool                   bothWheels = true;
+    units::voltage::volt_t voltage    = 0_V;
 };
+#pragma endregion
 
 class Gripper : public frc2::SubsystemBase
 {
@@ -140,8 +144,7 @@ class Gripper : public frc2::SubsystemBase
         void                   SetWristAngleOffset(units::angle::degree_t angle);
         units::angle::degree_t GetWristAngle();
 
-        void                   SetGripperWheelsVoltage(units::voltage::volt_t voltageFixed,
-                                                       units::voltage::volt_t voltageFree);
+        void                   SetGripperWheelsVoltage(GripperWheelState gripperWheelState);
         void                   SetGripperWheelsVoltage(std::function<GripperWheelState()> gripperWheelState);
         units::voltage::volt_t GetGripperWheelsVoltage();
 

@@ -83,10 +83,6 @@ RobotContainer::RobotContainer()
                                                 [this] { return Angle();   },
                                                 &m_drivetrain));
 
-    // Set the default command for the gripper wheels
-    m_gripper.SetDefaultCommand(frc2::RunCommand([this] { m_gripper
-        .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
-
     // Set the LED default command
     m_leds.SetDefaultCommand(SetLeds(LedMode::Off, &m_leds));
 
@@ -107,13 +103,6 @@ void RobotContainer::ConfigureButtonBindings()
     ConfigureAlgaePoseControls();
     ConfigureGripperControls();
     ConfigureClimberControls();
-
-    // Scores/Intakes Algae/Coral
-    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::Activate)
-        .OnTrue(GripperActivate(&m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
-    
-    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::Spare)
-        .OnTrue(GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
 }
 #pragma endregion
 
@@ -125,7 +114,7 @@ void RobotContainer::ConfigureDriverControls()
     frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleSide)
         .WhileTrue(new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_aprilTags, &m_drivetrain));
 
-    // Use the trigger to activate the operation
+    // Use the trigger to activate the operation (Scores/Intakes Algae/Coral)
     frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleTrigger)
         .WhileTrue(new GripperActivate(&m_gripper));
 
@@ -165,8 +154,32 @@ void RobotContainer::ConfigureDriverControls()
 }
 #pragma endregion
 
+#pragma region ConfigureGripperControls
+/// @brief Method to bind the operator control panel gripper controls.
+void RobotContainer::ConfigureGripperControls()
+{
+    // Set the default command for the gripper wheels TODO: Gripper wheels controlled by the operator potentiometer
+    // m_gripper.SetDefaultCommand(frc2::RunCommand([this] { m_gripper
+    //     .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
+
+    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::OperatorWheels)
+        .WhileTrue(new frc2::RunCommand([this] { return PotentiometerWheelVoltage(); }, {&m_gripper}));
+
+    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::Home)
+        .OnTrue(GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
+
+    // Manually offsets elevator upwards
+    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::ElevatorUp)
+        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(ElevatorConstants::HeightOffset);}));
+
+    // Manually offsets elevator downwards
+    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::ElevatorDown)
+        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(-ElevatorConstants::HeightOffset);}));
+}
+#pragma endregion
+
 #pragma region ConfigureCoralPoseControls
-/// @brief Method to bind the operator control panel scoring/intaking positioning, then pressing activate (ex: L1Score then Activate).
+/// @brief Method to bind the operator control panel scoring/intaking positioning, then pressing activate (ex: L1Score then activate).
 void RobotContainer::ConfigureCoralPoseControls()
 {
     // Define an array of button mappings for coral poses
@@ -196,7 +209,7 @@ void RobotContainer::ConfigureCoralPoseControls()
 #pragma endregion
 
 #pragma region ConfigureAlgaePoseControls
-/// @brief Method to bind the operator control panel scoring/intaking positioning, then pressing activate (ex: L1Score then Activate).
+/// @brief Method to bind the operator control panel scoring/intaking positioning, then pressing activate (ex: AlgaeBarge then activate).
 void RobotContainer::ConfigureAlgaePoseControls()
 {
     // Define an array of button mappings for algae poses
@@ -222,20 +235,6 @@ void RobotContainer::ConfigureAlgaePoseControls()
         frc2::JoystickButton (&m_operatorController, mapping.button)
             .OnTrue(GripperPose(mapping.pose, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
     }
-}
-#pragma endregion
-
-#pragma region ConfigureGripperControls
-/// @brief Method to bind the operator control panel gripper controls.
-void RobotContainer::ConfigureGripperControls()
-{
-    // Manually offsets elevator upwards
-    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::ElevatorUp)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(ElevatorConstants::HeightOffset);}));
-
-    // Manually offsets elevator downwards
-    frc2::JoystickButton (&m_operatorController, ControlPanelConstants::ElevatorDown)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(-ElevatorConstants::HeightOffset);}));
 }
 #pragma endregion
 
@@ -392,7 +391,7 @@ GripperWheelState RobotContainer::PotentiometerWheelVoltage()
     auto voltage = units::voltage::volt_t{potentiometer * GripperConstants::AnalogConversion};
 
     // Determine if both wheels are active
-    bool bothWheels = !m_operatorController.GetRawButton(ControlPanelConstants::Toggle);
+    bool bothWheels = !m_operatorController.GetRawButton(ControlPanelConstants::BothWheelsActive);
 
     // Return the gripper wheel state
     GripperWheelState gripperWheelState;
@@ -582,6 +581,16 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
 
     // Return the parameters
     return parameters;
+}
+#pragma endregion
+
+#pragma region GetClosestAprilTag
+/// @brief Method to get the closest AprilTag.
+/// @return The closest AprilTag.
+AprilTagInformation RobotContainer::GetClosestAprilTag()
+{
+    // Get the closest AprilTag
+    return m_aprilTags.GetClosestAprilTag();
 }
 #pragma endregion
 

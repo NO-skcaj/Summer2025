@@ -26,8 +26,6 @@ void AprilTags::Periodic()
     // Read Apriltag information to Network Table
     auto foundAprilTags = m_aprilTagsIntegerArraySubscriber.Get();
 
-    frc::SmartDashboard::PutNumber("AprilTags Found", foundAprilTags.size());
-
     // Clear the AprilTag vector
     m_detectedAprilTags.clear();
 
@@ -38,8 +36,6 @@ void AprilTags::Periodic()
 
         // Get the AprilTag identification
         aprilTagInformation.Identification = foundAprilTags[aprilTagIndex];
-
-        frc::SmartDashboard::PutNumber("AprilTag", aprilTagInformation.Identification);
 
         // Retrieve the entry using the GetEntry method
         nt::NetworkTableEntry entry = m_aprilTagsTable->GetEntry(fmt::format("pose_{}", aprilTagInformation.Identification));
@@ -56,14 +52,6 @@ void AprilTags::Periodic()
             aprilTagInformation.rotationX = poseValues[3];
             aprilTagInformation.rotationY = poseValues[4];
             aprilTagInformation.rotationZ = poseValues[5];
-
-            // // Use the retrieved values (e.g., display them on the SmartDashboard)
-            // frc::SmartDashboard::PutNumber("Distance X", aprilTagInformation.X);
-            // frc::SmartDashboard::PutNumber("Distance Y", aprilTagInformation.Y);
-            // frc::SmartDashboard::PutNumber("Distance Z", aprilTagInformation.Z);
-            // frc::SmartDashboard::PutNumber("Rotation X", aprilTagInformation.rotationX);
-            // frc::SmartDashboard::PutNumber("Rotation Y", aprilTagInformation.rotationY);
-            // frc::SmartDashboard::PutNumber("Rotation Z", aprilTagInformation.rotationZ);
         }
 
         // Add the AprilTag to the found vector
@@ -100,7 +88,7 @@ bool AprilTags::GetTag(int id, AprilTagInformation &aprilTagInformation)
 /// @brief Method to get the closest AprilTag.
 /// @param aprilTagInformation Reference to return the AprilTag information.
 /// @return true to indicate that the AprilTag information is available.
-AprilTagInformation AprilTags::GetClosestTag()
+AprilTagInformation AprilTags::GetClosestAprilTag()
 {
     AprilTagInformation aprilTagInformation;
 

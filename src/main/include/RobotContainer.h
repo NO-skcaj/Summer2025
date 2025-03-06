@@ -79,6 +79,8 @@ class RobotContainer
 
         ChassDriveAprilTagParameters GetChassisDriveToAprilTagParameters();
 
+        AprilTagInformation          GetClosestAprilTag();
+
         Gripper                     *GetGripper();
 
         frc::PowerDistribution      *GetPowerDistribution();

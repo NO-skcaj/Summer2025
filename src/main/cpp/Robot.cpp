@@ -40,6 +40,17 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Arm",      m_robotContainer->GetGripper()->GetArmAngle().to<double>());
     frc::SmartDashboard::PutNumber("Wrist",    m_robotContainer->GetGripper()->GetWristAngle().value());
     frc::SmartDashboard::PutNumber("Wheels",   m_robotContainer->GetGripper()->GetGripperWheelsVoltage().value());
+
+    // Show the AprilTag information
+    auto aprilTagInformation = m_robotContainer->GetClosestAprilTag();
+    frc::SmartDashboard::PutNumber("AprilTag Found",  aprilTagInformation.Found);
+    frc::SmartDashboard::PutNumber("AprilTag ID",     aprilTagInformation.Identification);
+    frc::SmartDashboard::PutNumber("AprilTag Dist X", aprilTagInformation.X);
+    frc::SmartDashboard::PutNumber("AprilTag Dist Y", aprilTagInformation.Y);
+    frc::SmartDashboard::PutNumber("AprilTag Dist Z", aprilTagInformation.Z);
+    frc::SmartDashboard::PutNumber("AprilTag Rot X",  aprilTagInformation.rotationX);
+    frc::SmartDashboard::PutNumber("AprilTag Rot Y",  aprilTagInformation.rotationY);
+    frc::SmartDashboard::PutNumber("AprilTag Rot Z",  aprilTagInformation.rotationZ);
 }
 #pragma endregion
 

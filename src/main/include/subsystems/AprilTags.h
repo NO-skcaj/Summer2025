@@ -37,8 +37,8 @@ namespace ApriltagConstants
 
     constexpr auto LengthOfTagsInches      = 6.5;
 
-    constexpr auto RobotCameraOffset       = 0_m;//-0.305_m;
-    constexpr auto RobotCameraAngleOffset  =  0_deg;
+    constexpr auto RobotCameraOffset       = -0.305_m;
+    constexpr auto RobotCameraAngleOffset  = 0_deg;
 }
 #pragma endregion
 
@@ -64,7 +64,7 @@ class AprilTags : public frc2::SubsystemBase
 
         bool                GetTag(int id, AprilTagInformation &aprilTagInformation);
 
-        AprilTagInformation GetClosestTag();
+        AprilTagInformation GetClosestAprilTag();
 
     private:
 

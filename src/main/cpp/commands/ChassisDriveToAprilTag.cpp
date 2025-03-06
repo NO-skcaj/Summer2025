@@ -1,6 +1,5 @@
 #include "commands/ChassisDriveToAprilTag.h"
 
-
 #pragma region ChassisDriveToAprilTag
 /// @brief Command to drive the chassis to an AprilTag.
 /// @param speed The speed to move the chassis.
@@ -109,19 +108,10 @@ void ChassisDriveToAprilTag::Initialize()
 
     try
     {
-        auto aprilTagInformation = m_aprilTags->GetClosestTag();
+        auto aprilTagInformation = m_aprilTags->GetClosestAprilTag();
 
         // Determine if an AprilTag was found
-        if (aprilTagInformation.Found == true)
-        {
-            frc::SmartDashboard::PutNumber("AprilTag Dist X", aprilTagInformation.X);
-            frc::SmartDashboard::PutNumber("AprilTag Dist Y", aprilTagInformation.Y);
-            frc::SmartDashboard::PutNumber("AprilTag Dist Z", aprilTagInformation.Z);
-            frc::SmartDashboard::PutNumber("AprilTag Rot X",  aprilTagInformation.rotationX);
-            frc::SmartDashboard::PutNumber("AprilTag Rot Y",  aprilTagInformation.rotationY);
-            frc::SmartDashboard::PutNumber("AprilTag Rot Z",  aprilTagInformation.rotationZ);
-        }
-        else  // If no AprilTag is found, end the command
+        if (aprilTagInformation.Found == false)
         {
             // End the command
             m_finished = true;

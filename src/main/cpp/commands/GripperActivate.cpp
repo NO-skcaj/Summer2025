@@ -132,7 +132,7 @@ void GripperActivate::Execute()
             if (frc::GetTime() > m_stateData.Wait2)
             {
                 m_state = GripperWheelsMove;
-                m_gripper->SetGripperWheelsVoltage(m_stateData.GripperVoltage, m_stateData.GripperVoltage);
+                m_gripper->SetGripperWheelsVoltage(GripperWheelState{m_stateData.BothWheels, m_stateData.GripperVoltage});
                 m_state = Finish;
             }
             break;
@@ -143,7 +143,7 @@ void GripperActivate::Execute()
             if (frc::GetTime() > m_stateData.Wait3)
             {
                 m_state = Finish;
-                m_gripper->SetGripperWheelsVoltage(0_V, 0_V);
+                m_gripper->SetGripperWheelsVoltage(GripperWheelState{true, 0_V});
                 m_gripper->SetArmAngleOffset(-m_stateData.ArmOffset);
                 m_gripper->SetElevatorOffset(-m_stateData.ElevatorOffset);
                 m_state      = Complete;
@@ -176,6 +176,7 @@ void GripperActivate::CoralGround()
     m_stateData.Wait1          = m_startTime + ActivateConstants::CoralGroundWait1;
     m_stateData.ArmOffset      = ActivateConstants::CoralGroundArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::CoralGroundWait2;
+    m_stateData.BothWheels     = ActivateConstants::CoralGroundBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::CoralGroundGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::CoralGroundWait3;
 
@@ -189,6 +190,7 @@ void GripperActivate::CoralStation()
     m_stateData.Wait1          = m_startTime + ActivateConstants::CoralStationWait1;
     m_stateData.ArmOffset      = ActivateConstants::CoralStationArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::CoralStationWait2;
+    m_stateData.BothWheels     = ActivateConstants::CoralStationBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::CoralStationGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::CoralStationWait3;
 
@@ -202,6 +204,7 @@ void GripperActivate::CoralL123()
     m_stateData.Wait1          = m_startTime + ActivateConstants::Coral123Wait1;
     m_stateData.ArmOffset      = ActivateConstants::Coral123ArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::Coral123Wait2;
+    m_stateData.BothWheels     = ActivateConstants::Coral123BothWheels;
     m_stateData.GripperVoltage = ActivateConstants::Coral123GripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::Coral123Wait3;
 
@@ -215,6 +218,7 @@ void GripperActivate::CoralL4()
     m_stateData.Wait1          = m_startTime + ActivateConstants::Coral4Wait1;
     m_stateData.ArmOffset      = ActivateConstants::Coral4ArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::Coral4Wait2;
+    m_stateData.BothWheels     = ActivateConstants::Coral4BothWheels;
     m_stateData.GripperVoltage = ActivateConstants::Coral4GripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::Coral4Wait3;
 
@@ -228,6 +232,7 @@ void GripperActivate::AlgaeGround()
     m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeGroundWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeGroundArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeGroundWait2;
+    m_stateData.BothWheels     = ActivateConstants::AlgaeGroundBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeGroundGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeGroundWait3;
 
@@ -241,6 +246,7 @@ void GripperActivate::AlgaeOnCoral()
     m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeOnCoralWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeOnCoralArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeOnCoralWait2;
+    m_stateData.BothWheels     = ActivateConstants::AlgaeOnCoralBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeOnCoralGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeOnCoralWait3;
 
@@ -254,6 +260,7 @@ void GripperActivate::AlgaeLow()
     m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeLoWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeLoArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeLoWait2;
+    m_stateData.BothWheels     = ActivateConstants::AlgaeLoBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeLoGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeLoWait3;
 
@@ -267,6 +274,7 @@ void GripperActivate::AlgaeHigh()
     m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeHighWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeHighArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeHighWait2;
+    m_stateData.BothWheels     = ActivateConstants::AlgaeHighBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeHighGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeHighWait3;
 
@@ -280,6 +288,7 @@ void GripperActivate::AlgaeProcessor()
     m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeProcessorWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeProcessorArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeProcessorWait2;
+    m_stateData.BothWheels     = ActivateConstants::AlgaeProcessorBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeProcessorGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeProcessorWait3;
 
@@ -293,6 +302,7 @@ void GripperActivate::AlgaeBarge()
     m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeBargeWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeBargeArmOffset;
     m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeBargeWait2;
+    m_stateData.BothWheels     = ActivateConstants::AlgaeBargeBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeBargeGripperVoltage;
     m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeBargeWait3;
 
