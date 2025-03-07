@@ -64,9 +64,9 @@ RobotContainer::RobotContainer()
     m_autonomousChooser.SetDefaultOption("Do Nothing",       new AutonomousDoNothing());
     m_autonomousChooser.AddOption("Drive Forward",           new ChassisDrivePose(1.0_mps, 1_m, 0_m, 0_deg, 10_s, &m_drivetrain));
     m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
-    m_autonomousChooser.AddOption("Place Coral L2",          new AutonomousOneCoral(GripperPoseEnum::CoralL2,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
-    m_autonomousChooser.AddOption("Place Coral L3",          new AutonomousOneCoral(GripperPoseEnum::CoralL3,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
-    m_autonomousChooser.AddOption("Place Coral L4",          new AutonomousOneCoral(GripperPoseEnum::CoralL4,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L2",          new AutonomousOneCoral(GripperPoseEnum::CoralL2,            [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L3",          new AutonomousOneCoral(GripperPoseEnum::CoralL3,            [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L4",          new AutonomousOneCoral(GripperPoseEnum::CoralL4,            [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
 
     // Send the autonomous mode chooser to the SmartDashboard
     frc::SmartDashboard::PutData("Autonomous Mode", &m_autonomousChooser);
@@ -441,6 +441,10 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters()
 {
     ChassDrivePoseParameters parameters;
 
+    // Set the common pose parameters
+    parameters.Speed       = AutonomousConstants::OneCoralSpeed;
+    parameters.TimeoutTime = AutonomousConstants::OneCoralTimeOut;
+
     std::string startPosition = "Unknown";
 
     // Get the starting position
@@ -483,7 +487,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters()
 }
 #pragma endregion
 
-#define READ_FROM_SMARTDASHBOARD
+//#define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.

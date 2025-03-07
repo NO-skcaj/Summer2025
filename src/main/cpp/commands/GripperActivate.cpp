@@ -21,8 +21,6 @@ void GripperActivate::Initialize()
     m_startTime  = frc::GetTime();
     m_isFinished = false;
 
-    frc::SmartDashboard::PutNumber("Gripper Pose", m_gripper->GetPose());
-
     // Determine the action based on the present gripper pose
     switch (m_gripper->GetPose())
     {

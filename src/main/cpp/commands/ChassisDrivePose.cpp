@@ -17,6 +17,9 @@ ChassisDrivePose::ChassisDrivePose(units::velocity::meters_per_second_t speed, u
 
     // Declare subsystem dependencies
     AddRequirements(m_drivetrain);
+
+    // Indicate that the parameters should not be read from the lambda function
+    m_readParameters = false;
 }
 #pragma endregion
 
@@ -51,9 +54,6 @@ void ChassisDrivePose::Initialize()
     // Assume the pose command will run
     m_finished = false;
 
-    // Assume the pose command will run
-    m_finished = false;
-
     // Determine if the parameters should be read from the lambda function
     if (m_readParameters)
     {
@@ -66,10 +66,6 @@ void ChassisDrivePose::Initialize()
         m_distanceY   = parameters.DistanceY;
         m_angle       = parameters.Angle;
         m_timeoutTime = parameters.TimeoutTime;
-
-        // Determine if the pose is not valid (do not continue)
-        if (m_finished)
-            return;
     }
 
     try
@@ -79,7 +75,8 @@ void ChassisDrivePose::Initialize()
 
         // Add kinematics to ensure maximum speed is actually obeyed
         trajectoryConfig.SetKinematics(m_drivetrain->m_kinematics);
-        frc::SmartDashboard::PutString("Debug", "Nothing wrong here");
+
+        frc::SmartDashboard::PutString("Debug", "SetKinematics");
 
         // Ensure the new pose requires an X or Y move
         // Note: GenerateTrajectory will throw an exception if the distance X and Y are zero
@@ -96,32 +93,25 @@ void ChassisDrivePose::Initialize()
 
         frc::SmartDashboard::PutNumber("Distance X", m_distanceX.value());
         frc::SmartDashboard::PutNumber("Distance Y", m_distanceY.value());
-        frc::SmartDashboard::PutNumber("Angle",     m_angle.value());
+        frc::SmartDashboard::PutNumber("Angle",      m_angle.value());
 
-        frc::SmartDashboard::PutNumber("Start X", startPose.X().value());
-        frc::SmartDashboard::PutNumber("Start Y", startPose.Y().value());
-        frc::SmartDashboard::PutNumber("Start A", startPose.Rotation().Degrees().value());
+        frc::SmartDashboard::PutNumber("Start X",    startPose.X().value());
+        frc::SmartDashboard::PutNumber("Start Y",    startPose.Y().value());
+        frc::SmartDashboard::PutNumber("Start A",    startPose.Rotation().Degrees().value());
 
-        frc::SmartDashboard::PutNumber("End X", endPose.X().value());
-        frc::SmartDashboard::PutNumber("End Y", endPose.Y().value());
-        frc::SmartDashboard::PutNumber("End A", endPose.Rotation().Degrees().value());
-
-        frc::SmartDashboard::PutString("DebugDrivePose", "1");
+        frc::SmartDashboard::PutNumber("End X",      endPose.X().value());
+        frc::SmartDashboard::PutNumber("End Y",      endPose.Y().value());
+        frc::SmartDashboard::PutNumber("End A",      endPose.Rotation().Degrees().value());
 
         // Create the trajectory to follow
         auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(startPose, {}, endPose, trajectoryConfig);
-        frc::SmartDashboard::PutString("DebugDrivePose", "2");
 
         // Create a profile PID controller
         frc::ProfiledPIDController<units::radians> profiledPIDController{ChassisPoseConstants::PProfileController, 0, 0,
                                                                          ChassisPoseConstants::ThetaControllerConstraints};
-        frc::SmartDashboard::PutString("DebugDrivePose", "3");
-
 
         // enable continuous input for the profile PID controller
         profiledPIDController.EnableContinuousInput(units::radian_t{-std::numbers::pi}, units::radian_t{std::numbers::pi});
-
-        frc::SmartDashboard::PutString("DebugDrivePose", "4");
 
         // Create the swerve controller command
         m_swerveControllerCommand = new frc2::SwerveControllerCommand<4>(
@@ -143,18 +133,15 @@ void ChassisDrivePose::Initialize()
 
         // Get the start time
         m_startTime = frc::GetTime();
+
+        frc::SmartDashboard::PutString("Debug", "Success!");
     }
     catch(const std::exception& exception)
     {
         frc::SmartDashboard::PutString("Debug", exception.what());
-        frc::SmartDashboard::PutString("Debug Chassis Drive Pose", "Somthin is amuck");
-
+		
         // Ensure the SwerveControllerCommand is set to nullptr
         m_swerveControllerCommand = nullptr;
-
-        // Determine if the command was not able to start (do not continue)
-        if (m_finished)
-            return;
     }
 }
 #pragma endregion
@@ -164,11 +151,11 @@ void ChassisDrivePose::Initialize()
 void ChassisDrivePose::Execute()
 {
     // Execute the swerve controller command
-    if (m_swerveControllerCommand)
+    if (m_swerveControllerCommand != nullptr)
         m_swerveControllerCommand->Execute();
     else
     {
-        // Stop the move
+        // Stop the command
         m_finished = true;
     }
 }
@@ -188,7 +175,7 @@ bool ChassisDrivePose::IsFinished()
         return true;
 
     // Determine if the swerve controller command is finished
-    return m_swerveControllerCommand && m_swerveControllerCommand->IsFinished();
+    return m_swerveControllerCommand->IsFinished();
 }
 #pragma endregion
 
@@ -198,7 +185,7 @@ bool ChassisDrivePose::IsFinished()
 void ChassisDrivePose::End(bool interrupted)
 {
     // If the swerve controller command is not nullptr, end the command
-    if (m_swerveControllerCommand)
+    if (m_swerveControllerCommand != nullptr)
     {
         // End the swerve controller command
         m_swerveControllerCommand->End(interrupted);
