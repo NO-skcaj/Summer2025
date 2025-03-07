@@ -79,6 +79,7 @@ void ChassisDrivePose::Initialize()
 
         // Add kinematics to ensure maximum speed is actually obeyed
         trajectoryConfig.SetKinematics(m_drivetrain->m_kinematics);
+        frc::SmartDashboard::PutString("Debug", "Nothing wrong here");
 
         // Ensure the new pose requires an X or Y move
         // Note: GenerateTrajectory will throw an exception if the distance X and Y are zero
@@ -105,15 +106,22 @@ void ChassisDrivePose::Initialize()
         frc::SmartDashboard::PutNumber("End Y", endPose.Y().value());
         frc::SmartDashboard::PutNumber("End A", endPose.Rotation().Degrees().value());
 
+        frc::SmartDashboard::PutString("DebugDrivePose", "1");
+
         // Create the trajectory to follow
         auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(startPose, {}, endPose, trajectoryConfig);
+        frc::SmartDashboard::PutString("DebugDrivePose", "2");
 
         // Create a profile PID controller
         frc::ProfiledPIDController<units::radians> profiledPIDController{ChassisPoseConstants::PProfileController, 0, 0,
                                                                          ChassisPoseConstants::ThetaControllerConstraints};
+        frc::SmartDashboard::PutString("DebugDrivePose", "3");
+
 
         // enable continuous input for the profile PID controller
         profiledPIDController.EnableContinuousInput(units::radian_t{-std::numbers::pi}, units::radian_t{std::numbers::pi});
+
+        frc::SmartDashboard::PutString("DebugDrivePose", "4");
 
         // Create the swerve controller command
         m_swerveControllerCommand = new frc2::SwerveControllerCommand<4>(
@@ -139,6 +147,7 @@ void ChassisDrivePose::Initialize()
     catch(const std::exception& exception)
     {
         frc::SmartDashboard::PutString("Debug", exception.what());
+        frc::SmartDashboard::PutString("Debug Chassis Drive Pose", "Somthin is amuck");
 
         // Ensure the SwerveControllerCommand is set to nullptr
         m_swerveControllerCommand = nullptr;

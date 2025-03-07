@@ -63,7 +63,7 @@ RobotContainer::RobotContainer()
     // Configure the autonomous command chooser
     m_autonomousChooser.SetDefaultOption("Do Nothing",       new AutonomousDoNothing());
     m_autonomousChooser.AddOption("Drive Forward",           new ChassisDrivePose(1.0_mps, 1_m, 0_m, 0_deg, 10_s, &m_drivetrain));
-    m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralL1,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
     m_autonomousChooser.AddOption("Place Coral L2",          new AutonomousOneCoral(GripperPoseEnum::CoralL2,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
     m_autonomousChooser.AddOption("Place Coral L3",          new AutonomousOneCoral(GripperPoseEnum::CoralL3,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
     m_autonomousChooser.AddOption("Place Coral L4",          new AutonomousOneCoral(GripperPoseEnum::CoralL4,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
@@ -163,7 +163,8 @@ void RobotContainer::ConfigureGripperControls()
     //     .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
 
     frc2::JoystickButton (&m_operatorController, ControlPanelConstants::OperatorWheels)
-        .WhileTrue(new frc2::RunCommand([this] { return PotentiometerWheelVoltage(); }, {&m_gripper}));
+        .WhileTrue(new frc2::RunCommand([this] { m_gripper
+        .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
 
     frc2::JoystickButton (&m_operatorController, ControlPanelConstants::Home)
         .OnTrue(GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));

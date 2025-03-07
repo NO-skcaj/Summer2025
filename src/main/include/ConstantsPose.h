@@ -29,7 +29,7 @@ namespace AutonomousConstants
     constexpr auto OneCoralSpeed            =  2_mps;
 
     // Center starting position for one coral placement
-    constexpr auto OneCoralCenterXDistance  =  0.25_m;
+    constexpr auto OneCoralCenterXDistance  =  0.5_m;
     constexpr auto OneCoralCenterYDistance  =  0_m;
     constexpr auto OneCoralAngleChange      =  0_deg;
 
@@ -85,8 +85,8 @@ namespace AprilTagToPoseConstants
 #pragma region CoralPoseConstants
 namespace CoralPoseConstants
 {
-    constexpr auto CoralGroundPickupVoltage      = 0.0_m;  // TODO: Set the voltage
-    constexpr auto CoralGripVoltage              = 0.0_m;  // TODO: Set the voltage
+    constexpr auto CoralGroundPickupVoltage      = 4.0_V;  // TODO: Set the voltage
+    constexpr auto CoralGripVoltage              = 1.0_V;  // TODO: Set the voltage
 
     constexpr auto HomeElevator                  = 0.0_m;
     constexpr auto HomeArmAngle                  = 25_deg;
@@ -94,7 +94,7 @@ namespace CoralPoseConstants
     constexpr auto HomeGripperBothWheels         = true;
     constexpr auto HomeGripperVoltage            = 0.0_V;
 
-    constexpr auto GroundElevator                = 0.103289_m;
+    constexpr auto GroundElevator                = 0.164432_m;
     constexpr auto GroundArmAngle                = 138.765_deg;
     constexpr auto GroundWristAngle              = 180.0_deg;
     constexpr auto GroundGripperBothWheels       = false;
@@ -141,13 +141,13 @@ namespace CoralPoseConstants
 #pragma region AlgaePoseConstants
 namespace AlgaePoseConstants
 {
-    constexpr auto AlgeaGripVoltage           = 0.0_m;  // TODO: Verify the voltage
-    constexpr auto AlgaePickupVoltage         = 0.0_m;  // TODO: Verify the voltage
-    constexpr auto AlgaeReefGetVoltage        = 0.0_m;  // TODO: Verify the voltage
+    constexpr auto AlgeaGripVoltage           = 2.5_V;  // TODO: Verify the voltage
+    constexpr auto AlgaePickupVoltage         = 5.0_V;  // TODO: Verify the voltage
+    constexpr auto AlgaeReefGetVoltage        = 0.0_V;  // TODO: Verify the voltage
 
-    constexpr auto GroundElevator             = 0.1_m;
-    constexpr auto GroundArmAngle             = 100.0_deg;
-    constexpr auto GroundWristAngle           = 0.0_deg;
+    constexpr auto GroundElevator             = 0.421899_m;
+    constexpr auto GroundArmAngle             = 126.918945_deg;
+    constexpr auto GroundWristAngle           = 180_deg;
     constexpr auto GroundGripperBothWheels    = true;
     constexpr auto GroundGripperVoltage       = AlgaePickupVoltage;
 
@@ -171,7 +171,7 @@ namespace AlgaePoseConstants
 
     constexpr auto ProcessorElevator          = 0.2_m;
     constexpr auto ProcessorArmAngle          = 100.0_deg;
-    constexpr auto ProcessorWristAngle        = 0.0_deg;
+    constexpr auto ProcessorWristAngle        = 180.0_deg;
     constexpr auto ProcessorGripperBothWheels = true;
     constexpr auto ProcessorGripperVoltage    = AlgeaGripVoltage;
 
@@ -209,14 +209,14 @@ namespace ActivateConstants
     constexpr auto CoralStationArmFinish        = 0.0_deg;
 
     // Coral123:
-    constexpr auto Coral123ElevatorOffset       =  0.2_m;
+    constexpr auto Coral123ElevatorOffset       =  0.0_m;
     constexpr auto Coral123Wait1                =  1.0_s;
     constexpr auto Coral123ArmOffset            =  10.0_deg;
     constexpr auto Coral123Wait2                =  0.1_s;
     constexpr auto Coral123BothWheels           =  true;
     constexpr auto Coral123GripperVoltage       = -3.0_V;
     constexpr auto Coral123Wait3                =  1.0_s;
-    constexpr auto Coral123ElevatorFinish       =  0.2_m;
+    constexpr auto Coral123ElevatorFinish       =  0.0_m;
     constexpr auto Coral123ArmFinish            = 10.0_deg;
 
     // Coral4:
@@ -225,8 +225,8 @@ namespace ActivateConstants
     constexpr auto Coral4ArmOffset              = 0.0_deg;
     constexpr auto Coral4Wait2                  = 0.0_s;
     constexpr auto Coral4BothWheels             = true;
-    constexpr auto Coral4GripperVoltage         = 0.0_V;
-    constexpr auto Coral4Wait3                  = 0.0_s;
+    constexpr auto Coral4GripperVoltage         = -3.0_V;
+    constexpr auto Coral4Wait3                  = 1.0_s;
     constexpr auto Coral4ElevatorFinish         = 0.0_m;
     constexpr auto Coral4ArmFinish              = 0.0_deg;
 

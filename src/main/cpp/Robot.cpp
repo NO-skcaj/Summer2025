@@ -64,6 +64,13 @@ void Robot::AutonomousInit()
     // Get the selected autonomous command
     m_autonomousCommand = m_robotContainer->GetAutonomousCommand();
 
+    // Ensure the arm angle is past the elevator
+    if (m_robotContainer->GetGripper()->GetArmAngle() < ArmConstants::PastElevatorPosition)
+    {
+        // Set the arm to the past elevator position
+        m_robotContainer->GetGripper()->SetArmAngle(ArmConstants::PastElevatorPosition);
+    }
+
     // Determine if the chooser returned a pointer to a command
     if (m_autonomousCommand != nullptr)
     {

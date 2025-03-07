@@ -38,7 +38,7 @@ namespace ElevatorConstants
 #pragma region ArmConstants
 namespace ArmConstants
 {
-    constexpr auto P                               = 1.0;              // Proportional:    A position error of 0.2 rotations results in 12 V output
+    constexpr auto P                               = 2.0;              // Proportional:    A position error of 0.2 rotations results in 12 V output
     constexpr auto I                               = 0.0;              // Integral:        No output for integrated error
     constexpr auto D                               = 0.1;              // Differential     A velocity error of 1 rps results in 0.5 V output
     constexpr auto S                               = 0.0;              // Static Friction: Add [voltage] output to overcome static friction

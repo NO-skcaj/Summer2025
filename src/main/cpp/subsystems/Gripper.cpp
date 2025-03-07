@@ -225,7 +225,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
             elevatorHeight  = CoralPoseConstants::GroundElevator;  // TODO: Set elevator a little higher to allow the operator to set the gripper wheel height
             armAngle        = CoralPoseConstants::GroundArmAngle;
             wristAngle      = CoralPoseConstants::GroundWristAngle;
-            bothwheels      = CoralPoseConstants::HomeGripperBothWheels;
+            bothwheels      = CoralPoseConstants::GroundGripperBothWheels;
             gripperVoltage  = CoralPoseConstants::GroundGripperVoltage;
             break;
         }
