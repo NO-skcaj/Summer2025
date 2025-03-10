@@ -60,9 +60,12 @@ namespace ControllerConstants
     constexpr auto DriverControllerUsbPort =   0;
     constexpr auto JoystickOperatorUsbPort =   1;
 
-    constexpr auto JoystickForwardIndex    =   1;
     constexpr auto JoystickStrafeIndex     =   0;
+    constexpr auto JoystickForwardIndex    =   1;
     constexpr auto JoystickAngleIndex      =   2;  // 4 for xbox controller, 2 for extreme 3d controller(stick controller)
+    constexpr auto JoystickThrottleIndex   =   3;
+
+    constexpr auto ThrottleMinimum         = 0.5;
 
     constexpr auto JoystickDeadZone        = 0.05;
     constexpr auto JoystickRotateDeadZone  = 0.15;

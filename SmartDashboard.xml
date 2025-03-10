@@ -276,11 +276,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="m_distanceX"/>
-	<hidden field="m_distanceY"/>
-	<hidden field="DebugDrivePose"/>
-	<hidden field="m_speed"/>
-	<hidden field="m_timeoutTime"/>
-	<hidden field="Debug Chassis Drive Pose"/>
-	<hidden field="m_angle"/>
 </xml>

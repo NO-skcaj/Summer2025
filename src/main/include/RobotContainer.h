@@ -99,6 +99,7 @@ class RobotContainer
         void                     ConfigureGripperControls();
         void                     ConfigureClimberControls();
 
+        double                   GetThrottleRange();
         double                   GetExponentialValue(double joystickValue, double exponent);
 
         std::string              GetStartPosition();
