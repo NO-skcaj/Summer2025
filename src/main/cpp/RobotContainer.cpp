@@ -122,6 +122,10 @@ void RobotContainer::ConfigureDriverControls()
     frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleUpperLeft)
         .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeading(); }, {&m_drivetrain}));
 
+    // Reset the gyro angle
+    frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleUpperRight)
+        .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeadingReverse(); }, {&m_drivetrain}));
+
     // Set field centricity on
     frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleLowerLeft)
         .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.SetFieldCentricity(true); }, {&m_drivetrain}));

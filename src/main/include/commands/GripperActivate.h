@@ -45,6 +45,7 @@ class GripperActivate : public frc2::CommandHelper<frc2::Command, GripperActivat
 
         void CoralGround();
         void CoralStation();
+        void CoralL1();
         void CoralL123();
         void CoralL4();
         void AlgaeGround();

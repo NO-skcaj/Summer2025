@@ -37,6 +37,11 @@ void GripperActivate::Initialize()
         }
 
         case GripperPoseEnum::CoralL1:
+        {
+            CoralL1();
+            break;
+        }
+        
         case GripperPoseEnum::CoralL2:
         case GripperPoseEnum::CoralL3:
         {
@@ -194,6 +199,20 @@ void GripperActivate::CoralStation()
 
     m_stateData.ElevatorFinish = ActivateConstants::CoralStationElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::CoralStationArmFinish;
+}
+
+void GripperActivate::CoralL1()
+{
+    m_stateData.ElevatorOffset = ActivateConstants::Coral1ElevatorOffset;
+    m_stateData.Wait1          = m_startTime + ActivateConstants::Coral1Wait1;
+    m_stateData.ArmOffset      = ActivateConstants::Coral1ArmOffset;
+    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::Coral1Wait2;
+    m_stateData.BothWheels     = ActivateConstants::Coral1BothWheels;
+    m_stateData.GripperVoltage = ActivateConstants::Coral1GripperVoltage;
+    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::Coral1Wait3;
+
+    m_stateData.ElevatorFinish = ActivateConstants::Coral1ElevatorFinish;
+    m_stateData.ArmFinish      = ActivateConstants::Coral1ArmFinish;
 }
 
 void GripperActivate::CoralL123()

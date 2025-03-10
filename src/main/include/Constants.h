@@ -64,11 +64,11 @@ namespace ControllerConstants
     constexpr auto JoystickStrafeIndex     =   0;
     constexpr auto JoystickAngleIndex      =   2;  // 4 for xbox controller, 2 for extreme 3d controller(stick controller)
 
-    constexpr auto JoystickDeadZone        = 0.05;
-    constexpr auto JoystickRotateDeadZone  = 0.15;
+    constexpr auto JoystickDeadZone        = 0.0;
+    constexpr auto JoystickRotateDeadZone  = 0.08;
 
-    constexpr auto ExponentForward         = 1.0;
-    constexpr auto ExponentStrafe          = 1.0;
+    constexpr auto ExponentForward         = 2.0;
+    constexpr auto ExponentStrafe          = 2.0;
     constexpr auto ExponentAngle           = 5.0;
 }
 #pragma endregion
@@ -81,6 +81,7 @@ namespace Extreme3DConstants
     constexpr auto HandleLowerLeft  =  3;
     constexpr auto HandleLowerRight =  4;
     constexpr auto HandleUpperLeft  =  5;
+    constexpr auto HandleUpperRight =  6;
     constexpr auto Handle7          =  7;
     constexpr auto Handle8          =  8;
     constexpr auto Handle9          =  9;

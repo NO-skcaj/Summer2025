@@ -143,6 +143,16 @@ void Drivetrain::ZeroHeading()
 }
 #pragma endregion
 
+#pragma region ZeroHeading
+/// @brief Method to zero the robot heading.
+void Drivetrain::ZeroHeadingReverse()
+{
+    // Reset the gyro
+    m_gyro.Reset();
+    m_gyro.SetAngleAdjustment(180);
+}
+#pragma endregion
+
 #pragma region GetPose
 /// @brief Method to get the pose of the chassis.
 /// @return The chassis pose.
