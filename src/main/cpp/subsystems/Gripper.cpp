@@ -439,10 +439,10 @@ void Gripper::SetArmAngle(units::angle::degree_t angle)
 #pragma region SetArmAngleOffset
 /// @brief Method to set the arm angle.
 /// @param position The setpoint for the arm angle. Takes -180 -> 180
-void Gripper::SetArmAngleOffset(units::angle::degree_t offset)
+void Gripper::SetArmAngleOffset(units::angle::degree_t angleOffset)
 {
     // Set the arm angle based on the offset
-    SetArmAngle(GetArmAngle() + offset);
+    SetArmAngle(GetArmAngle() + angleOffset);
 }
 #pragma endregion
 
@@ -471,24 +471,50 @@ void Gripper::SetWristAngle(units::angle::degree_t angle)
     if (angle > WristConstants::MaximumPosition)
         angle = WristConstants::MaximumPosition;
 
+    // Remember the wrist angle
+    m_wristAngle = angle;
+
     // Show the target wrist angle
     frc::SmartDashboard::PutNumber("Wrist Target", angle.value());
+	frc::SmartDashboard::PutNumber("Wrist Offset", m_wristAngleOffset.value());
 	
     // Converting angle to motor rotations
-    double position = angle.value() / WristConstants::AngleToTurnsConversionFactor.value();
+    double position = (angle.value() + m_wristAngleOffset.value()) / WristConstants::AngleToTurnsConversionFactor.value();
 
     // Set the Wrist set position
-    m_wristTurnClosedLoopController.SetReference(position, rev::spark::SparkMax::ControlType::kMAXMotionPositionControl);
+    m_wristTurnClosedLoopController.SetReference(position , rev::spark::SparkMax::ControlType::kMAXMotionPositionControl);
 }
 #pragma endregion
 
 #pragma region SetWristAngleOffset
 /// @brief Method to set the Wrist angle.
 /// @param position The setpoint for the Wrist angle.
-void Gripper::SetWristAngleOffset(units::angle::degree_t angle)
+void Gripper::SetWristAngleOffset(units::angle::degree_t angleOffset)
 {
-    // Set the wrist angle based on the offset
-    SetWristAngle(GetWristAngle() + angle);
+    // // Determine the target motor rotations based on the wrist target angle
+    // double targetMotorPosition = GetWristAngle().value() / WristConstants::AngleToTurnsConversionFactor.value();
+
+    // frc::SmartDashboard::PutNumber("Target Motor Position", targetMotorPosition);
+
+    // // Get the current arm motor angle
+    // double presetMotorPosition = m_wristEncoder.GetPosition();
+
+    // frc::SmartDashboard::PutNumber("Wrist Motor Position", presetMotorPosition);
+
+    // // Determine the motor position offset
+    // double motorPositionOffset = targetMotorPosition - presetMotorPosition;
+
+    // frc::SmartDashboard::PutNumber("Wrist Motor Position Offset", motorPositionOffset);
+
+    // // Add the desired angle offset
+    // m_wristAngleOffset = motorPositionOffset * WristConstants::AngleToTurnsConversionFactor + angleOffset;;
+
+    // frc::SmartDashboard::PutNumber("Wrist AngleOffset", m_wristAngleOffset.value());
+
+    m_wristAngleOffset += angleOffset;
+
+    // Set the wrist angle
+    SetWristAngle(GetWristAngle());
 }
 #pragma endregion
 
@@ -497,11 +523,8 @@ void Gripper::SetWristAngleOffset(units::angle::degree_t angle)
 /// @return The arm angle.
 units::angle::degree_t Gripper::GetWristAngle()
 {
-    // Get the current arm motor angle
-    double angle = m_wristEncoder.GetPosition() * WristConstants::AngleToTurnsConversionFactor.value();
-
-    // Return the arm angle
-    return units::angle::degree_t{angle};
+    // Return the latest set wrist angle
+    return units::angle::degree_t{m_wristAngle};
 }
 #pragma endregion
 
