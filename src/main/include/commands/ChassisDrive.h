@@ -14,8 +14,6 @@ class ChassisDrive : public frc2::CommandHelper<frc2::Command, ChassisDrive>
 
         void     Execute() override;
 
-        void     SetFieldCentricity(bool fieldCentric);
-
     private:
 
         std::function<units::meters_per_second_t()>  m_forward;     // The forward speed

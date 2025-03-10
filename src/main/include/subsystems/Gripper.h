@@ -137,11 +137,11 @@ class Gripper : public frc2::SubsystemBase
         units::length::meter_t GetElevatorHeight();
 
         void                   SetArmAngle(units::angle::degree_t angle);
-        void                   SetArmAngleOffset(units::angle::degree_t offset);
+        void                   SetArmAngleOffset(units::angle::degree_t angleOffset);
         units::angle::degree_t GetArmAngle();
 
         void                   SetWristAngle(units::angle::degree_t angle);
-        void                   SetWristAngleOffset(units::angle::degree_t angle);
+        void                   SetWristAngleOffset(units::angle::degree_t angleOffset);
         units::angle::degree_t GetWristAngle();
 
         void                   SetGripperWheelsVoltage(GripperWheelState gripperWheelState);
@@ -167,6 +167,8 @@ class Gripper : public frc2::SubsystemBase
         rev::spark::SparkMax                         m_wristMotor;
         rev::spark::SparkClosedLoopController        m_wristTurnClosedLoopController;
         rev::spark::SparkRelativeEncoder             m_wristEncoder;
+        units::angle::degree_t                       m_wristAngle       = 0_deg;
+        units::angle::degree_t                       m_wristAngleOffset = 0_deg; 
 
         rev::spark::SparkMax                         m_gripperMotorFixed;
         rev::spark::SparkMax                         m_gripperMotorFree;

@@ -1,5 +1,39 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Wrist Motor Position Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1255" y="496"/>
+	</widget>
+	<widget field="Wrist Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1322" y="545"/>
+		<height>20</height>
+	</widget>
+	<widget field="Wrist Motor Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1291" y="472"/>
+	</widget>
+	<widget field="Target Motor Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1285" y="447"/>
+	</widget>
+	<widget field="Wrist AngleOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1298" y="521"/>
+	</widget>
+	<widget field="Coral: L4" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="861" y="273"/>
+	</widget>
+	<widget field="Coral: L3" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="859" y="244"/>
+	</widget>
+	<widget field="Coral: L2" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="861" y="215"/>
+	</widget>
+	<widget field="Coral: L1" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="863" y="184"/>
+	</widget>
+	<widget field="Coral: Station" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="841" y="153"/>
+	</widget>
+	<widget field="Coral: Ground" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="840" y="122"/>
+	</widget>
 	<widget field="AprilTag ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="512" y="236"/>
 	</widget>
@@ -276,11 +310,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="m_distanceX"/>
-	<hidden field="m_distanceY"/>
-	<hidden field="DebugDrivePose"/>
-	<hidden field="m_speed"/>
-	<hidden field="m_timeoutTime"/>
-	<hidden field="Debug Chassis Drive Pose"/>
-	<hidden field="m_angle"/>
 </xml>

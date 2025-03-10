@@ -44,12 +44,12 @@ RobotContainer::RobotContainer()
     // frc::SmartDashboard::PutData("Wrist Jog Positive",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset( WristConstants::AngleOffset);}));
     // frc::SmartDashboard::PutData("Wrist Jog Negative",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset(-WristConstants::AngleOffset);}));
 
-    // frc::SmartDashboard::PutData("Coral: Ground",            new GripperPose(GripperPoseEnum::CoralGround,    &m_gripper));
-    // frc::SmartDashboard::PutData("Coral: Station",           new GripperPose(GripperPoseEnum::CoralStation,   &m_gripper));
-    // frc::SmartDashboard::PutData("Coral: L1",                new GripperPose(GripperPoseEnum::CoralL1,        &m_gripper));
-    // frc::SmartDashboard::PutData("Coral: L2",                new GripperPose(GripperPoseEnum::CoralL2,        &m_gripper));
-    // frc::SmartDashboard::PutData("Coral: L3",                new GripperPose(GripperPoseEnum::CoralL3,        &m_gripper));
-    // frc::SmartDashboard::PutData("Coral: L4",                new GripperPose(GripperPoseEnum::CoralL4,        &m_gripper));
+    frc::SmartDashboard::PutData("Coral: Ground",            new GripperPose(GripperPoseEnum::CoralGround,    &m_gripper));
+    frc::SmartDashboard::PutData("Coral: Station",           new GripperPose(GripperPoseEnum::CoralStation,   &m_gripper));
+    frc::SmartDashboard::PutData("Coral: L1",                new GripperPose(GripperPoseEnum::CoralL1,        &m_gripper));
+    frc::SmartDashboard::PutData("Coral: L2",                new GripperPose(GripperPoseEnum::CoralL2,        &m_gripper));
+    frc::SmartDashboard::PutData("Coral: L3",                new GripperPose(GripperPoseEnum::CoralL3,        &m_gripper));
+    frc::SmartDashboard::PutData("Coral: L4",                new GripperPose(GripperPoseEnum::CoralL4,        &m_gripper));
 
     // frc::SmartDashboard::PutData("Algae: Ground",            new GripperPose(GripperPoseEnum::AlgaeGround,    &m_gripper));
     // frc::SmartDashboard::PutData("Algae: Coral",             new GripperPose(GripperPoseEnum::AlgaeOnCoral,   &m_gripper));
@@ -306,6 +306,9 @@ units::meters_per_second_t RobotContainer::Forward()
     // Get the forward joystick setting
     double joystickForward = GetDriverController()->GetRawAxis(ControllerConstants::JoystickForwardIndex);
 
+    // Modify the joystick value by the "throttle" setting
+    joystickForward *= GetThrottleRange();
+
     // Use exponential function to calculate the forward value for better slow speed control
     joystickForward = GetExponentialValue(joystickForward, ControllerConstants::ExponentForward);
 
@@ -321,6 +324,9 @@ units::meters_per_second_t RobotContainer::Strafe()
 {
     // Get the strafe joystick setting
     double joystickStrafe = GetDriverController()->GetRawAxis(ControllerConstants::JoystickStrafeIndex);
+
+    // Modify the joystick value by the "throttle" setting
+    joystickStrafe *= GetThrottleRange();
 
     // Use exponential function to calculate the forward value for better slow speed control
     joystickStrafe = GetExponentialValue(joystickStrafe, ControllerConstants::ExponentStrafe);
@@ -341,6 +347,7 @@ units::radians_per_second_t RobotContainer::Angle()
     // Apply deadband first
     double deadbandedAngle = frc::ApplyDeadband(joystickAngle, ControllerConstants::JoystickRotateDeadZone);
 
+
     // Use exponential function to calculate the angle value for better slow speed control
     double exponentialAngle = GetExponentialValue(deadbandedAngle, ControllerConstants::ExponentAngle);
 
@@ -353,8 +360,29 @@ units::radians_per_second_t RobotContainer::Angle()
     double smoothedAngle = kSmoothingFactor * previousAngleInput + (1.0 - kSmoothingFactor) * exponentialAngle;
     previousAngleInput   = smoothedAngle; // Store for next cycle
 
+    // Modify the joystick value by the "throttle" setting
+    smoothedAngle *= GetThrottleRange();
+
     // Return the rotation speed with rate limiter applied
     return units::radians_per_second_t(-m_rotLimiter.Calculate(smoothedAngle) * DrivetrainConstants::MaxAngularSpeed * 0.5);
+}
+#pragma endregion
+
+#pragma region GetThrottleRange
+/// @brief Method to convert the throttle range to a value between ThrottleMinimum and 1.0.
+/// @return The throttle value.
+double RobotContainer::GetThrottleRange()
+{
+    auto throttle = -GetDriverController()->GetRawAxis(ControllerConstants::JoystickThrottleIndex);
+
+    // Convert the throttle value from -1.0 to 1.0 to 0.0 to 1.0
+    throttle = (throttle + 1.0) / 2.0;
+
+    // Set the throttle to the minimum to maximum range
+    throttle = (1 - ControllerConstants::ThrottleMinimum) * throttle + ControllerConstants::ThrottleMinimum;
+
+    // Return the throttle value
+    return throttle;
 }
 #pragma endregion
 

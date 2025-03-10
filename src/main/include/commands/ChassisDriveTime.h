@@ -22,6 +22,5 @@ class ChassisDriveTime : public frc2::CommandHelper<frc2::Command, ChassisDriveT
         units::meters_per_second_t m_speed;            // The speed that the chassis will drive
         Drivetrain                *m_drivetrain;       // The drivetrain subsystem
 
-        bool                       m_fieldCentricity;  // The field centricity setting (true = field centric, false = robot centric)
         units::second_t            m_startTime;        // The start of the drive time
 };
