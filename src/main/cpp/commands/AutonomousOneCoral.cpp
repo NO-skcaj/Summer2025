@@ -10,8 +10,13 @@ using namespace AutonomousConstants;
 AutonomousOneCoral::AutonomousOneCoral(GripperPoseEnum gripperPoseEnum, std::function<ChassDrivePoseParameters ()> getParameters, Drivetrain *drivetrain, Gripper *gripper, AprilTags *aprilTags)
 {
     // Run the command sequence
+    // AddCommands(ChassisDrivePose(getParameters, drivetrain),
+    //             AprilTagScoreCoral(gripperPoseEnum, []() { return true; }, aprilTags, gripper, drivetrain),
+    //             GripperActivate(gripper));
+    
+    // Run the command sequence
     AddCommands(ChassisDrivePose(getParameters, drivetrain),
-                AprilTagScoreCoral(gripperPoseEnum, []() { return true; }, aprilTags, gripper, drivetrain),
+                GripperPose(gripperPoseEnum, gripper),
                 GripperActivate(gripper));
 }
 #pragma endregion

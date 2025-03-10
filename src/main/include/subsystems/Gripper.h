@@ -78,7 +78,7 @@ namespace WristConstants
     constexpr auto MinimumPosition               = -10_deg;          // Note: Need to calibrate angle to motor rotations
     constexpr auto MaximumPosition               = 200_deg;
 
-    constexpr auto AngleOffset                   = 5.0_deg;
+    constexpr auto AngleOffset                   = 1.0_deg;
 }
 #pragma endregion
 
