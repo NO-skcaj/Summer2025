@@ -16,24 +16,6 @@
 	<widget field="Wrist AngleOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1298" y="521"/>
 	</widget>
-	<widget field="Coral: L4" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="861" y="273"/>
-	</widget>
-	<widget field="Coral: L3" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="859" y="244"/>
-	</widget>
-	<widget field="Coral: L2" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="861" y="215"/>
-	</widget>
-	<widget field="Coral: L1" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="863" y="184"/>
-	</widget>
-	<widget field="Coral: Station" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="841" y="153"/>
-	</widget>
-	<widget field="Coral: Ground" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="840" y="122"/>
-	</widget>
 	<widget field="AprilTag ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="512" y="236"/>
 	</widget>
@@ -96,9 +78,6 @@
 	</widget>
 	<widget field="ElevatorOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="677" y="529"/>
-	</widget>
-	<widget field="Gripper Pose" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="444" y="528"/>
 	</widget>
 	<widget field="Wheels Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="496" y="108"/>
@@ -249,7 +228,7 @@
 		<width>371</width>
 	</widget>
 	<widget field="Autonomous Mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="37" y="56"/>
+		<location x="39" y="75"/>
 	</widget>
 	<widget field="Rear Right Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="33" y="473"/>
@@ -310,4 +289,13 @@
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="Gripper Pose"/>
+	<hidden field="GripperActivate: Pose"/>
+	<hidden field="GripperActivate: GripperWheelsMove"/>
+	<hidden field="Coral: Ground"/>
+	<hidden field="Coral: L1"/>
+	<hidden field="Coral: L2"/>
+	<hidden field="Coral: L3"/>
+	<hidden field="Coral: Station"/>
+	<hidden field="Coral: L4"/>
 </xml>
