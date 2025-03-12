@@ -1,7 +1,5 @@
 #include "commands/AutonomousOneCoral.h"
 
-using namespace AutonomousConstants;
-
 #pragma region AutonomousOneCoral (constructor)
 /// @brief Command to place one coral in autonomous mode.
 /// @param drivetrain The drivetrain subsystem.
@@ -13,11 +11,13 @@ AutonomousOneCoral::AutonomousOneCoral(GripperPoseEnum gripperPoseEnum, std::fun
     // AddCommands(ChassisDrivePose(getParameters, drivetrain),
     //             AprilTagScoreCoral(gripperPoseEnum, []() { return true; }, aprilTags, gripper, drivetrain),
     //             GripperActivate(gripper));
-    
+
     // Run the command sequence
-    AddCommands(GripperPose(GripperPoseEnum::Home, gripper),
-                ChassisDrivePose(getParameters, drivetrain),
-                GripperPose(gripperPoseEnum, gripper));//,
-                //GripperActivate(gripper));
+    AddCommands(GripperPose(GripperPoseEnum::Home, gripper),  // Set the gripper pose to Home
+                ChassisDrivePose(getParameters, drivetrain),  // Get the chassis drive pose parameters
+                GripperPose(gripperPoseEnum, gripper),        // Set the gripper to the appropiate level
+                frc2::WaitCommand(2_s),                       // Allow time for the gripper pose to complete
+                GripperActivate(gripper)
+    );
 }
 #pragma endregion

@@ -48,7 +48,9 @@
 #include "commands/SetLeds.h"
 
 #include "Constants.h"
-#include "ConstantsPose.h"
+#include "ConstantsChassisPoseAprilTag.h"
+#include "ConstantsChassisPoseAutonomous.h"
+#include "ConstantsGripperPoseCoral.h"
 #pragma endregion
 
 /// @brief Class to instantiate the robot subsystems and commands along with the operator controls

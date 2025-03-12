@@ -20,6 +20,7 @@
 #include "SwerveModule.h"
 
 #include "Constants.h"
+#include "ConstantsCanIds.h"
 
 #pragma region DrivetrainConstants
 namespace DrivetrainConstants

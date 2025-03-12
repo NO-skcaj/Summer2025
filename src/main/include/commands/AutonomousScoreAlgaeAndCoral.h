@@ -15,7 +15,7 @@
 #include "commands/GripperPose.h"
 
 #include "Constants.h"
-#include "ConstantsPose.h"
+#include "ConstantsGripperPoseCoral.h"
 
 class AutonomousScoreAlgaeAndCoral : public frc2::CommandHelper<frc2::SequentialCommandGroup, AutonomousScoreAlgaeAndCoral>
 {

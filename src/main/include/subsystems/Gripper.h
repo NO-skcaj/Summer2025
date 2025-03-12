@@ -10,7 +10,9 @@
 #include <rev/config/SparkMaxConfig.h>
 
 #include "Constants.h"
-#include "ConstantsPose.h"
+#include "ConstantsCanIds.h"
+#include "ConstantsGripperPoseCoral.h"
+#include "ConstantsGripperPoseAlgae.h"
 
 #pragma region ElevatorConstants
 namespace ElevatorConstants
@@ -24,7 +26,7 @@ namespace ElevatorConstants
 
     constexpr auto MotionMagicCruiseVelocity       = 90_tps;           // Rotations per second cruise
     constexpr auto MotionMagicAcceleration         = 150_tr_per_s_sq;  // Acceleration
-    constexpr auto MotionMagicJerk                 = 1500_tr_per_s_cu;  // Jerk
+    constexpr auto MotionMagicJerk                 = 1500_tr_per_s_cu; // Jerk
 
     constexpr auto PositionToTurnsConversionFactor = 64.0 / (0.06378 * 3.0 * std::numbers::pi); // The number of motor rotations per meter
 
@@ -168,7 +170,7 @@ class Gripper : public frc2::SubsystemBase
         rev::spark::SparkClosedLoopController        m_wristTurnClosedLoopController;
         rev::spark::SparkRelativeEncoder             m_wristEncoder;
         units::angle::degree_t                       m_wristAngle       = 0_deg;
-        units::angle::degree_t                       m_wristAngleOffset = 0_deg; 
+        units::angle::degree_t                       m_wristAngleOffset = 0_deg;
 
         rev::spark::SparkMax                         m_gripperMotorFixed;
         rev::spark::SparkMax                         m_gripperMotorFree;

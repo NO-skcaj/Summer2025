@@ -44,12 +44,12 @@ RobotContainer::RobotContainer()
     // frc::SmartDashboard::PutData("Wrist Jog Positive",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset( WristConstants::AngleOffset);}));
     // frc::SmartDashboard::PutData("Wrist Jog Negative",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset(-WristConstants::AngleOffset);}));
 
-    frc::SmartDashboard::PutData("Coral: Ground",            new GripperPose(GripperPoseEnum::CoralGround,    &m_gripper));
-    frc::SmartDashboard::PutData("Coral: Station",           new GripperPose(GripperPoseEnum::CoralStation,   &m_gripper));
-    frc::SmartDashboard::PutData("Coral: L1",                new GripperPose(GripperPoseEnum::CoralL1,        &m_gripper));
-    frc::SmartDashboard::PutData("Coral: L2",                new GripperPose(GripperPoseEnum::CoralL2,        &m_gripper));
-    frc::SmartDashboard::PutData("Coral: L3",                new GripperPose(GripperPoseEnum::CoralL3,        &m_gripper));
-    frc::SmartDashboard::PutData("Coral: L4",                new GripperPose(GripperPoseEnum::CoralL4,        &m_gripper));
+    // frc::SmartDashboard::PutData("Coral: Ground",            new GripperPose(GripperPoseEnum::CoralGround,    &m_gripper));
+    // frc::SmartDashboard::PutData("Coral: Station",           new GripperPose(GripperPoseEnum::CoralStation,   &m_gripper));
+    // frc::SmartDashboard::PutData("Coral: L1",                new GripperPose(GripperPoseEnum::CoralL1,        &m_gripper));
+    // frc::SmartDashboard::PutData("Coral: L2",                new GripperPose(GripperPoseEnum::CoralL2,        &m_gripper));
+    // frc::SmartDashboard::PutData("Coral: L3",                new GripperPose(GripperPoseEnum::CoralL3,        &m_gripper));
+    // frc::SmartDashboard::PutData("Coral: L4",                new GripperPose(GripperPoseEnum::CoralL4,        &m_gripper));
 
     // frc::SmartDashboard::PutData("Algae: Ground",            new GripperPose(GripperPoseEnum::AlgaeGround,    &m_gripper));
     // frc::SmartDashboard::PutData("Algae: Coral",             new GripperPose(GripperPoseEnum::AlgaeOnCoral,   &m_gripper));

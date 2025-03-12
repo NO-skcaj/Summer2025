@@ -491,26 +491,7 @@ void Gripper::SetWristAngle(units::angle::degree_t angle)
 /// @param position The setpoint for the Wrist angle.
 void Gripper::SetWristAngleOffset(units::angle::degree_t angleOffset)
 {
-    // // Determine the target motor rotations based on the wrist target angle
-    // double targetMotorPosition = GetWristAngle().value() / WristConstants::AngleToTurnsConversionFactor.value();
-
-    // frc::SmartDashboard::PutNumber("Target Motor Position", targetMotorPosition);
-
-    // // Get the current arm motor angle
-    // double presetMotorPosition = m_wristEncoder.GetPosition();
-
-    // frc::SmartDashboard::PutNumber("Wrist Motor Position", presetMotorPosition);
-
-    // // Determine the motor position offset
-    // double motorPositionOffset = targetMotorPosition - presetMotorPosition;
-
-    // frc::SmartDashboard::PutNumber("Wrist Motor Position Offset", motorPositionOffset);
-
-    // // Add the desired angle offset
-    // m_wristAngleOffset = motorPositionOffset * WristConstants::AngleToTurnsConversionFactor + angleOffset;;
-
-    // frc::SmartDashboard::PutNumber("Wrist AngleOffset", m_wristAngleOffset.value());
-
+    // Increase the wrist angle offset
     m_wristAngleOffset += angleOffset;
 
     // Set the wrist angle

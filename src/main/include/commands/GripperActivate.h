@@ -6,7 +6,7 @@
 #include "subsystems/Gripper.h"
 
 #include "Constants.h"
-#include "ConstantsPose.h"
+#include "ConstantsGripperPoseActivate.h"
 
 enum GripperState
 {
@@ -26,7 +26,7 @@ struct GripperStateData
     bool                   BothWheels       = true;
     units::voltage::volt_t GripperVoltage   = 0_V;
     units::time::second_t  GripperPlaceWait = 0_s;
-  
+
     units::meter_t         ElevatorFinish   = 0_m;
     units::angle::degree_t ArmFinish        = 0_deg;
 };
@@ -43,15 +43,9 @@ class GripperActivate : public frc2::CommandHelper<frc2::Command, GripperActivat
 
     private:
 
-        void CoralGround();
-        void CoralStation();
         void CoralL1();
-        void CoralL123();
+        void CoralL23();
         void CoralL4();
-        void AlgaeGround();
-        void AlgaeOnCoral();
-        void AlgaeLow();
-        void AlgaeHigh();
         void AlgaeProcessor();
         void AlgaeBarge();
 

@@ -1,7 +1,5 @@
 #include "commands/AutonomousScoreAlgaeAndCoral.h"
 
-using namespace AutonomousConstants;
-
 #pragma region AutonomousScoreAlgaeAndCoral (constructor)
 /// @brief Command to place one coral in autonomous mode.
 AutonomousScoreAlgaeAndCoral::AutonomousScoreAlgaeAndCoral(Drivetrain *drivetrain, Gripper *gripper, AprilTags *aprilTags)

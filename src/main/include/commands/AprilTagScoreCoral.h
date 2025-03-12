@@ -12,6 +12,8 @@
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
 
+#include "ConstantsChassisPoseAprilTag.h"
+
 class AprilTagScoreCoral : public frc2::CommandHelper<frc2::SequentialCommandGroup,  AprilTagScoreCoral>
 {
     public:

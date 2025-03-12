@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 
 #include "Constants.h"
+#include "ConstantsCanIds.h"
 
 #pragma region ClimbConstants
 namespace ClimbConstants
