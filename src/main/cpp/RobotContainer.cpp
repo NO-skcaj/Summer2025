@@ -569,9 +569,17 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
         case GripperPoseEnum::CoralL4:
         {
             // Drive to the coral reef
-            parameters.PoseParameters.DistanceX = AprilTagToPoseConstants::CoralReefDistanceOffsetX;
-            parameters.PoseParameters.DistanceY = AprilTagToPoseConstants::CoralReefDistanceOffsetY;
-            parameters.PoseParameters.Angle     = AprilTagToPoseConstants::CoralReefAngleOffset;
+            if (m_operatorController.GetRawButton(ControlPanelConstants::CoralSideSelect))
+            {
+                parameters.PoseParameters.DistanceX = AprilTagToPoseConstants::CoralReefLeftDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = AprilTagToPoseConstants::CoralReefLeftDistanceOffsetY;
+                parameters.PoseParameters.Angle     = AprilTagToPoseConstants::CoralReefLeftAngleOffset;
+            } else
+            {
+                parameters.PoseParameters.DistanceX = AprilTagToPoseConstants::CoralReefRightDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = AprilTagToPoseConstants::CoralReefRightDistanceOffsetY;
+                parameters.PoseParameters.Angle     = AprilTagToPoseConstants::CoralReefRightAngleOffset;
+            }
             break;
         }
 

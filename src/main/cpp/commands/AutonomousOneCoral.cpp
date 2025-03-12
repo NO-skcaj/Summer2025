@@ -15,8 +15,9 @@ AutonomousOneCoral::AutonomousOneCoral(GripperPoseEnum gripperPoseEnum, std::fun
     //             GripperActivate(gripper));
     
     // Run the command sequence
-    AddCommands(ChassisDrivePose(getParameters, drivetrain),
-                GripperPose(gripperPoseEnum, gripper),
-                GripperActivate(gripper));
+    AddCommands(GripperPose(GripperPoseEnum::Home, gripper),
+                ChassisDrivePose(getParameters, drivetrain),
+                GripperPose(gripperPoseEnum, gripper));//,
+                //GripperActivate(gripper));
 }
 #pragma endregion

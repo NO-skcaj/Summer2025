@@ -9,16 +9,16 @@ AprilTagScoreCoral::AprilTagScoreCoral(GripperPoseEnum               gripperPose
     // Get the state of the joystick toggle
     if (GetJoystickToggle())
         AddCommands(ChassisDriveToAprilTag(AprilTagToPoseConstants::ChassisSpeed,
-                                           AprilTagToPoseConstants::CoralReefDistanceOffsetX,
-                                           AprilTagToPoseConstants::CoralReefDistanceOffsetY,
-                                           AprilTagToPoseConstants::CoralReefAngleOffset,
+                                           AprilTagToPoseConstants::CoralReefLeftDistanceOffsetX,
+                                           AprilTagToPoseConstants::CoralReefLeftDistanceOffsetY,
+                                           AprilTagToPoseConstants::CoralReefLeftAngleOffset,
                                            AprilTagToPoseConstants::TimeoutTime,
                                            aprilTags, drivetrain), GripperPose(gripperPose, gripper));
     else
         AddCommands(ChassisDriveToAprilTag(AprilTagToPoseConstants::ChassisSpeed,
-                                          -AprilTagToPoseConstants::CoralReefDistanceOffsetX,
-                                           AprilTagToPoseConstants::CoralReefDistanceOffsetY,
-                                           AprilTagToPoseConstants::CoralReefAngleOffset,
+                                          -AprilTagToPoseConstants::CoralReefRightDistanceOffsetX,
+                                           AprilTagToPoseConstants::CoralReefRightDistanceOffsetY,
+                                           AprilTagToPoseConstants::CoralReefRightAngleOffset,
                                            AprilTagToPoseConstants::TimeoutTime,
                                            aprilTags, drivetrain), GripperPose(gripperPose, gripper));
 }

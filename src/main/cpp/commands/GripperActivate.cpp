@@ -18,7 +18,6 @@ GripperActivate::GripperActivate(Gripper *gripper) : m_gripper(gripper)
 void GripperActivate::Initialize()
 {
     m_state      = GripperState::ElevatorMove;
-    m_startTime  = frc::GetTime();
     m_isFinished = false;
 
     // Determine the action based on the present gripper pose
@@ -37,6 +36,7 @@ void GripperActivate::Initialize()
         }
 
         case GripperPoseEnum::CoralL1:
+        case GripperPoseEnum::CoralAutonomousL1:
         {
             CoralL1();
             break;
@@ -116,34 +116,37 @@ void GripperActivate::Execute()
         {
             m_gripper->SetElevatorOffset(m_stateData.ElevatorOffset);
             m_state = ArmMove;
+            m_timer  = frc::GetTime() + m_stateData.ElevatorMoveWait;
             break;
         }
 
         case GripperState::ArmMove:
         {
-            if (frc::GetTime() > m_stateData.Wait1)
+            if (frc::GetTime() > m_timer)
             {
                 m_state = ArmMove;
                 m_gripper->SetArmAngleOffset(m_stateData.ArmOffset);
                 m_state = GripperWheelsMove;
+                m_timer  = frc::GetTime() + m_stateData.ArmMoveWait;
             }
             break;
         }
 
         case GripperState::GripperWheelsMove:
         {
-            if (frc::GetTime() > m_stateData.Wait2)
+            if (frc::GetTime() > m_timer)
             {
                 m_state = GripperWheelsMove;
                 m_gripper->SetGripperWheelsVoltage(GripperWheelState{m_stateData.BothWheels, m_stateData.GripperVoltage});
                 m_state = Finish;
+                m_timer  = frc::GetTime() + m_stateData.GripperPlaceWait;
             }
             break;
         }
 
         case GripperState::Finish:
         {
-            if (frc::GetTime() > m_stateData.Wait3)
+            if (frc::GetTime() > m_timer)
             {
                 m_state = Finish;
                 m_gripper->SetGripperWheelsVoltage(GripperWheelState{true, 0_V});
@@ -176,12 +179,12 @@ bool GripperActivate::IsFinished()
 void GripperActivate::CoralGround()
 {
     m_stateData.ElevatorOffset = ActivateConstants::CoralGroundElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::CoralGroundWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::CoralGroundWait1;
     m_stateData.ArmOffset      = ActivateConstants::CoralGroundArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::CoralGroundWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::CoralGroundWait2;
     m_stateData.BothWheels     = ActivateConstants::CoralGroundBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::CoralGroundGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::CoralGroundWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::CoralGroundWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::CoralGroundElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::CoralGroundArmFinish;
@@ -190,12 +193,12 @@ void GripperActivate::CoralGround()
 void GripperActivate::CoralStation()
 {
     m_stateData.ElevatorOffset = ActivateConstants::CoralStationElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::CoralStationWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::CoralStationWait1;
     m_stateData.ArmOffset      = ActivateConstants::CoralStationArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::CoralStationWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::CoralStationWait2;
     m_stateData.BothWheels     = ActivateConstants::CoralStationBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::CoralStationGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::CoralStationWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::CoralStationWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::CoralStationElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::CoralStationArmFinish;
@@ -204,12 +207,12 @@ void GripperActivate::CoralStation()
 void GripperActivate::CoralL1()
 {
     m_stateData.ElevatorOffset = ActivateConstants::Coral1ElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::Coral1Wait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::Coral1Wait1;
     m_stateData.ArmOffset      = ActivateConstants::Coral1ArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::Coral1Wait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::Coral1Wait2;
     m_stateData.BothWheels     = ActivateConstants::Coral1BothWheels;
     m_stateData.GripperVoltage = ActivateConstants::Coral1GripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::Coral1Wait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::Coral1Wait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::Coral1ElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::Coral1ArmFinish;
@@ -218,12 +221,12 @@ void GripperActivate::CoralL1()
 void GripperActivate::CoralL123()
 {
     m_stateData.ElevatorOffset = ActivateConstants::Coral123ElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::Coral123Wait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::Coral123Wait1;
     m_stateData.ArmOffset      = ActivateConstants::Coral123ArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::Coral123Wait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::Coral123Wait2;
     m_stateData.BothWheels     = ActivateConstants::Coral123BothWheels;
     m_stateData.GripperVoltage = ActivateConstants::Coral123GripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::Coral123Wait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::Coral123Wait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::Coral123ElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::Coral123ArmFinish;
@@ -231,13 +234,13 @@ void GripperActivate::CoralL123()
 
 void GripperActivate::CoralL4()
 {
-    m_stateData.ElevatorOffset = ActivateConstants::Coral4ElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::Coral4Wait1;
-    m_stateData.ArmOffset      = ActivateConstants::Coral4ArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::Coral4Wait2;
+    m_stateData.ElevatorOffset   = ActivateConstants::Coral4ElevatorOffset;
+    m_stateData.ElevatorMoveWait = ActivateConstants::Coral4Wait1;
+    m_stateData.ArmOffset        = ActivateConstants::Coral4ArmOffset;
+    m_stateData.ArmMoveWait      = ActivateConstants::Coral4Wait2;
     m_stateData.BothWheels     = ActivateConstants::Coral4BothWheels;
     m_stateData.GripperVoltage = ActivateConstants::Coral4GripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::Coral4Wait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::Coral4Wait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::Coral4ElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::Coral4ArmFinish;
@@ -246,12 +249,12 @@ void GripperActivate::CoralL4()
 void GripperActivate::AlgaeGround()
 {
     m_stateData.ElevatorOffset = ActivateConstants::AlgaeGroundElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeGroundWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::AlgaeGroundWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeGroundArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeGroundWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::AlgaeGroundWait2;
     m_stateData.BothWheels     = ActivateConstants::AlgaeGroundBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeGroundGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeGroundWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::AlgaeGroundWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::AlgaeGroundElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::AlgaeGroundArmFinish;
@@ -260,12 +263,12 @@ void GripperActivate::AlgaeGround()
 void GripperActivate::AlgaeOnCoral()
 {
     m_stateData.ElevatorOffset = ActivateConstants::AlgaeOnCoralElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeOnCoralWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::AlgaeOnCoralWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeOnCoralArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeOnCoralWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::AlgaeOnCoralWait2;
     m_stateData.BothWheels     = ActivateConstants::AlgaeOnCoralBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeOnCoralGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeOnCoralWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::AlgaeOnCoralWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::AlgaeOnCoralElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::AlgaeOnCoralArmFinish;
@@ -274,12 +277,12 @@ void GripperActivate::AlgaeOnCoral()
 void GripperActivate::AlgaeLow()
 {
     m_stateData.ElevatorOffset = ActivateConstants::AlgaeLoElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeLoWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::AlgaeLoWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeLoArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeLoWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::AlgaeLoWait2;
     m_stateData.BothWheels     = ActivateConstants::AlgaeLoBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeLoGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeLoWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::AlgaeLoWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::AlgaeLoElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::AlgaeLoArmFinish;
@@ -288,12 +291,12 @@ void GripperActivate::AlgaeLow()
 void GripperActivate::AlgaeHigh()
 {
     m_stateData.ElevatorOffset = ActivateConstants::AlgaeHighElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeHighWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::AlgaeHighWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeHighArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeHighWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::AlgaeHighWait2;
     m_stateData.BothWheels     = ActivateConstants::AlgaeHighBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeHighGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeHighWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::AlgaeHighWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::AlgaeHighElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::AlgaeHighArmFinish;
@@ -302,12 +305,12 @@ void GripperActivate::AlgaeHigh()
 void GripperActivate::AlgaeProcessor()
 {
     m_stateData.ElevatorOffset = ActivateConstants::AlgaeProcessorElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeProcessorWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::AlgaeProcessorWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeProcessorArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeProcessorWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::AlgaeProcessorWait2;
     m_stateData.BothWheels     = ActivateConstants::AlgaeProcessorBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeProcessorGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeProcessorWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::AlgaeProcessorWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::AlgaeProcessorElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::AlgaeProcessorArmFinish;
@@ -316,12 +319,12 @@ void GripperActivate::AlgaeProcessor()
 void GripperActivate::AlgaeBarge()
 {
     m_stateData.ElevatorOffset = ActivateConstants::AlgaeBargeElevatorOffset;
-    m_stateData.Wait1          = m_startTime + ActivateConstants::AlgaeBargeWait1;
+    m_stateData.ElevatorMoveWait          =   ActivateConstants::AlgaeBargeWait1;
     m_stateData.ArmOffset      = ActivateConstants::AlgaeBargeArmOffset;
-    m_stateData.Wait2          = m_stateData.Wait1 + ActivateConstants::AlgaeBargeWait2;
+    m_stateData.ArmMoveWait          =   ActivateConstants::AlgaeBargeWait2;
     m_stateData.BothWheels     = ActivateConstants::AlgaeBargeBothWheels;
     m_stateData.GripperVoltage = ActivateConstants::AlgaeBargeGripperVoltage;
-    m_stateData.Wait3          = m_stateData.Wait2 + ActivateConstants::AlgaeBargeWait3;
+    m_stateData.GripperPlaceWait          =   ActivateConstants::AlgaeBargeWait3;
 
     m_stateData.ElevatorFinish = ActivateConstants::AlgaeBargeElevatorFinish;
     m_stateData.ArmFinish      = ActivateConstants::AlgaeBargeArmFinish;

@@ -143,13 +143,13 @@ void Drivetrain::ZeroHeading()
 }
 #pragma endregion
 
-#pragma region ZeroHeading
+#pragma region ZeroHeadingReverse
 /// @brief Method to zero the robot heading.
 void Drivetrain::ZeroHeadingReverse()
 {
     // Reset the gyro
     m_gyro.Reset();
-    m_gyro.SetAngleAdjustment(180);
+    //m_gyro.SetAngleAdjustment(180);
 }
 #pragma endregion
 

@@ -47,19 +47,19 @@ namespace AutonomousConstants
     constexpr auto OneCoralRightAngleChange = 60_deg;
 #else
     // Center starting position for one coral placement
-    constexpr auto OneCoralCenterXDistance  =  0.5_m;
+    constexpr auto OneCoralCenterXDistance  =  1.2_m;
     constexpr auto OneCoralCenterYDistance  =  0_m;
     constexpr auto OneCoralAngleChange      =  0_deg;
 
     // Left starting position for one coral placement
-    constexpr auto OneCoralLeftXDistance    =  1.0_m;
-    constexpr auto OneCoralLeftYDistance    = -0.5_m;
+    constexpr auto OneCoralLeftXDistance    =  2.0_m;
+    constexpr auto OneCoralLeftYDistance    = -1.25_m;
     constexpr auto OneCoralLeftAngleChange  = -60_deg;
 
-    // Right starting position for one coral placement
-    constexpr auto OneCoralRightXDistance   = 1.0_m;
-    constexpr auto OneCoralRightYDistance   = 0.5_m;
-    constexpr auto OneCoralRightAngleChange = 60_deg;
+    // Left starting position for one coral placement
+    constexpr auto OneCoralRightXDistance    =  2.0_m;
+    constexpr auto OneCoralRightYDistance    =  1.25_m;
+    constexpr auto OneCoralRightAngleChange  =  60_deg;
 #endif
     constexpr auto OneCoralTimeOut          = 15_s;
 
@@ -82,9 +82,13 @@ namespace AprilTagToPoseConstants
     constexpr auto CoralStationDistanceOffsetY   = 0.0_m;
     constexpr auto CoralStationAngleOffset       = 0.0_deg;
 
-    constexpr auto CoralReefDistanceOffsetX      = 0.5_m;
-    constexpr auto CoralReefDistanceOffsetY      = 0.5_m;
-    constexpr auto CoralReefAngleOffset          = 0.0_deg;
+    constexpr auto CoralReefRightDistanceOffsetX = 0.45_m;
+    constexpr auto CoralReefRightDistanceOffsetY = 0.063_m;
+    constexpr auto CoralReefRightAngleOffset     = 0.0_deg;
+
+    constexpr auto CoralReefLeftDistanceOffsetX  = 0.45_m;
+    constexpr auto CoralReefLeftDistanceOffsetY  = 0.3_m;
+    constexpr auto CoralReefLeftAngleOffset      = 0.0_deg;
 
     constexpr auto AlgaeReefDistanceOffsetX      = 0.0_m;
     constexpr auto AlgaeReefDistanceOffsetY      = 0.0_m;
@@ -106,11 +110,11 @@ namespace CoralPoseConstants
     constexpr auto CoralGroundPickupVoltage      = 4.0_V;  // TODO: Set the voltage
     constexpr auto CoralGripVoltage              = 0.5_V;  // TODO: Set the voltage
 
-    constexpr auto HomeElevator                  = 0.0_m;
+    constexpr auto HomeElevator                  = 0.05_m;
     constexpr auto HomeArmAngle                  = 25_deg;
     constexpr auto HomeWristAngle                = 0.0_deg;
     constexpr auto HomeGripperBothWheels         = true;
-    constexpr auto HomeGripperVoltage            = 0.0_V;
+    constexpr auto HomeGripperVoltage            = CoralGripVoltage;
 
     constexpr auto GroundElevator                = 0.164432_m;
     constexpr auto GroundArmAngle                = 138.765_deg;
@@ -142,7 +146,7 @@ namespace CoralPoseConstants
     constexpr auto L3GripperBothWheels           = true;
     constexpr auto L3GripperVoltage              = CoralGripVoltage;
 
-    constexpr auto L4Elevator                    = 1.697126_m;
+    constexpr auto L4Elevator                    = 1.659898_m;
     constexpr auto L4ArmAngle                    = 73.0_deg;
     constexpr auto L4WristAngle                  = 90.0_deg;
     constexpr auto L4GripperBothWheels           = true;
