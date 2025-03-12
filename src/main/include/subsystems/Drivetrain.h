@@ -75,7 +75,8 @@ class Drivetrain : public frc2::SubsystemBase
         units::degree_t GetHeading();                           // Returns the heading of the robot
 
         void            ZeroHeading();                          // Zeroes the heading of the robot
-        void            ZeroHeadingReverse();
+        void            ZeroHeadingReverse();                   // Zeroes the heading and reverses the gyro (180 degrees)
+        void            ReverseHeading();                       // Reverses the gyro (180 degress)
 
         frc::Pose2d     GetPose();                              // Returns the currently-estimated pose of the robot
 

@@ -20,6 +20,12 @@ ChassisDriveTime::ChassisDriveTime(units::second_t time, units::meters_per_secon
 /// @brief Called just before this Command runs.
 void ChassisDriveTime::Initialize()
 {
+    // Get the field centricity
+    m_fieldCentricity = m_drivetrain->GetFieldCentricity();
+
+    // Set the field to robot centric
+    m_drivetrain->SetFieldCentricity(false);
+
     // Get the start time
     m_startTime = frc::GetTime();
 }
@@ -53,6 +59,9 @@ bool ChassisDriveTime::IsFinished()
 /// @param interrupted Indicated that the command was interrupted.
 void ChassisDriveTime::End(bool interrupted)
 {
+    // Return the field centricity
+    m_drivetrain->SetFieldCentricity(m_fieldCentricity);
+
     // Stop the move
     m_drivetrain->Drive(0_mps, 0_mps, 0_rad_per_s);
 }

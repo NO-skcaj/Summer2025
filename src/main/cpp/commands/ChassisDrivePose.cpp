@@ -48,6 +48,12 @@ ChassisDrivePose::ChassisDrivePose(std::function<ChassDrivePoseParameters()> get
 /// @brief Called just before this Command runs.
 void ChassisDrivePose::Initialize()
 {
+    // Get the field centricity
+    m_fieldCentricity = m_drivetrain->GetFieldCentricity();
+
+    // Set the field to robot centric
+    m_drivetrain->SetFieldCentricity(false);
+
     // Ensure the SwerveControllerCommand is set to nullptr
     m_swerveControllerCommand = nullptr;
 
@@ -184,6 +190,9 @@ bool ChassisDrivePose::IsFinished()
 /// @param interrupted Indicated that the command was interrupted.
 void ChassisDrivePose::End(bool interrupted)
 {
+    // Return the field centricity
+    m_drivetrain->SetFieldCentricity(m_fieldCentricity);
+
     // If the swerve controller command is not nullptr, end the command
     if (m_swerveControllerCommand != nullptr)
     {

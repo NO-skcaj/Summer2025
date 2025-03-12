@@ -33,4 +33,6 @@ class ChassisDriveToWall : public frc2::CommandHelper<frc2::Command, ChassisDriv
 
         units::second_t                   m_startTime;                // The start of the drive time
         frc2::SwerveControllerCommand<4> *m_swerveControllerCommand;  // The swerve controller command
+
+        bool                              m_fieldCentricity;          // Variable to remember the field centricity
 };

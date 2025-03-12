@@ -78,6 +78,7 @@ class RobotContainer
         GripperWheelState            PotentiometerWheelVoltage();
 
         frc::Pose2d                  GetChassisPose();
+        void                         ReverseChassisGryo();
 
         ChassDriveAprilTagParameters GetChassisDriveToAprilTagParameters();
 

@@ -92,6 +92,16 @@ void Robot::AutonomousPeriodic()
 /// @brief Method is called when switching to teleoperated mode.
 void Robot::TeleopInit()
 {
+    // Determine if the gyro has been reversed
+    if (m_chassisGyroReversed == false)
+    {
+        // Indicate that the gyro has been reversed
+        m_chassisGyroReversed = true;
+
+        // Reverse the chassis gyro
+        m_robotContainer->ReverseChassisGryo();
+    }
+
     // Set the swerve wheels to zero
     m_robotContainer->SetSwerveWheelAnglesToZero();
 

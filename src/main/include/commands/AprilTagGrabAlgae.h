@@ -13,7 +13,7 @@
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
 
-class AprilTagGrabAlgae : public frc2::CommandHelper<frc2::SequentialCommandGroup,  AprilTagGrabAlgae>
+class AprilTagGrabAlgae : public frc2::CommandHelper<frc2::SequentialCommandGroup, AprilTagGrabAlgae>
 {
     public:
 

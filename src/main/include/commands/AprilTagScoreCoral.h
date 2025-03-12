@@ -14,7 +14,7 @@
 
 #include "ConstantsChassisPoseAprilTag.h"
 
-class AprilTagScoreCoral : public frc2::CommandHelper<frc2::SequentialCommandGroup,  AprilTagScoreCoral>
+class AprilTagScoreCoral : public frc2::CommandHelper<frc2::SequentialCommandGroup, AprilTagScoreCoral>
 {
     public:
 

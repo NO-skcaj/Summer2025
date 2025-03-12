@@ -517,12 +517,15 @@ void Gripper::SetGripperWheelsVoltage(GripperWheelState gripperWheelState)
     // Show the target gripper wheels voltage
     frc::SmartDashboard::PutNumber("Wheels Target", gripperWheelState.voltage.value());
 
+    // Remember the gripper voltage
+    m_gripperVoltage = gripperWheelState.voltage;
+
     // Set the voltage of the fixed gripper wheel
-    m_gripperMotorFixed.SetVoltage(gripperWheelState.voltage);
+    m_gripperMotorFixed.SetVoltage(m_gripperVoltage);
 
     // Set the voltage of the free gripper wheel
     if (gripperWheelState.bothWheels)
-        m_gripperMotorFree.SetVoltage(gripperWheelState.voltage);
+        m_gripperMotorFree.SetVoltage(m_gripperVoltage);
     else
         m_gripperMotorFree.SetVoltage(0_V);
 }

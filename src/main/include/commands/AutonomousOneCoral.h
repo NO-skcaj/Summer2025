@@ -19,5 +19,6 @@ class AutonomousOneCoral : public frc2::CommandHelper<frc2::SequentialCommandGro
 {
     public:
 
-        explicit AutonomousOneCoral(GripperPoseEnum gripperPoseEnum, std::function<ChassDrivePoseParameters()> getParameters, Drivetrain *drivetrain, Gripper *gripper, AprilTags* aprilTags);
+        explicit AutonomousOneCoral(GripperPoseEnum gripperPoseEnum, std::function<ChassDrivePoseParameters()> getParameters,
+                                    Drivetrain *drivetrain, Gripper *gripper, AprilTags* aprilTags);
 };

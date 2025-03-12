@@ -446,6 +446,15 @@ frc::Pose2d RobotContainer::GetChassisPose()
 }
 #pragma endregion
 
+#pragma region ReverseChassisGryo
+/// @brief Method to reverse the Chassis heading to account for field centric drive with the robot facing the driver.
+void RobotContainer::ReverseChassisGryo()
+{
+    // Reverse the chassis gyro
+    m_drivetrain.ReverseHeading();
+}
+#pragma endregion
+
 #pragma region GetGripper
 /// @brief Method to return a pointer to the gripper subsystem.
 /// @return Pointer to the gripper subsystem.

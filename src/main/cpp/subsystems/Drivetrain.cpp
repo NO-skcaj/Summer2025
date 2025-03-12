@@ -149,7 +149,18 @@ void Drivetrain::ZeroHeadingReverse()
 {
     // Reset the gyro
     m_gyro.Reset();
-    //m_gyro.SetAngleAdjustment(180);
+
+    // Reverse the chassis heading
+    ReverseHeading();
+}
+#pragma endregion
+
+#pragma region ReverseHeading
+/// @brief Reverse the chassis heading.
+void Drivetrain::ReverseHeading()
+{
+    // Reverse the gyro heading
+    m_gyro.SetAngleAdjustment(180);
 }
 #pragma endregion
 

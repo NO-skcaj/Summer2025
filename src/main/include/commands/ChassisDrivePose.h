@@ -57,5 +57,7 @@ class ChassisDrivePose : public frc2::CommandHelper<frc2::Command, ChassisDriveP
         bool                              m_finished;                 // Indicates the command is finished
         frc2::SwerveControllerCommand<4> *m_swerveControllerCommand;  // The swerve controller command
 
+        bool                              m_fieldCentricity;          // Variable to remember the field centricity
+
         std::function<ChassDrivePoseParameters()> m_getParameters;    // The lambda function to get the parameters
 };

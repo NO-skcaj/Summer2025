@@ -23,4 +23,6 @@ class ChassisDriveTime : public frc2::CommandHelper<frc2::Command, ChassisDriveT
         Drivetrain                *m_drivetrain;       // The drivetrain subsystem
 
         units::second_t            m_startTime;        // The start of the drive time
+
+        bool                       m_fieldCentricity;  // Variable to remember the field centricity
 };
