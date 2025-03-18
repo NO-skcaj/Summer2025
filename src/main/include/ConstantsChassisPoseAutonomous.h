@@ -42,18 +42,18 @@ namespace AutonomousConstants
     constexpr auto OneCoralRightAngleChange = -60_deg;
 #else
     // Center starting position for one coral placement
-    constexpr auto OneCoralCenterXDistance  =  1.2_m;
+    constexpr auto OneCoralCenterXDistance  =  1.168_m;
     constexpr auto OneCoralCenterYDistance  =  0_m;
     constexpr auto OneCoralAngleChange      =  0_deg;
 
     // Left starting position for one coral placement
-    constexpr auto OneCoralLeftXDistance    =  1.2_m;
-    constexpr auto OneCoralLeftYDistance    =  1.5_m;
+    constexpr auto OneCoralLeftXDistance    =  1.829_m;
+    constexpr auto OneCoralLeftYDistance    =  0.9902_m;
     constexpr auto OneCoralLeftAngleChange  =  60_deg;
 
     // Right starting position for one coral placement
-    constexpr auto OneCoralRightXDistance   =  1.2_m;
-    constexpr auto OneCoralRightYDistance   = -1.5_m;
+    constexpr auto OneCoralRightXDistance   =  1.829_m;
+    constexpr auto OneCoralRightYDistance   = -0.9902_m;
     constexpr auto OneCoralRightAngleChange = -60_deg;
 #endif
     constexpr auto OneCoralTimeOut          = 15_s;

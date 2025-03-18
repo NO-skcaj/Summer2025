@@ -78,6 +78,32 @@ void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
 }
 #pragma endregion
 
+#pragma region DriveUltaSonic
+/// @brief Method to drive the robot chassis.
+/// @param xSpeed The speed in the X dirction.
+/// @param ySpeed The speed in the Y dirction.
+/// @param rotation The rate of rotation.
+void Drivetrain::DriveUltaSonic(units::meters_per_second_t  xSpeed,
+                                units::meters_per_second_t  ySpeed,
+                                units::radians_per_second_t rotation,
+                                bool                        ultraSonicEnabled)
+{
+    frc::SmartDashboard::PutBoolean("ultraSonicEnabled", ultraSonicEnabled);
+    frc::SmartDashboard::PutBoolean("ultraSonic Doing Anything", false);
+
+    if (GetDistance().value() <= DrivetrainConstants::UltraSonicReefDistance &&
+        xSpeed.value() >= 0 &&
+        ultraSonicEnabled)
+    {
+        xSpeed = 0_mps;
+        frc::SmartDashboard::PutBoolean("ultraSonic Doing Anything", true);
+    }
+    frc::SmartDashboard::PutNumber("Ultra Xspeed", xSpeed.value());
+
+    Drive(xSpeed, ySpeed, rotation);
+}
+#pragma endregion
+
 #pragma region SetX
 /// @brief
 void Drivetrain::SetX()

@@ -30,37 +30,37 @@ namespace CoralPoseConstants
     constexpr auto HomeGripperBothWheels         = true;
     constexpr auto HomeGripperVoltage            = CoralGripVoltage;
 
-    constexpr auto GroundElevator                = 0.164432_m;
+    constexpr auto GroundElevator                = 0.114432_m; //0.164432_m - 0.025_m - 0.025_m;
     constexpr auto GroundArmAngle                = 138.765_deg;
     constexpr auto GroundWristAngle              = 180.0_deg;
     constexpr auto GroundGripperBothWheels       = false;
     constexpr auto GroundGripperVoltage          = CoralGroundPickupVoltage;
 
-    constexpr auto StationElevator               = 0.5_m;
-    constexpr auto StationArmAngle               = 45.0_deg;
+    constexpr auto StationElevator               = 0.127810_m;
+    constexpr auto StationArmAngle               = -10.0_deg;
     constexpr auto StationWristAngle             = 180.0_deg;
     constexpr auto StationGripperBothWheels      = true;
-    constexpr auto StationGripperVoltage         = CoralGripVoltage;  // Verify the voltage
+    constexpr auto StationGripperVoltage         = 5.0_V;  // Verify the voltage
 
-    constexpr auto L1Elevator                    = 0.347767_m;
+    constexpr auto L1Elevator                    = 0.212292_m + 1.0_in;
     constexpr auto L1ArmAngle                    = 80.0_deg;
     constexpr auto L1WristAngle                  = 180.0_deg;
     constexpr auto L1GripperBothWheels           = true;
     constexpr auto L1GripperVoltage              = CoralGripVoltage;
 
-    constexpr auto L2Elevator                    = 0.452952_m;
+    constexpr auto L2Elevator                    = 0.376_m;
     constexpr auto L2ArmAngle                    = 45.0_deg;
     constexpr auto L2WristAngle                  = 90.0_deg;
     constexpr auto L2GripperBothWheels           = true;
     constexpr auto L2GripperVoltage              = CoralGripVoltage;
 
-    constexpr auto L3Elevator                    = 0.801765_m;
+    constexpr auto L3Elevator                    = 0.719_m;
     constexpr auto L3ArmAngle                    = 45.0_deg;
     constexpr auto L3WristAngle                  = 90.0_deg;
     constexpr auto L3GripperBothWheels           = true;
     constexpr auto L3GripperVoltage              = CoralGripVoltage;
 
-    constexpr auto L4Elevator                    = 1.659898_m;
+    constexpr auto L4Elevator                    = 1.571_m;
     constexpr auto L4ArmAngle                    = 73.0_deg;
     constexpr auto L4WristAngle                  = 90.0_deg;
     constexpr auto L4GripperBothWheels           = true;

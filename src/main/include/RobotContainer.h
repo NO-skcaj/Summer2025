@@ -107,7 +107,7 @@ class RobotContainer
 
         std::string              GetStartPosition();
 
-        ChassDrivePoseParameters GetAutonomousOneCoralParameters();
+        ChassDrivePoseParameters GetAutonomousOneCoralParameters(units::length::inch_t distanceXOffset, units::length::inch_t distanceYOffset);
 
         // Singleton reference to the class (returned by the GetInstance Method)
         static RobotContainer                *m_robotContainer;

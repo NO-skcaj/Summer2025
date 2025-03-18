@@ -55,7 +55,7 @@ namespace ArmConstants
 
     constexpr auto AngleMaxAmperage                = 20;
 
-    constexpr auto MinimumPosition                 =   0_deg;
+    constexpr auto MinimumPosition                 = -20_deg;
     constexpr auto PastElevatorPosition            =  25_deg;
     constexpr auto MaximumPosition                 = 180_deg;
 

@@ -35,6 +35,7 @@ namespace DrivetrainConstants
     constexpr auto UltraSonicPort           =  0;
     constexpr auto UltraSonicSlope          =  0.2125;
     constexpr auto UltraSonicIntercept      = -2.1873;
+    constexpr auto UltraSonicReefDistance   = 6.35;
 }
 #pragma endregion
 
@@ -65,6 +66,11 @@ class Drivetrain : public frc2::SubsystemBase
         void            Drive(units::meters_per_second_t  xSpeed,
                               units::meters_per_second_t  ySpeed,
                               units::radians_per_second_t rotation);
+        
+        void            DriveUltaSonic(units::meters_per_second_t  xSpeed,
+                                       units::meters_per_second_t  ySpeed,
+                                       units::radians_per_second_t rotation,
+                                       bool                        ultraSonicEnabled);
 
         void            SetX();                                 // Sets the wheels into an X formation to prevent movement
 

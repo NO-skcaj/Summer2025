@@ -112,8 +112,8 @@ void GripperActivate::Execute()
         {
             if (frc::GetTime() > m_timer)
             {
-                m_gripper->SetElevatorOffset(-m_stateData.ElevatorOffset);         // Return the Elevator to the start position
-                m_gripper->SetArmAngleOffset(-m_stateData.ArmOffset);              // Return the Arm to the start position
+                m_gripper->SetElevatorOffset(-m_stateData.ElevatorFinish);         // Return the Elevator to the start position
+                m_gripper->SetArmAngleOffset(-m_stateData.ArmFinish);              // Return the Arm to the start position
                 m_gripper->SetGripperWheelsVoltage(GripperWheelState{true, 0_V});  // Stop the Gripper Wheels
                 m_isFinished = true;                                               // State machine is complete
             }

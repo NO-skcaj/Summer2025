@@ -63,10 +63,10 @@ RobotContainer::RobotContainer()
     // Configure the autonomous command chooser
     m_autonomousChooser.SetDefaultOption("Do Nothing",       new AutonomousDoNothing());
     m_autonomousChooser.AddOption("Drive Forward",           new ChassisDrivePose(1.0_mps, 1_m, 0_m, 0_deg, 10_s, &m_drivetrain));
-    m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,  [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
-    // m_autonomousChooser.AddOption("Place Coral L2",          new AutonomousOneCoral(GripperPoseEnum::CoralL2,            [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
-    // m_autonomousChooser.AddOption("Place Coral L3",          new AutonomousOneCoral(GripperPoseEnum::CoralL3,            [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
-    // m_autonomousChooser.AddOption("Place Coral L4",          new AutonomousOneCoral(GripperPoseEnum::CoralL4,            [this] { return GetAutonomousOneCoralParameters(); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,  [this] { return GetAutonomousOneCoralParameters(-5_in, 0_in); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L2",          new AutonomousOneCoral(GripperPoseEnum::CoralL2,            [this] { return GetAutonomousOneCoralParameters(0_in, 4_in); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L3",          new AutonomousOneCoral(GripperPoseEnum::CoralL3,            [this] { return GetAutonomousOneCoralParameters(0_in, 4_in); }, &m_drivetrain, &m_gripper, &m_aprilTags));
+    m_autonomousChooser.AddOption("Place Coral L4",          new AutonomousOneCoral(GripperPoseEnum::CoralL4,            [this] { return GetAutonomousOneCoralParameters(2_in, 4_in); }, &m_drivetrain, &m_gripper, &m_aprilTags));
 
     // Send the autonomous mode chooser to the SmartDashboard
     frc::SmartDashboard::PutData("Autonomous Mode", &m_autonomousChooser);
@@ -81,6 +81,7 @@ RobotContainer::RobotContainer()
     m_drivetrain.SetDefaultCommand(ChassisDrive([this] { return Forward(); },
                                                 [this] { return Strafe();  },
                                                 [this] { return Angle();   },
+                                                [this] { return m_driverController.GetRawButton(Extreme3DConstants::HandleUpperRight);},
                                                 &m_drivetrain));
 
     // Set the LED default command
@@ -123,8 +124,8 @@ void RobotContainer::ConfigureDriverControls()
         .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeading(); }, {&m_drivetrain}));
 
     // Reset the gyro angle
-    frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleUpperRight)
-        .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeadingReverse(); }, {&m_drivetrain}));
+    // frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleUpperRight)
+        // .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeadingReverse(); }, {&m_drivetrain}));
 
     // Set field centricity on
     frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleLowerLeft)
@@ -478,7 +479,7 @@ std::string RobotContainer::GetStartPosition()
 #pragma region GetAutonomousOneCoralParameters
 /// @brief Method to get the autonomous one coral parameters.
 /// @return The autonomous one coral parameters.
-ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters()
+ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters(units::length::inch_t distanceXOffset, units::length::inch_t distanceYOffset)
 {
     ChassDrivePoseParameters parameters;
 
@@ -497,7 +498,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters()
         // Set the left coral position
         startPosition        = "L";
         parameters.DistanceX = AutonomousConstants::OneCoralLeftXDistance;
-        parameters.DistanceY = AutonomousConstants::OneCoralLeftYDistance;
+        parameters.DistanceY = AutonomousConstants::OneCoralLeftYDistance + distanceYOffset;
         parameters.Angle     = AutonomousConstants::OneCoralLeftAngleChange;
 
     }
@@ -505,7 +506,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters()
     {
         // Set the middle coral position
         startPosition         = "M";
-        parameters.DistanceX  = AutonomousConstants::OneCoralCenterXDistance;
+        parameters.DistanceX  = AutonomousConstants::OneCoralCenterXDistance + distanceXOffset;
         parameters.DistanceY  = AutonomousConstants::OneCoralCenterYDistance;
         parameters.Angle      = AutonomousConstants::OneCoralAngleChange;
     }
@@ -514,7 +515,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters()
         // Set the right coral position
         startPosition        = "R";
         parameters.DistanceX = AutonomousConstants::OneCoralRightXDistance;
-        parameters.DistanceY = AutonomousConstants::OneCoralRightYDistance;
+        parameters.DistanceY = AutonomousConstants::OneCoralRightYDistance - distanceYOffset;
         parameters.Angle     = AutonomousConstants::OneCoralRightAngleChange;
     }
 

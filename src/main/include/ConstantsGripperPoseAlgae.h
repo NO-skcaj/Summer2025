@@ -21,9 +21,9 @@
 #pragma region AlgaePoseConstants
 namespace AlgaePoseConstants
 {
-    constexpr auto AlgeaGripVoltage           = 1.0_V;  // TODO: Verify the voltage
-    constexpr auto AlgaePickupVoltage         = 3.0_V;  // TODO: Verify the voltage
-    constexpr auto AlgaeReefGetVoltage        = 0.0_V;  // TODO: Verify the voltage
+    constexpr auto AlgeaGripVoltage           = 3.0_V;  // TODO: Verify the voltage
+    constexpr auto AlgaePickupVoltage         = 5.0_V;  // TODO: Verify the voltage
+    constexpr auto AlgaeReefGetVoltage        = 5.0_V;  // TODO: Verify the voltage
 
     constexpr auto GroundElevator             = 0.421899_m;
     constexpr auto GroundArmAngle             = 126.918945_deg;
@@ -37,13 +37,13 @@ namespace AlgaePoseConstants
     constexpr auto OnCoralGripperBothWheels   = true;
     constexpr auto OnCoralGripperVoltage      = AlgaePickupVoltage;
 
-    constexpr auto LowElevator                = 0.576956_m;
+    constexpr auto LowElevator                = 0.526956_m;
     constexpr auto LowArmAngle                = 90.0_deg;
     constexpr auto LowWristAngle              = 0.0_deg;
     constexpr auto LowGripperBothWheels       = true;
     constexpr auto LowGripperVoltage          = AlgaeReefGetVoltage;
 
-    constexpr auto HighElevator               = 0.973151_m;
+    constexpr auto HighElevator               = 0.923151_m;
     constexpr auto HighArmAngle               = 90.0_deg;
     constexpr auto HighWristAngle             = 0.0_deg;
     constexpr auto HighGripperBothWheels      = true;
