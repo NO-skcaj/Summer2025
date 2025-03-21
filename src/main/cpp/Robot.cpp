@@ -33,7 +33,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Present A", pressentPose.Rotation().Degrees().value());
 
     // Show the control panel Gripper wheels potentiometer value
-    frc::SmartDashboard::PutNumber("Wheels Input", m_robotContainer->GetOperatorController()->GetRawAxis(ControlPanelConstants::GripperMotor));
+    frc::SmartDashboard::PutNumber("Wheels Input", m_robotContainer->GetOperatorController()->GetRawAxis(ConstantsControlPanel::GripperMotor));
 
     // Show the Gripper pose positions
     frc::SmartDashboard::PutNumber("Elevator", m_robotContainer->GetGripper()->GetElevatorHeight().value());

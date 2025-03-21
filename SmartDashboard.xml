@@ -1,14 +1,5 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Ultra Xspeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="364"/>
-	</widget>
-	<widget field="ultraSonic Doing Anything" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="327"/>
-	</widget>
-	<widget field="ultraSonicEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="491" y="163"/>
-	</widget>
 	<widget field="Wrist Motor Position Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1255" y="496"/>
 	</widget>
@@ -113,7 +104,7 @@
 		<location x="681" y="35"/>
 	</widget>
 	<widget field="Start Position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="166" y="73"/>
+		<location x="195" y="60"/>
 	</widget>
 	<widget field="Present A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="875" y="485"/>
@@ -237,7 +228,7 @@
 		<width>371</width>
 	</widget>
 	<widget field="Autonomous Mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="39" y="75"/>
+		<location x="18" y="48"/>
 	</widget>
 	<widget field="Rear Right Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="33" y="473"/>
@@ -275,26 +266,6 @@
 	<widget field="Chassis Forward" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="38" y="233"/>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="989" y="20"/>
-		<width>515</width>
-		<height>389</height>
-		<property name="Camera Choice" value="Detected"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="31" y="16"/>
-		<width>193</width>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="989" y="20"/>
-		<width>515</width>
-		<height>389</height>
-		<property name="Camera Choice" value="Detected"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="31" y="16"/>
-		<width>193</width>
-	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="989" y="20"/>
 		<width>515</width>

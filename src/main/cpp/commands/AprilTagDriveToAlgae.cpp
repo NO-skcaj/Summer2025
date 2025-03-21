@@ -1,6 +1,6 @@
-#include "commands/AprilTagGrabAlgae.h"
+#include "commands/AprilTagDriveToAlgae.h"
 
-AprilTagGrabAlgae::AprilTagGrabAlgae(GripperPoseEnum  gripperPose,
+AprilTagDriveToAlgae::AprilTagDriveToAlgae(GripperPoseEnum  gripperPose,
                                      AprilTags       *aprilTags,
                                      Gripper         *gripper,
                                      Drivetrain      *drivetrain)

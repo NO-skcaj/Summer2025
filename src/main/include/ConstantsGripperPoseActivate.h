@@ -18,8 +18,8 @@
 #include "subsystems/Gripper.h"
 #pragma endregion
 
-#pragma region ActivateConstants
-namespace ActivateConstants
+#pragma region ConstantsGripperPoseActivate
+namespace ConstantsGripperPoseActivate
 {
     // Coral1
     constexpr auto Coral1ElevatorOffset           =  0.0_m;

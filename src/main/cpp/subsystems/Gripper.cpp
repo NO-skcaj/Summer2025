@@ -1,19 +1,21 @@
 #include "subsystems/Gripper.h"
 
+using namespace ConstantsCanIds;
+
 #pragma region Gripper
 /// @brief The Constructor for the Gripper class.
-Gripper::Gripper() : m_wristMotor(CanConstants::WristMotorCanId, rev::spark::SparkMax::MotorType::kBrushless),
+Gripper::Gripper() : m_wristMotor(WristMotorCanId, rev::spark::SparkMax::MotorType::kBrushless),
                      m_wristEncoder(m_wristMotor.GetEncoder()),
                      m_wristTurnClosedLoopController(m_wristMotor.GetClosedLoopController()),
 
-                     m_gripperMotorFixed(CanConstants::GripperMotorCanIdFixed, rev::spark::SparkMax::MotorType::kBrushless),
-                     m_gripperMotorFree(CanConstants::GripperMotorCanIdFree,   rev::spark::SparkMax::MotorType::kBrushless)
+                     m_gripperMotorFixed(GripperMotorCanIdFixed, rev::spark::SparkMax::MotorType::kBrushless),
+                     m_gripperMotorFree(GripperMotorCanIdFree,   rev::spark::SparkMax::MotorType::kBrushless)
 {
     // Configure the elevator motor
-    ConfigureElevatorMotor(CanConstants::ElevatorMotorCanId);
+    ConfigureElevatorMotor(ElevatorMotorCanId);
 
     // Configure the Arm motor
-    ConfigureArmMotor(CanConstants::ArmMotorCanId);
+    ConfigureArmMotor(ArmMotorCanId);
 
     // Configure the wrist motor
     ConfigureWristMotor();
@@ -33,7 +35,7 @@ Gripper::Gripper() : m_wristMotor(CanConstants::WristMotorCanId, rev::spark::Spa
 void Gripper::ConfigureElevatorMotor(int motorCanId)
 {
     // Instantiate the elevator motor
-    m_elevatorMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanConstants::CanBus};
+    m_elevatorMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanBus};
 
     // Create the elevator motor configuration
     ctre::phoenix6::configs::TalonFXConfiguration elevatorMotorConfiguration{};
@@ -59,7 +61,7 @@ void Gripper::ConfigureElevatorMotor(int motorCanId)
 
     // Apply the configuration to the drive motor
     ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < CanConstants::MotorConfigurationAttempts; attempt++)
+    for (int attempt = 0; attempt < MotorConfigurationAttempts; attempt++)
     {
         // Apply the configuration to the drive motor
         status = m_elevatorMotor->GetConfigurator().Apply(elevatorMotorConfiguration);
@@ -84,7 +86,7 @@ void Gripper::ConfigureElevatorMotor(int motorCanId)
 void Gripper::ConfigureArmMotor(int motorCanId)
 {
     // Instantiate the Arm motor
-    m_armMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanConstants::CanBus};
+    m_armMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanBus};
 
     // Create the Arm motor configuration
     ctre::phoenix6::configs::TalonFXConfiguration armMotorConfiguration{};
@@ -110,7 +112,7 @@ void Gripper::ConfigureArmMotor(int motorCanId)
 
     // Apply the configuration to the drive motor
     ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < CanConstants::MotorConfigurationAttempts; attempt++)
+    for (int attempt = 0; attempt < MotorConfigurationAttempts; attempt++)
     {
         // Apply the configuration to the drive motor
         status = m_armMotor->GetConfigurator().Apply(armMotorConfiguration);
@@ -139,8 +141,6 @@ void Gripper::ConfigureWristMotor()
     sparkMaxConfig
         .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .SmartCurrentLimit(WristConstants::MaxAmperage);
-    // sparkMaxConfig.encoder
-    //     .Inverted(false);
     sparkMaxConfig.closedLoop.maxMotion
         .MaxVelocity(WristConstants::MaximumVelocity)
         .MaxAcceleration(WristConstants::MaximumAcceleration)
@@ -148,11 +148,6 @@ void Gripper::ConfigureWristMotor()
     sparkMaxConfig.closedLoop
         .SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
         .Pid(WristConstants::P, WristConstants::I, WristConstants::D)
-        //.OutputRange(-1, 1)
-        // Enable PID wrap around for the turning motor. This will allow the
-        // PID controller to go through 0 to get to the setpoint i.e. going
-        // from 350 degrees to 10 degrees will go through 0 rather than the
-        // other direction which is a longer route.
         .PositionWrappingEnabled(true)
         .PositionWrappingInputRange(0, 2 * std::numbers::pi);
 
@@ -212,141 +207,141 @@ void Gripper::SetPose(GripperPoseEnum pose)
     {
         case GripperPoseEnum::Home:
         {
-            elevatorHeight  = CoralPoseConstants::HomeElevator;
-            armAngle        = CoralPoseConstants::HomeArmAngle;
-            wristAngle      = CoralPoseConstants::HomeWristAngle;
-            bothwheels      = CoralPoseConstants::HomeGripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::HomeGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseCoral::HomeElevator;
+            armAngle        = ConstantsGripperPoseCoral::HomeArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::HomeWristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::HomeGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::HomeGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::CoralGround:
         {
-            elevatorHeight  = CoralPoseConstants::GroundElevator;  // TODO: Set elevator a little higher to allow the operator to set the gripper wheel height
-            armAngle        = CoralPoseConstants::GroundArmAngle;
-            wristAngle      = CoralPoseConstants::GroundWristAngle;
-            bothwheels      = CoralPoseConstants::GroundGripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::GroundGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseCoral::GroundElevator;  // TODO: Set elevator a little higher to allow the operator to set the gripper wheel height
+            armAngle        = ConstantsGripperPoseCoral::GroundArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::GroundWristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::GroundGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::GroundGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::CoralStation:
         {
-            elevatorHeight  = CoralPoseConstants::StationElevator;
-            armAngle        = CoralPoseConstants::StationArmAngle;
-            wristAngle      = CoralPoseConstants::StationWristAngle;
-            bothwheels      = CoralPoseConstants::StationGripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::StationGripperVoltage;
-            break;
-        }
-
-        case GripperPoseEnum::CoralL1:
-        {
-            elevatorHeight  = CoralPoseConstants::L1Elevator;
-            armAngle        = CoralPoseConstants::L1ArmAngle;
-            wristAngle      = CoralPoseConstants::L1WristAngle;
-            bothwheels      = CoralPoseConstants::L1GripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::L1GripperVoltage;
-            break;
-        }
-
-        case GripperPoseEnum::CoralL2:
-        {
-            elevatorHeight  = CoralPoseConstants::L2Elevator;
-            armAngle        = CoralPoseConstants::L2ArmAngle;
-            wristAngle      = CoralPoseConstants::L2WristAngle;
-            bothwheels      = CoralPoseConstants::L2GripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::L2GripperVoltage;
-            break;
-        }
-
-        case GripperPoseEnum::CoralL3:
-        {
-            elevatorHeight  = CoralPoseConstants::L3Elevator;
-            armAngle        = CoralPoseConstants::L3ArmAngle;
-            wristAngle      = CoralPoseConstants::L3WristAngle;
-            bothwheels      = CoralPoseConstants::L3GripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::L3GripperVoltage;
-            break;
-        }
-
-        case GripperPoseEnum::CoralL4:
-        {
-            elevatorHeight  = CoralPoseConstants::L4Elevator;
-            armAngle        = CoralPoseConstants::L4ArmAngle;
-            wristAngle      = CoralPoseConstants::L4WristAngle;
-            bothwheels      = CoralPoseConstants::L4GripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::L4GripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseCoral::StationElevator;
+            armAngle        = ConstantsGripperPoseCoral::StationArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::StationWristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::StationGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::StationGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::CoralAutonomousL1:
         {
-            elevatorHeight  = CoralPoseConstants::AutonomousL1Elevator;
-            armAngle        = CoralPoseConstants::AutonomousL1ArmAngle;
-            wristAngle      = CoralPoseConstants::AutonomousL1WristAngle;
-            bothwheels      = CoralPoseConstants::AutonomousL1GripperBothWheels;
-            gripperVoltage  = CoralPoseConstants::AutonomousL1GripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseCoral::AutonomousL1Elevator;
+            armAngle        = ConstantsGripperPoseCoral::AutonomousL1ArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::AutonomousL1WristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::AutonomousL1GripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::AutonomousL1GripperVoltage;
+            break;
+        }
+
+        case GripperPoseEnum::CoralL1:
+        {
+            elevatorHeight  = ConstantsGripperPoseCoral::L1Elevator;
+            armAngle        = ConstantsGripperPoseCoral::L1ArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::L1WristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::L1GripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::L1GripperVoltage;
+            break;
+        }
+
+        case GripperPoseEnum::CoralL2:
+        {
+            elevatorHeight  = ConstantsGripperPoseCoral::L2Elevator;
+            armAngle        = ConstantsGripperPoseCoral::L2ArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::L2WristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::L2GripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::L2GripperVoltage;
+            break;
+        }
+
+        case GripperPoseEnum::CoralL3:
+        {
+            elevatorHeight  = ConstantsGripperPoseCoral::L3Elevator;
+            armAngle        = ConstantsGripperPoseCoral::L3ArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::L3WristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::L3GripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::L3GripperVoltage;
+            break;
+        }
+
+        case GripperPoseEnum::CoralL4:
+        {
+            elevatorHeight  = ConstantsGripperPoseCoral::L4Elevator;
+            armAngle        = ConstantsGripperPoseCoral::L4ArmAngle;
+            wristAngle      = ConstantsGripperPoseCoral::L4WristAngle;
+            bothwheels      = ConstantsGripperPoseCoral::L4GripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseCoral::L4GripperVoltage;
             break;
         }
 
         case GripperPoseEnum::AlgaeGround:
         {
-            elevatorHeight  = AlgaePoseConstants::GroundElevator;
-            armAngle        = AlgaePoseConstants::GroundArmAngle;
-            wristAngle      = AlgaePoseConstants::GroundWristAngle;
-            bothwheels      = AlgaePoseConstants::GroundGripperBothWheels;
-            gripperVoltage  = AlgaePoseConstants::GroundGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseAlgae::GroundElevator;
+            armAngle        = ConstantsGripperPoseAlgae::GroundArmAngle;
+            wristAngle      = ConstantsGripperPoseAlgae::GroundWristAngle;
+            bothwheels      = ConstantsGripperPoseAlgae::GroundGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseAlgae::GroundGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::AlgaeOnCoral:
         {
-            elevatorHeight  = AlgaePoseConstants::OnCoralElevator;
-            armAngle        = AlgaePoseConstants::OnCoralArmAngle;
-            wristAngle      = AlgaePoseConstants::OnCoralWristAngle;
-            bothwheels      = AlgaePoseConstants::OnCoralGripperBothWheels;
-            gripperVoltage  = AlgaePoseConstants::OnCoralGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseAlgae::OnCoralElevator;
+            armAngle        = ConstantsGripperPoseAlgae::OnCoralArmAngle;
+            wristAngle      = ConstantsGripperPoseAlgae::OnCoralWristAngle;
+            bothwheels      = ConstantsGripperPoseAlgae::OnCoralGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseAlgae::OnCoralGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::AlgaeLow:
         {
-            elevatorHeight  = AlgaePoseConstants::LowElevator;
-            armAngle        = AlgaePoseConstants::LowArmAngle;
-            wristAngle      = AlgaePoseConstants::LowWristAngle;
-            bothwheels      = AlgaePoseConstants::LowGripperBothWheels;
-            gripperVoltage  = AlgaePoseConstants::LowGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseAlgae::LowElevator;
+            armAngle        = ConstantsGripperPoseAlgae::LowArmAngle;
+            wristAngle      = ConstantsGripperPoseAlgae::LowWristAngle;
+            bothwheels      = ConstantsGripperPoseAlgae::LowGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseAlgae::LowGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::AlgaeHigh:
         {
-            elevatorHeight  = AlgaePoseConstants::HighElevator;
-            armAngle        = AlgaePoseConstants::HighArmAngle;
-            wristAngle      = AlgaePoseConstants::HighWristAngle;
-            bothwheels      = AlgaePoseConstants::HighGripperBothWheels;
-            gripperVoltage  = AlgaePoseConstants::HighGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseAlgae::HighElevator;
+            armAngle        = ConstantsGripperPoseAlgae::HighArmAngle;
+            wristAngle      = ConstantsGripperPoseAlgae::HighWristAngle;
+            bothwheels      = ConstantsGripperPoseAlgae::HighGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseAlgae::HighGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::AlgaeProcessor:
         {
-            elevatorHeight  = AlgaePoseConstants::ProcessorElevator;
-            armAngle        = AlgaePoseConstants::ProcessorArmAngle;
-            wristAngle      = AlgaePoseConstants::ProcessorWristAngle;
-            bothwheels      = AlgaePoseConstants::ProcessorGripperBothWheels;
-            gripperVoltage  = AlgaePoseConstants::ProcessorGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseAlgae::ProcessorElevator;
+            armAngle        = ConstantsGripperPoseAlgae::ProcessorArmAngle;
+            wristAngle      = ConstantsGripperPoseAlgae::ProcessorWristAngle;
+            bothwheels      = ConstantsGripperPoseAlgae::ProcessorGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseAlgae::ProcessorGripperVoltage;
             break;
         }
 
         case GripperPoseEnum::AlgaeBarge:
         {
-            elevatorHeight  = AlgaePoseConstants::BargeElevator;
-            armAngle        = AlgaePoseConstants::BargeArmAngle;
-            wristAngle      = AlgaePoseConstants::BargeWristAngle;
-            bothwheels      = AlgaePoseConstants::BargeGripperBothWheels;
-            gripperVoltage  = AlgaePoseConstants::BargeGripperVoltage;
+            elevatorHeight  = ConstantsGripperPoseAlgae::BargeElevator;
+            armAngle        = ConstantsGripperPoseAlgae::BargeArmAngle;
+            wristAngle      = ConstantsGripperPoseAlgae::BargeWristAngle;
+            bothwheels      = ConstantsGripperPoseAlgae::BargeGripperBothWheels;
+            gripperVoltage  = ConstantsGripperPoseAlgae::BargeGripperVoltage;
             break;
         }
     }

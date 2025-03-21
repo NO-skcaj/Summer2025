@@ -1,11 +1,13 @@
 #include "subsystems/Climb.h"
 
+using namespace ConstantsCanIds;
+
 #pragma region Climb (constructor)
 /// @brief Class to support the Climb subsystem.
 Climb::Climb()
 {
     // Configure the climb motor
-    ConfigureClimbMotor(CanConstants::ClimbMotorCanId);
+    ConfigureClimbMotor(ClimbMotorCanId);
 }
 #pragma endregion
 
@@ -15,7 +17,7 @@ Climb::Climb()
 void Climb::ConfigureClimbMotor(int motorCanId)
 {
     // Instantiate the climb motor
-    m_climbMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanConstants::CanBus};
+    m_climbMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanBus};
 
     // Create the climb motor configuration
     ctre::phoenix6::configs::TalonFXConfiguration climbMotorConfiguration{};
@@ -26,7 +28,7 @@ void Climb::ConfigureClimbMotor(int motorCanId)
 
     // Apply the configuration to the drive motor
     ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < CanConstants::MotorConfigurationAttempts; attempt++)
+    for (int attempt = 0; attempt < MotorConfigurationAttempts; attempt++)
     {
         // Apply the configuration to the drive motor
         status = m_climbMotor->GetConfigurator().Apply(climbMotorConfiguration);

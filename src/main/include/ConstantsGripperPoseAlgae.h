@@ -18,12 +18,12 @@
 #include "subsystems/Gripper.h"
 #pragma endregion
 
-#pragma region AlgaePoseConstants
-namespace AlgaePoseConstants
+#pragma region ConstantsGripperPoseAlgae
+namespace ConstantsGripperPoseAlgae
 {
-    constexpr auto AlgeaGripVoltage           = 3.0_V;  // TODO: Verify the voltage
-    constexpr auto AlgaePickupVoltage         = 5.0_V;  // TODO: Verify the voltage
-    constexpr auto AlgaeReefGetVoltage        = 5.0_V;  // TODO: Verify the voltage
+    constexpr auto AlgeaGripVoltage           = 3.0_V;
+    constexpr auto AlgaePickupVoltage         = 5.0_V;
+    constexpr auto AlgaeReefGetVoltage        = 5.0_V;
 
     constexpr auto GroundElevator             = 0.421899_m;
     constexpr auto GroundArmAngle             = 126.918945_deg;

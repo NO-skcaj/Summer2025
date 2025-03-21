@@ -1,14 +1,16 @@
 #include "SwerveModule.h"
 
+using namespace ConstantsCanIds;
+
 #pragma region SwerveModule Contructor
 /// @brief Class constructor for the SwerveModule class.
 /// @param driveMotorCanId The CAN ID for the swerve module drive motor.
 /// @param angleMotorCanId The CAN ID for the swerve module angle motor.
 /// @param angleEncoderCanId The CAN ID for the swerve module angle encoder.
 SwerveModule::SwerveModule(int driveMotorCanId, int angleMotorCanId, int angleEncoderCanId) :
-                           m_driveMotor(driveMotorCanId, CanConstants::CanBus),
+                           m_driveMotor(driveMotorCanId, CanBus),
                            m_angleMotor(angleMotorCanId, rev::spark::SparkMax::MotorType::kBrushless),
-                           m_angleAbsoluteEncoder(angleEncoderCanId, CanConstants::CanBus),
+                           m_angleAbsoluteEncoder(angleEncoderCanId, CanBus),
                            m_angleEncoder(m_angleMotor.GetEncoder()),
                            m_turnClosedLoopController(m_angleMotor.GetClosedLoopController())
 
@@ -52,7 +54,7 @@ void SwerveModule::ConfigureDriveMotor()
 
     // Apply the configuration to the drive motor
     ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < CanConstants::MotorConfigurationAttempts; attempt++)
+    for (int attempt = 0; attempt < MotorConfigurationAttempts; attempt++)
     {
         // Apply the configuration to the drive motor
         status = m_driveMotor.GetConfigurator().Apply(talonFXConfiguration);

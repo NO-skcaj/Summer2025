@@ -1,5 +1,7 @@
 #include "commands/GripperActivate.h"
 
+using namespace ConstantsGripperPoseActivate;
+
 #pragma region GripperActivate
 /// @brief CCommand to activate the gripper to a specific pose.
 /// @param gripper The gripper subsystem.
@@ -148,16 +150,16 @@ bool GripperActivate::IsFinished()
 /// @brief Method to set the gripper activate parameters for Coral at L1.
 void GripperActivate::CoralL1()
 {
-    m_stateData.ElevatorOffset   = ActivateConstants::Coral1ElevatorOffset;
-    m_stateData.ElevatorMoveWait = ActivateConstants::Coral1ElevatorWait;
-    m_stateData.ArmOffset        = ActivateConstants::Coral1ArmOffset;
-    m_stateData.ArmMoveWait      = ActivateConstants::Coral1ArmMoveWait;
-    m_stateData.BothWheels       = ActivateConstants::Coral1BothWheels;
-    m_stateData.GripperVoltage   = ActivateConstants::Coral1GripperVoltage;
-    m_stateData.GripperPlaceWait = ActivateConstants::Coral1GripperPlaceWait;
+    m_stateData.ElevatorOffset   = Coral1ElevatorOffset;
+    m_stateData.ElevatorMoveWait = Coral1ElevatorWait;
+    m_stateData.ArmOffset        = Coral1ArmOffset;
+    m_stateData.ArmMoveWait      = Coral1ArmMoveWait;
+    m_stateData.BothWheels       = Coral1BothWheels;
+    m_stateData.GripperVoltage   = Coral1GripperVoltage;
+    m_stateData.GripperPlaceWait = Coral1GripperPlaceWait;
 
-    m_stateData.ElevatorFinish   = ActivateConstants::Coral1ElevatorFinish;
-    m_stateData.ArmFinish        = ActivateConstants::Coral1ArmFinish;
+    m_stateData.ElevatorFinish   = Coral1ElevatorFinish;
+    m_stateData.ArmFinish        = Coral1ArmFinish;
 }
 #pragma endregion
 
@@ -165,16 +167,16 @@ void GripperActivate::CoralL1()
 /// @brief Method to set the gripper activate parameters for Coral at L2 or L3.
 void GripperActivate::CoralL23()
 {
-    m_stateData.ElevatorOffset   = ActivateConstants::Coral123ElevatorOffset;
-    m_stateData.ElevatorMoveWait = ActivateConstants::Coral123ElevatorWait;
-    m_stateData.ArmOffset        = ActivateConstants::Coral123ArmOffset;
-    m_stateData.ArmMoveWait      = ActivateConstants::Coral123ArmMoveWait;
-    m_stateData.BothWheels       = ActivateConstants::Coral123BothWheels;
-    m_stateData.GripperVoltage   = ActivateConstants::Coral123GripperVoltage;
-    m_stateData.GripperPlaceWait = ActivateConstants::Coral123GripperPlaceWait;
+    m_stateData.ElevatorOffset   = Coral123ElevatorOffset;
+    m_stateData.ElevatorMoveWait = Coral123ElevatorWait;
+    m_stateData.ArmOffset        = Coral123ArmOffset;
+    m_stateData.ArmMoveWait      = Coral123ArmMoveWait;
+    m_stateData.BothWheels       = Coral123BothWheels;
+    m_stateData.GripperVoltage   = Coral123GripperVoltage;
+    m_stateData.GripperPlaceWait = Coral123GripperPlaceWait;
 
-    m_stateData.ElevatorFinish   = ActivateConstants::Coral123ElevatorFinish;
-    m_stateData.ArmFinish        = ActivateConstants::Coral123ArmFinish;
+    m_stateData.ElevatorFinish   = Coral123ElevatorFinish;
+    m_stateData.ArmFinish        = Coral123ArmFinish;
 }
 #pragma endregion
 
@@ -182,16 +184,16 @@ void GripperActivate::CoralL23()
 /// @brief Method to set the gripper activate parameters for Coral at L4.
 void GripperActivate::CoralL4()
 {
-    m_stateData.ElevatorOffset   = ActivateConstants::Coral4ElevatorOffset;
-    m_stateData.ElevatorMoveWait = ActivateConstants::Coral4ElevatorWait;
-    m_stateData.ArmOffset        = ActivateConstants::Coral4ArmOffset;
-    m_stateData.ArmMoveWait      = ActivateConstants::Coral4ArmMoveWait;
-    m_stateData.BothWheels       = ActivateConstants::Coral4BothWheels;
-    m_stateData.GripperVoltage   = ActivateConstants::Coral4GripperVoltage;
-    m_stateData.GripperPlaceWait = ActivateConstants::Coral4GripperPlaceWait;
+    m_stateData.ElevatorOffset   = Coral4ElevatorOffset;
+    m_stateData.ElevatorMoveWait = Coral4ElevatorWait;
+    m_stateData.ArmOffset        = Coral4ArmOffset;
+    m_stateData.ArmMoveWait      = Coral4ArmMoveWait;
+    m_stateData.BothWheels       = Coral4BothWheels;
+    m_stateData.GripperVoltage   = Coral4GripperVoltage;
+    m_stateData.GripperPlaceWait = Coral4GripperPlaceWait;
 
-    m_stateData.ElevatorFinish   = ActivateConstants::Coral4ElevatorFinish;
-    m_stateData.ArmFinish        = ActivateConstants::Coral4ArmFinish;
+    m_stateData.ElevatorFinish   = Coral4ElevatorFinish;
+    m_stateData.ArmFinish        = Coral4ArmFinish;
 }
 #pragma endregion
 
@@ -199,16 +201,16 @@ void GripperActivate::CoralL4()
 /// @brief Method to set the gripper activate parameters for Algae at the Processor.
 void GripperActivate::AlgaeProcessor()
 {
-    m_stateData.ElevatorOffset   = ActivateConstants::AlgaeProcessorElevatorOffset;
-    m_stateData.ElevatorMoveWait = ActivateConstants::AlgaeProcessorElevatorWait;
-    m_stateData.ArmOffset        = ActivateConstants::AlgaeProcessorArmOffset;
-    m_stateData.ArmMoveWait      = ActivateConstants::AlgaeProcessorArmMoveWait;
-    m_stateData.BothWheels       = ActivateConstants::AlgaeProcessorBothWheels;
-    m_stateData.GripperVoltage   = ActivateConstants::AlgaeProcessorGripperVoltage;
-    m_stateData.GripperPlaceWait = ActivateConstants::AlgaeProcessorGripperPlaceWait;
+    m_stateData.ElevatorOffset   = AlgaeProcessorElevatorOffset;
+    m_stateData.ElevatorMoveWait = AlgaeProcessorElevatorWait;
+    m_stateData.ArmOffset        = AlgaeProcessorArmOffset;
+    m_stateData.ArmMoveWait      = AlgaeProcessorArmMoveWait;
+    m_stateData.BothWheels       = AlgaeProcessorBothWheels;
+    m_stateData.GripperVoltage   = AlgaeProcessorGripperVoltage;
+    m_stateData.GripperPlaceWait = AlgaeProcessorGripperPlaceWait;
 
-    m_stateData.ElevatorFinish   = ActivateConstants::AlgaeProcessorElevatorFinish;
-    m_stateData.ArmFinish        = ActivateConstants::AlgaeProcessorArmFinish;
+    m_stateData.ElevatorFinish   = AlgaeProcessorElevatorFinish;
+    m_stateData.ArmFinish        = AlgaeProcessorArmFinish;
 }
 #pragma endregion
 
@@ -216,15 +218,15 @@ void GripperActivate::AlgaeProcessor()
 /// @brief Method to set the gripper activate parameters for Algae at the Barge.
 void GripperActivate::AlgaeBarge()
 {
-    m_stateData.ElevatorOffset   = ActivateConstants::AlgaeBargeElevatorOffset;
-    m_stateData.ElevatorMoveWait = ActivateConstants::AlgaeBargeElevatorWait;
-    m_stateData.ArmOffset        = ActivateConstants::AlgaeBargeArmOffset;
-    m_stateData.ArmMoveWait      = ActivateConstants::AlgaeBargeArmMoveWait;
-    m_stateData.BothWheels       = ActivateConstants::AlgaeBargeBothWheels;
-    m_stateData.GripperVoltage   = ActivateConstants::AlgaeBargeGripperVoltage;
-    m_stateData.GripperPlaceWait = ActivateConstants::AlgaeBargeGripperPlaceWait;
+    m_stateData.ElevatorOffset   = AlgaeBargeElevatorOffset;
+    m_stateData.ElevatorMoveWait = AlgaeBargeElevatorWait;
+    m_stateData.ArmOffset        = AlgaeBargeArmOffset;
+    m_stateData.ArmMoveWait      = AlgaeBargeArmMoveWait;
+    m_stateData.BothWheels       = AlgaeBargeBothWheels;
+    m_stateData.GripperVoltage   = AlgaeBargeGripperVoltage;
+    m_stateData.GripperPlaceWait = AlgaeBargeGripperPlaceWait;
 
-    m_stateData.ElevatorFinish   = ActivateConstants::AlgaeBargeElevatorFinish;
-    m_stateData.ArmFinish        = ActivateConstants::AlgaeBargeArmFinish;
+    m_stateData.ElevatorFinish   = AlgaeBargeElevatorFinish;
+    m_stateData.ArmFinish        = AlgaeBargeArmFinish;
 }
 #pragma endregion

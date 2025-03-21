@@ -30,6 +30,7 @@ namespace ApriltagConstants
 
     constexpr auto CameraResolutionWidth   = 640;
     constexpr auto CameraResolutionHeight  = 480;
+    constexpr auto CameraFramesPerSecond   =  30;
 
     constexpr auto AprilTagLineWitdh       =   2;
     constexpr auto NumberOfAprilTagCorners =   4;
@@ -37,7 +38,7 @@ namespace ApriltagConstants
 
     constexpr auto LengthOfTagsInches      = 6.5;
 
-    constexpr auto RobotCameraOffset       = -0.305_m;
+    constexpr auto RobotCameraOffset       = 0_m;  // -0.305_m - Side camera mount
     constexpr auto RobotCameraAngleOffset  = 0_deg;
 }
 #pragma endregion

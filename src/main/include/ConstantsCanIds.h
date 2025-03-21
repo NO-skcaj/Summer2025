@@ -1,7 +1,7 @@
 #pragma once
 
-#pragma region CanConstants
-namespace CanConstants
+#pragma region ConstantsCanIds
+namespace ConstantsCanIds
 {
     const     auto CanBus                            = "rio";
 

@@ -21,8 +21,8 @@
 #include <units/voltage.h>
 #pragma endregion
 
-#pragma region ControllerConstants
-namespace ControllerConstants
+#pragma region ConstantsController
+namespace ConstantsController
 {
     constexpr auto DriverControllerUsbPort =   0;
     constexpr auto JoystickOperatorUsbPort =   1;
@@ -43,8 +43,8 @@ namespace ControllerConstants
 }
 #pragma endregion
 
-#pragma region Extreme3DConstants
-namespace Extreme3DConstants
+#pragma region ConstantsExtreme3D
+namespace ConstantsExtreme3D
 {
     constexpr auto HandleTrigger    =  1;
     constexpr auto HandleSide       =  2;
@@ -61,8 +61,8 @@ namespace Extreme3DConstants
     }
 #pragma endregion
 
-#pragma region ControlPanelConstants
-namespace ControlPanelConstants
+#pragma region ConstantsControlPanel
+namespace ConstantsControlPanel
 {
     // Digital Inputs
     constexpr auto CoralGnd         =  1;
@@ -96,8 +96,8 @@ namespace ControlPanelConstants
 }
 #pragma endregion
 
-#pragma region xBoxConstants
-namespace XBoxConstants
+#pragma region ConstantsXBox
+namespace ConstantsXBox
 {
     constexpr auto A                 =   1;
     constexpr auto B                 =   2;

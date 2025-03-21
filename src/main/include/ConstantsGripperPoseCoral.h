@@ -18,8 +18,8 @@
 #include "subsystems/Gripper.h"
 #pragma endregion
 
-#pragma region CoralPoseConstants
-namespace CoralPoseConstants
+#pragma region ConstantsGripperPoseCoral
+namespace ConstantsGripperPoseCoral
 {
     constexpr auto CoralGroundPickupVoltage      = 4.0_V;  // TODO: Set the voltage
     constexpr auto CoralGripVoltage              = 0.5_V;  // TODO: Set the voltage
@@ -30,7 +30,7 @@ namespace CoralPoseConstants
     constexpr auto HomeGripperBothWheels         = true;
     constexpr auto HomeGripperVoltage            = CoralGripVoltage;
 
-    constexpr auto GroundElevator                = 0.114432_m; //0.164432_m - 0.025_m - 0.025_m;
+    constexpr auto GroundElevator                = 0.114432_m;
     constexpr auto GroundArmAngle                = 138.765_deg;
     constexpr auto GroundWristAngle              = 180.0_deg;
     constexpr auto GroundGripperBothWheels       = false;
@@ -47,6 +47,12 @@ namespace CoralPoseConstants
     constexpr auto L1WristAngle                  = 180.0_deg;
     constexpr auto L1GripperBothWheels           = true;
     constexpr auto L1GripperVoltage              = CoralGripVoltage;
+
+    constexpr auto AutonomousL1Elevator          = L1Elevator;
+    constexpr auto AutonomousL1ArmAngle          = L1ArmAngle;
+    constexpr auto AutonomousL1WristAngle        = 0.0_deg;
+    constexpr auto AutonomousL1GripperBothWheels = true;
+    constexpr auto AutonomousL1GripperVoltage    = CoralGripVoltage;
 
     constexpr auto L2Elevator                    = 0.376_m;
     constexpr auto L2ArmAngle                    = 45.0_deg;
@@ -65,11 +71,5 @@ namespace CoralPoseConstants
     constexpr auto L4WristAngle                  = 90.0_deg;
     constexpr auto L4GripperBothWheels           = true;
     constexpr auto L4GripperVoltage              = CoralGripVoltage;
-
-    constexpr auto AutonomousL1Elevator          = L1Elevator;
-    constexpr auto AutonomousL1ArmAngle          = L1ArmAngle;
-    constexpr auto AutonomousL1WristAngle        = 0.0_deg;
-    constexpr auto AutonomousL1GripperBothWheels = true;
-    constexpr auto AutonomousL1GripperVoltage    = CoralGripVoltage;
 }
 #pragma endregion

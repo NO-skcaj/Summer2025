@@ -84,7 +84,7 @@ bool AprilTags::GetTag(int id, AprilTagInformation &aprilTagInformation)
 }
 #pragma endregion
 
-#pragma region
+#pragma region GetClosestAprilTag
 /// @brief Method to get the closest AprilTag.
 /// @param aprilTagInformation Reference to return the AprilTag information.
 /// @return true to indicate that the AprilTag information is available.
@@ -129,7 +129,7 @@ AprilTagInformation AprilTags::GetClosestAprilTag()
 #pragma endregion
 
 #pragma region VisionThread
-/// @brief
+/// @brief Thread to run the AprilTag vision processing.
 static void VisionThread()
 {
     frc::AprilTagDetector             detector;                                                // Declaring AprilTagDetector
@@ -164,7 +164,10 @@ static void VisionThread()
     cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
 
     // Set the resolution
-    camera.SetResolution(ApriltagConstants::CameraResolutionWidth, ApriltagConstants::CameraResolutionHeight);
+    camera.SetVideoMode(cs::VideoMode::PixelFormat::kMJPEG,
+                        ApriltagConstants::CameraResolutionWidth,
+                        ApriltagConstants::CameraResolutionHeight,
+                        ApriltagConstants::CameraFramesPerSecond);
 
     // Get a CvSink. This is what actualy gets the frame from the camera
     cs::CvSink cvSink = frc::CameraServer::GetVideo();

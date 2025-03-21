@@ -17,8 +17,8 @@
 #include "subsystems/Gripper.h"
 #pragma endregion
 
-#pragma region AprilTagToPoseConstants
-namespace AprilTagToPoseConstants
+#pragma region ConstantsChassisAprilTagToPose
+namespace ConstantsChassisAprilTagToPose
 {
     constexpr auto ChassisSpeed                  = 1.0_mps;
     constexpr auto TimeoutTime                   = 10_s;

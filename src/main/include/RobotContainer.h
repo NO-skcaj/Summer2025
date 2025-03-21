@@ -28,12 +28,15 @@
 #include "subsystems/Leds.h"
 
 // Commands
+#include "commands/AprilTagDriveToAlgae.h"
+#include "commands/AprilTagDriveToCoral.h"
 #include "commands/AprilTagGet.h"
-#include "commands/AprilTagScoreCoral.h"
 #include "commands/AutonomousComplex.h"
+#include "commands/AutonomousCoralAndAlgae.h"
 #include "commands/AutonomousDoNothing.h"
 #include "commands/AutonomousLed.h"
 #include "commands/AutonomousOneCoral.h"
+#include "commands/AutonomousOneCoralAprilTag.h"
 #include "commands/AutonomousParallel.h"
 #include "commands/AutonomousRaceGroup.h"
 #include "commands/ChassisDrive.h"
@@ -108,6 +111,7 @@ class RobotContainer
         std::string              GetStartPosition();
 
         ChassDrivePoseParameters GetAutonomousOneCoralParameters(units::length::inch_t distanceXOffset, units::length::inch_t distanceYOffset);
+        ChassDrivePoseParameters GetAutonomousOneCoralAprilTagParameters();
 
         // Singleton reference to the class (returned by the GetInstance Method)
         static RobotContainer                *m_robotContainer;
@@ -120,8 +124,8 @@ class RobotContainer
         Leds                                  m_leds;
 
         // Joysticks
-        frc::Joystick                         m_driverController{ControllerConstants::DriverControllerUsbPort};
-        frc::XboxController                   m_operatorController{ControllerConstants::JoystickOperatorUsbPort};
+        frc::Joystick                         m_driverController{ConstantsController::DriverControllerUsbPort};
+        frc::XboxController                   m_operatorController{ConstantsController::JoystickOperatorUsbPort};
 
         // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
         frc::SlewRateLimiter<units::scalar>   m_xspeedLimiter{3 / 1_s};

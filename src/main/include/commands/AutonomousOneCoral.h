@@ -10,7 +10,7 @@
 #include "subsystems/AprilTags.h"
 
 #include "commands/ChassisDrivePose.h"
-#include "commands/AprilTagScoreCoral.h"
+#include "commands/AprilTagDriveToCoral.h"
 #include "commands/GripperActivate.h"
 
 #include "Constants.h"
@@ -20,5 +20,5 @@ class AutonomousOneCoral : public frc2::CommandHelper<frc2::SequentialCommandGro
     public:
 
         explicit AutonomousOneCoral(GripperPoseEnum gripperPoseEnum, std::function<ChassDrivePoseParameters()> getParameters,
-                                    Drivetrain *drivetrain, Gripper *gripper, AprilTags* aprilTags);
+                                    Drivetrain *drivetrain, Gripper *gripper);
 };
