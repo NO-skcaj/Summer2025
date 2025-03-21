@@ -3,10 +3,10 @@
 using namespace ConstantsChassisAprilTagToPose;
 
 AprilTagDriveToCoral::AprilTagDriveToCoral(GripperPoseEnum               gripperPose,
-                                       const std::function<bool ()> &GetJoystickToggle,
-                                       AprilTags                    *aprilTags,
-                                       Gripper                      *gripper,
-                                       Drivetrain                   *drivetrain)
+                                           const std::function<bool ()> &GetJoystickToggle,
+                                           AprilTags                    *aprilTags,
+                                           Gripper                      *gripper,
+                                           Drivetrain                   *drivetrain)
 {
     // Get the state of the joystick toggle
     if (GetJoystickToggle())

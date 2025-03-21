@@ -9,12 +9,15 @@ AutonomousCoralAndAlgae::AutonomousCoralAndAlgae(GripperPoseEnum                
                                                  std::function<ChassDrivePoseParameters ()> getParameters,
                                                  Drivetrain *drivetrain, Gripper *gripper, AprilTags *aprilTags)
 {
-    AddCommands(AutonomousOneCoralAprilTag(gripperPoseEnum, getStartingPosition, getParameters, drivetrain, gripper, aprilTags),   // Do all the coral stuff
-                AprilTagDriveToAlgae(GripperPoseEnum::AlgaeHigh, aprilTags, gripper, drivetrain),             // Grab the Algae
-                ChassisDrivePose(AlgaeAndCoralSpeed, AlgaeAndCoralXDistance, AlgaeAndCoralYDistance,
-                                 AlgaeAndCoralAngleChange, AutonomousTimeOut, drivetrain),                    // Drive To Barge
-                GripperPose(GripperPoseEnum::AlgaeBarge, gripper),                                            // Get the robot in position to shoot algae
-                GripperActivate(gripper)                                                                      // Shoot the algae into the barge
-    );
+    AddCommands(AutonomousOneCoralAprilTag(gripperPoseEnum, getStartingPosition, getParameters, drivetrain, gripper, aprilTags),  // Do all the coral stuff
+                ChassisDrivePose(getParameters().Speed, -24.0_in, 0.0_m, 0.0_deg, 15_s, drivetrain),                              // Move robot away from reef
+                AprilTagDriveToAlgae(GripperPoseEnum::AlgaeHigh, aprilTags, gripper, drivetrain),                                 // Drive to the reef for Algae
+                GripperActivate(gripper),                                                                                         // Get the algae
+                ChassisDrivePose(getParameters().Speed, -24.0_in, 0.0_m, 0.0_deg, 15_s, drivetrain),                              // Move robot away from reef
+                ChassisDrivePose(AlgaeAndCoralSpeed, AlgaeAndCoralXDistance, AlgaeAndCoralYDistance,                              // Drive to barge
+                                 AlgaeAndCoralAngleChange, AutonomousTimeOut, drivetrain),                                        
+                GripperPose(GripperPoseEnum::AlgaeBarge, gripper),                                                                // Set the gripper pose for the barge 
+                GripperActivate(gripper)                                                                                          // Place the algae into the barge
+                );
 }
 #pragma endregion
