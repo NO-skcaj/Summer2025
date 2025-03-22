@@ -26,11 +26,8 @@ ChassisDriveToWall::ChassisDriveToWall(units::meters_per_second_t speed, units::
 /// @brief Called just before this Command runs.
 void ChassisDriveToWall::Initialize()
 {
-    // Get the field centricity
-    m_fieldCentricity = m_drivetrain->GetFieldCentricity();
-
-    // Set the field to robot centric
-    m_drivetrain->SetFieldCentricity(false);
+    // Reset the position of the drivetrain to be (X: 0_m, Y: 0_m, Rotation: 0_deg)
+    m_drivetrain->ResetPositionToOrgin();
 
     try
     {
@@ -90,9 +87,6 @@ void ChassisDriveToWall::Initialize()
             {m_drivetrain}
         );
 
-        // Set odometry to the starting pose of the trajectory.
-        m_drivetrain->ResetOdometry(trajectory.InitialPose());
-
         // Initialize the swerve controller command
         m_swerveControllerCommand->Initialize();
 
@@ -135,9 +129,6 @@ bool ChassisDriveToWall::IsFinished()
 /// @param interrupted Indicated that the command was interrupted.
 void ChassisDriveToWall::End(bool interrupted)
 {
-    // Return the field centricity
-    m_drivetrain->SetFieldCentricity(m_fieldCentricity);
-
     // If the swerve controller command is not nullptr, end the command
     if (m_swerveControllerCommand)
     {

@@ -9,7 +9,7 @@ Drivetrain::Drivetrain()
       m_frontRight{SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
       m_rearLeft  {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
       m_rearRight {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
-      m_odometry  {m_kinematics, m_gyro.GetRotation2d(),
+      m_odometry  {m_kinematics, GetRotation2d(),
                   {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                    m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}}
 {
@@ -43,7 +43,7 @@ void Drivetrain::Periodic()
     frc::SmartDashboard::PutNumber("Ultrasonic",           GetDistance().value());
 
     // Update the swerve drive odometry
-    m_odometry.Update(m_gyro.GetRotation2d(),
+    m_odometry.Update(GetRotation2d(),
                      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                       m_rearLeft.GetPosition(),  m_rearRight.GetPosition()});
 }
@@ -66,11 +66,11 @@ void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
     frc::SmartDashboard::PutNumber("Chassis Strafe",  (double) ySpeed);
     frc::SmartDashboard::PutNumber("Chassis Angle",   (double) rotation);
 
-    frc::SmartDashboard::PutNumber("Gyro Rotation", (double) m_gyro.GetRotation2d().Degrees());
+    frc::SmartDashboard::PutNumber("Gyro Rotation", (double) GetRotation2d().Degrees());
 
     // Determine the swerve module states
     auto states = m_kinematics.ToSwerveModuleStates(m_fieldCentricity ?
-                  frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, m_gyro.GetRotation2d()) :
+                  frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
                   frc::ChassisSpeeds{xSpeed, ySpeed, rotation});
 
     // Set the module states
@@ -153,6 +153,16 @@ void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredSt
 #pragma region GetHeading
 /// @brief Method to get the robot heading.
 /// @return The robot heading.
+frc::Rotation2d Drivetrain::GetRotation2d()
+{
+    // Return the robot rotation
+    return m_gyro.GetRotation2d();
+}
+#pragma endregion
+
+#pragma region GetHeading
+/// @brief Method to get the robot heading.
+/// @return The robot heading.
 units::degree_t Drivetrain::GetHeading()
 {
     // Return the robot heading
@@ -200,14 +210,19 @@ frc::Pose2d Drivetrain::GetPose()
 }
 #pragma endregion
 
-#pragma region ResetOdometry
-/// @brief Method to reset the chassis odometry.
-/// @param pose The present chassis position on the field.
-void Drivetrain::ResetOdometry(frc::Pose2d pose)
+#pragma region ResetPositionToOrgin
+/// @brief Method to reset the chassis position to the orgin.
+void Drivetrain::ResetPositionToOrgin()
 {
+    // Create a pose at the origin
+    frc::Pose2d poseOrgin = frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg));
+
+    // reset the odometry pose
+    m_odometry.ResetPose(poseOrgin);
+
     // Reset the present odometry
-    m_odometry.ResetPosition(m_gyro.GetRotation2d(), {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                                                      m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, pose);
+    m_odometry.ResetPosition(GetRotation2d(), { m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                                                m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, poseOrgin);
 }
 #pragma endregion
 

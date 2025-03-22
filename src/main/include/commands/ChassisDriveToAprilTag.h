@@ -55,7 +55,5 @@ class ChassisDriveToAprilTag : public frc2::CommandHelper<frc2::Command, Chassis
         bool                              m_finished;                   // Indicates the command is finished
         frc2::SwerveControllerCommand<4> *m_swerveControllerCommand;    // The swerve controller command
 
-        bool                              m_fieldCentricity;            // Variable to remember the field centricity
-
         std::function<ChassDriveAprilTagParameters()> m_getParameters;  // The lambda function to get the parameters
 };

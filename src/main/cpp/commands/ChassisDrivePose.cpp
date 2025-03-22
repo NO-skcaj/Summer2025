@@ -48,11 +48,8 @@ ChassisDrivePose::ChassisDrivePose(std::function<ChassDrivePoseParameters()> get
 /// @brief Called just before this Command runs.
 void ChassisDrivePose::Initialize()
 {
-    // Get the field centricity
-    m_fieldCentricity = m_drivetrain->GetFieldCentricity();
-
-    // Set the field to robot centric
-    m_drivetrain->SetFieldCentricity(false);
+    // Reset the position of the drivetrain to be (X: 0_m, Y: 0_m, Rotation: 0_deg)
+    m_drivetrain->ResetPositionToOrgin();
 
     // Ensure the SwerveControllerCommand is set to nullptr
     m_swerveControllerCommand = nullptr;
@@ -95,7 +92,7 @@ void ChassisDrivePose::Initialize()
         // Create the trajectory to follow
         frc::Pose2d endPose{startPose.X()                  + m_distanceX,
                             startPose.Y()                  + m_distanceY,
-                            startPose.Rotation().Degrees() + m_angle};
+                            startPose.Rotation().Degrees() + m_angle};    // TODO: Set to zero for changed coordinate system
 
         frc::SmartDashboard::PutNumber("Distance X", m_distanceX.value());
         frc::SmartDashboard::PutNumber("Distance Y", m_distanceY.value());
@@ -130,9 +127,6 @@ void ChassisDrivePose::Initialize()
             [this](auto moduleStates) { m_drivetrain->SetModuleStates(moduleStates); },
             {m_drivetrain}
         );
-
-        // Set odometry to the starting pose of the trajectory.
-        m_drivetrain->ResetOdometry(trajectory.InitialPose());
 
         // Initialize the swerve controller command
         m_swerveControllerCommand->Initialize();
@@ -190,9 +184,6 @@ bool ChassisDrivePose::IsFinished()
 /// @param interrupted Indicated that the command was interrupted.
 void ChassisDrivePose::End(bool interrupted)
 {
-    // Return the field centricity
-    m_drivetrain->SetFieldCentricity(m_fieldCentricity);
-
     // If the swerve controller command is not nullptr, end the command
     if (m_swerveControllerCommand != nullptr)
     {

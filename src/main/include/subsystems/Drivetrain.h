@@ -78,6 +78,7 @@ class Drivetrain : public frc2::SubsystemBase
 
         void            SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
 
+        frc::Rotation2d GetRotation2d();                        // Returns the rotation of the robot
         units::degree_t GetHeading();                           // Returns the heading of the robot
 
         void            ZeroHeading();                          // Zeroes the heading of the robot
@@ -86,7 +87,7 @@ class Drivetrain : public frc2::SubsystemBase
 
         frc::Pose2d     GetPose();                              // Returns the currently-estimated pose of the robot
 
-        void            ResetOdometry(frc::Pose2d pose);        // Resets the odometry to the specified pose
+        void            ResetPositionToOrgin();                 // Resets the odometry to the orgin
 
         void            SetFieldCentricity(bool fieldCentric);  // Sets the field centricity
         bool            GetFieldCentricity();                   // Reads the field centricity
