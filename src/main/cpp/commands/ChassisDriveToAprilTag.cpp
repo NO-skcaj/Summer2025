@@ -100,6 +100,8 @@ void ChassisDriveToAprilTag::Initialize()
         }
         else
         {
+            frc::SmartDashboard::PutString("Debug", "Not a valid pose");
+
             // End the command
             m_finished = true;
         }
@@ -116,6 +118,8 @@ void ChassisDriveToAprilTag::Initialize()
         // Determine if an AprilTag was found
         if (aprilTagInformation.Found == false)
         {
+            frc::SmartDashboard::PutString("Debug", "No AprilTag Found");
+
             // End the command
             m_finished = true;
             return;

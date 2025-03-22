@@ -31,7 +31,7 @@ namespace ElevatorConstants
     constexpr auto PositionToTurnsConversionFactor = 64.0 / (0.06378 * 3.0 * std::numbers::pi); // The number of motor rotations per meter
 
     constexpr auto MinimumPosition                 = 0_m;
-    constexpr auto MaximumPosition                 = 1.7_m;  // TODO: Determine the maximum height
+    constexpr auto MaximumPosition                 = 1.7_m;
 
     constexpr auto HeightOffset                    = 0.025_m;
 }

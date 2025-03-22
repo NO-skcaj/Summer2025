@@ -186,10 +186,6 @@ void RobotContainer::ConfigureDriverControls()
 /// @brief Method to bind the operator control panel gripper controls.
 void RobotContainer::ConfigureGripperControls()
 {
-    // Set the default command for the gripper wheels TODO: Gripper wheels controlled by the operator potentiometer
-    // m_gripper.SetDefaultCommand(frc2::RunCommand([this] { m_gripper
-    //     .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
-
     frc2::JoystickButton (&m_operatorController, ConstantsControlPanel::OperatorWheels)
         .WhileTrue(new frc2::RunCommand([this] { m_gripper
         .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
@@ -605,7 +601,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 }
 #pragma endregion
 
-#define READ_FROM_SMARTDASHBOARD
+//#define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.

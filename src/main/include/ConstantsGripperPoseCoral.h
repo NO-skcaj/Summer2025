@@ -21,8 +21,8 @@
 #pragma region ConstantsGripperPoseCoral
 namespace ConstantsGripperPoseCoral
 {
-    constexpr auto CoralGroundPickupVoltage      = 4.0_V;  // TODO: Set the voltage
-    constexpr auto CoralGripVoltage              = 0.5_V;  // TODO: Set the voltage
+    constexpr auto CoralGroundPickupVoltage      = 4.0_V;
+    constexpr auto CoralGripVoltage              = 0.5_V;
 
     constexpr auto HomeElevator                  = 0.05_m;
     constexpr auto HomeArmAngle                  = 25_deg;

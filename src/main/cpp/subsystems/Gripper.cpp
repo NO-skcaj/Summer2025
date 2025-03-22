@@ -217,7 +217,7 @@ void Gripper::SetPose(GripperPoseEnum pose)
 
         case GripperPoseEnum::CoralGround:
         {
-            elevatorHeight  = ConstantsGripperPoseCoral::GroundElevator;  // TODO: Set elevator a little higher to allow the operator to set the gripper wheel height
+            elevatorHeight  = ConstantsGripperPoseCoral::GroundElevator;
             armAngle        = ConstantsGripperPoseCoral::GroundArmAngle;
             wristAngle      = ConstantsGripperPoseCoral::GroundWristAngle;
             bothwheels      = ConstantsGripperPoseCoral::GroundGripperBothWheels;

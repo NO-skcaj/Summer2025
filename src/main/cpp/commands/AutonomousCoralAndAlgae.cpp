@@ -15,8 +15,8 @@ AutonomousCoralAndAlgae::AutonomousCoralAndAlgae(GripperPoseEnum                
                 GripperActivate(gripper),                                                                                         // Get the algae
                 ChassisDrivePose(getParameters().Speed, -24.0_in, 0.0_m, 0.0_deg, 15_s, drivetrain),                              // Move robot away from reef
                 ChassisDrivePose(AlgaeAndCoralSpeed, AlgaeAndCoralXDistance, AlgaeAndCoralYDistance,                              // Drive to barge
-                                 AlgaeAndCoralAngleChange, AutonomousTimeOut, drivetrain),                                        
-                GripperPose(GripperPoseEnum::AlgaeBarge, gripper),                                                                // Set the gripper pose for the barge 
+                                 AlgaeAndCoralAngleChange, AutonomousTimeOut, drivetrain),
+                GripperPose(GripperPoseEnum::AlgaeBarge, gripper),                                                                // Set the gripper pose for the barge
                 GripperActivate(gripper)                                                                                          // Place the algae into the barge
                 );
 }

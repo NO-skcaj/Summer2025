@@ -92,7 +92,7 @@ void ChassisDrivePose::Initialize()
         // Create the trajectory to follow
         frc::Pose2d endPose{startPose.X()                  + m_distanceX,
                             startPose.Y()                  + m_distanceY,
-                            startPose.Rotation().Degrees() + m_angle};    // TODO: Set to zero for changed coordinate system
+                            startPose.Rotation().Degrees() + m_angle};
 
         frc::SmartDashboard::PutNumber("Distance X", m_distanceX.value());
         frc::SmartDashboard::PutNumber("Distance Y", m_distanceY.value());
