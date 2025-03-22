@@ -24,9 +24,9 @@ namespace ElevatorConstants
     constexpr auto V                               = 0.12;             // Velocity:        A velocity target of 1 rps results in [voltage] output
     constexpr auto A                               = 0.01;             // Acceleration:    An acceleration of 1 rps/s requires 0.01 V output
 
-    constexpr auto MotionMagicCruiseVelocity       = 90_tps;           // Rotations per second cruise
-    constexpr auto MotionMagicAcceleration         = 150_tr_per_s_sq;  // Acceleration
-    constexpr auto MotionMagicJerk                 = 1500_tr_per_s_cu; // Jerk
+    constexpr auto MotionMagicCruiseVelocity       = 160_tps;           // Rotations per second cruise
+    constexpr auto MotionMagicAcceleration         = 320_tr_per_s_sq;  // Acceleration
+    constexpr auto MotionMagicJerk                 = 3200_tr_per_s_cu; // Jerk
 
     constexpr auto PositionToTurnsConversionFactor = 64.0 / (0.06378 * 3.0 * std::numbers::pi); // The number of motor rotations per meter
 

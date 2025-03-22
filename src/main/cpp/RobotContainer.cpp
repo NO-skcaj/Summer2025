@@ -79,16 +79,16 @@ RobotContainer::RobotContainer()
 
     m_autonomousChooser.AddOption("Place Coral L1 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralAutonomousL1,
                                                                     [this] { return GetStartPosition(); },
-                                                                    [this] { return GetAutonomousOneCoralAprilTagParameters();    },
+                                                                    [this] { return GetAutonomousOneCoralAprilTagParameters(-5_in, 0_in);    },
                                                                     &m_drivetrain, &m_gripper, &m_aprilTags));
     m_autonomousChooser.AddOption("Place Coral L4 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralL4,
                                                                     [this] { return GetStartPosition(); },
-                                                                    [this] { return GetAutonomousOneCoralAprilTagParameters();    },
+                                                                    [this] { return GetAutonomousOneCoralAprilTagParameters(8_in, 6_in);    },
                                                                     &m_drivetrain, &m_gripper, &m_aprilTags));
 
     m_autonomousChooser.AddOption("Place Coral and Algae",   new AutonomousCoralAndAlgae(GripperPoseEnum::CoralL4,
                                                                     [this] { return GetStartPosition(); },
-                                                                    [this] { return GetAutonomousOneCoralAprilTagParameters();    },
+                                                                    [this] { return GetAutonomousOneCoralAprilTagParameters(0_in, 0_in);    },
                                                                     &m_drivetrain, &m_gripper, &m_aprilTags));
 
     // Send the autonomous mode chooser to the SmartDashboard
@@ -555,7 +555,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters(units::
 #pragma region GetAutonomousOneCoralAprilTagParameters
 /// @brief Method to get the autonomous one coral parameters.
 /// @return The autonomous one coral parameters.
-ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters()
+ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters(units::length::inch_t distanceXOffset, units::length::inch_t distanceYOffset)
 {
     ChassDrivePoseParameters parameters;
 
@@ -574,7 +574,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
         // Set the left coral position
         startPosition        = "L";
         parameters.DistanceX = ConstantsChassisPoseAutonomous::OneCoralLeftXDistanceAprilTag;
-        parameters.DistanceY = ConstantsChassisPoseAutonomous::OneCoralLeftYDistanceAprilTag;
+        parameters.DistanceY = ConstantsChassisPoseAutonomous::OneCoralLeftYDistanceAprilTag + distanceYOffset;
         parameters.Angle     = ConstantsChassisPoseAutonomous::OneCoralLeftAngleChangeAprilTag;
 
     }
@@ -582,7 +582,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
     {
         // Set the middle coral position
         startPosition         = "M";
-        parameters.DistanceX  = ConstantsChassisPoseAutonomous::OneCoralCenterXDistanceAprilTag;
+        parameters.DistanceX  = ConstantsChassisPoseAutonomous::OneCoralCenterXDistanceAprilTag + distanceXOffset;
         parameters.DistanceY  = ConstantsChassisPoseAutonomous::OneCoralCenterYDistanceAprilTag;
         parameters.Angle      = ConstantsChassisPoseAutonomous::OneCoralAngleChangeAprilTag;
     }
@@ -591,7 +591,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
         // Set the right coral position
         startPosition        = "R";
         parameters.DistanceX = ConstantsChassisPoseAutonomous::OneCoralRightXDistanceAprilTag;
-        parameters.DistanceY = ConstantsChassisPoseAutonomous::OneCoralRightYDistanceAprilTag;
+        parameters.DistanceY = ConstantsChassisPoseAutonomous::OneCoralRightYDistanceAprilTag - distanceYOffset;
         parameters.Angle     = ConstantsChassisPoseAutonomous::OneCoralRightAngleChangeAprilTag;
     }
 
@@ -605,7 +605,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 }
 #pragma endregion
 
-//#define READ_FROM_SMARTDASHBOARD
+#define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.
@@ -700,6 +700,7 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
     }
+#endif
 
     frc::SmartDashboard::PutNumber("AprilTag: ValidPose",       parameters.ValidPose);
     frc::SmartDashboard::PutNumber("AprilTag: ReefRightSide",   parameters.ReefRightSide);
@@ -708,7 +709,6 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
     frc::SmartDashboard::PutNumber("AprilTag: DistanceOffsetY", parameters.PoseParameters.DistanceY.to<double>());
     frc::SmartDashboard::PutNumber("AprilTag: AngleOffset",     parameters.PoseParameters.Angle.to<double>());
     frc::SmartDashboard::PutNumber("AprilTag: TimeoutTime",     parameters.PoseParameters.TimeoutTime.to<double>());
-#endif
 
     // Return the parameters
     return parameters;
