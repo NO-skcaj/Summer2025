@@ -42,7 +42,7 @@ namespace ConstantsGripperPoseCoral
     constexpr auto StationGripperBothWheels      = true;
     constexpr auto StationGripperVoltage         = 5.0_V;  // Verify the voltage
 
-    constexpr auto L1Elevator                    = 0.212292_m + 1.0_in;
+    constexpr auto L1Elevator                    = 0.338_m;
     constexpr auto L1ArmAngle                    = 80.0_deg;
     constexpr auto L1WristAngle                  = 180.0_deg;
     constexpr auto L1GripperBothWheels           = true;

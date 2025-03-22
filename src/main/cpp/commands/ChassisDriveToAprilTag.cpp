@@ -150,7 +150,7 @@ void ChassisDriveToAprilTag::Initialize()
 
         frc::SmartDashboard::PutNumber("Distance X",  distanceX.value());
         frc::SmartDashboard::PutNumber("Distance Y",  distanceY.value());
-        frc::SmartDashboard::PutNumber("Angle",      units::angle::degree_t(angleOffset).value());
+        frc::SmartDashboard::PutNumber("Angle",       units::angle::degree_t(angleOffset).value());
 
         frc::SmartDashboard::PutNumber("Start X",     startPose.X().value());
         frc::SmartDashboard::PutNumber("Start Y",     startPose.Y().value());
