@@ -35,7 +35,7 @@ namespace DrivetrainConstants
     constexpr auto UltraSonicPort           =  0;
     constexpr auto UltraSonicSlope          =  0.2125;
     constexpr auto UltraSonicIntercept      = -2.1873;
-    constexpr auto UltraSonicReefDistance   = 6.35;
+    constexpr auto UltraSonicReefDistance   =  6.35;
 }
 #pragma endregion
 

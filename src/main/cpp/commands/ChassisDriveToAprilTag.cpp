@@ -118,7 +118,7 @@ void ChassisDriveToAprilTag::Initialize()
         // Get the AprilTag information
         auto aprilTagX   =  targetPose3d.Z();
         auto aprilTagY   = -targetPose3d.X();
-        auto aprilTagRot =  targetPose3d.Rotation().Y();
+        auto aprilTagRot = -targetPose3d.Rotation().Y();
 
         frc::SmartDashboard::PutNumber("aprilTagX",   aprilTagX.value());
         frc::SmartDashboard::PutNumber("aprilTagY",   aprilTagY.value());

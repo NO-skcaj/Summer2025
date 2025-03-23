@@ -601,7 +601,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 }
 #pragma endregion
 
-//#define READ_FROM_SMARTDASHBOARD
+#define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.
