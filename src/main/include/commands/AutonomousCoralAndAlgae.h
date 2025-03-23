@@ -6,7 +6,6 @@
 
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
-#include "subsystems/AprilTags.h"
 
 #include "commands/AutonomousOneCoralAprilTAg.h"
 #include "commands/AprilTagDriveToAlgae.h"
@@ -25,5 +24,5 @@ class AutonomousCoralAndAlgae : public frc2::CommandHelper<frc2::SequentialComma
         explicit AutonomousCoralAndAlgae(GripperPoseEnum gripperPoseEnum,
                                          std::function<std::string()>              getStartingPosition,
                                          std::function<ChassDrivePoseParameters()> getParameters,
-                                         Drivetrain *drivetrain, Gripper *gripper, AprilTags* aprilTags);
+                                         Drivetrain *drivetrain, Gripper *gripper);
 };

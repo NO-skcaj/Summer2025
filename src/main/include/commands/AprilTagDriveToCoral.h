@@ -8,7 +8,6 @@
 #include "commands/ChassisDriveToAprilTag.h"
 #include "commands/GripperPose.h"
 
-#include "subsystems/AprilTags.h"
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
 
@@ -18,9 +17,8 @@ class AprilTagDriveToCoral : public frc2::CommandHelper<frc2::SequentialCommandG
 {
     public:
 
-        explicit AprilTagDriveToCoral(GripperPoseEnum               gripperPose,
+        explicit AprilTagDriveToCoral(GripperPoseEnum             gripperPose,
                                     const std::function<bool ()> &GetJoystickToggle,
-                                    AprilTags                    *aprilTags,
                                     Gripper                      *gripper,
                                     Drivetrain                   *drivetrain);
 };

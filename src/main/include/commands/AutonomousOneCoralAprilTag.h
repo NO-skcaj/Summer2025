@@ -7,7 +7,6 @@
 
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
-#include "subsystems/AprilTags.h"
 
 #include "commands/ChassisDrivePose.h"
 #include "commands/AprilTagDriveToCoral.h"
@@ -22,5 +21,5 @@ class AutonomousOneCoralAprilTag : public frc2::CommandHelper<frc2::SequentialCo
         explicit AutonomousOneCoralAprilTag(GripperPoseEnum                           gripperPoseEnum,
                                             std::function<std::string()>              getStartingPosition,
                                             std::function<ChassDrivePoseParameters()> getParameters,
-                                            Drivetrain *drivetrain, Gripper *gripper, AprilTags* aprilTags);
+                                            Drivetrain *drivetrain, Gripper *gripper);
 };

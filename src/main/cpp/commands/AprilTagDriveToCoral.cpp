@@ -4,7 +4,6 @@ using namespace ConstantsChassisAprilTagToPose;
 
 AprilTagDriveToCoral::AprilTagDriveToCoral(GripperPoseEnum               gripperPose,
                                            const std::function<bool ()> &GetJoystickToggle,
-                                           AprilTags                    *aprilTags,
                                            Gripper                      *gripper,
                                            Drivetrain                   *drivetrain)
 {
@@ -12,9 +11,9 @@ AprilTagDriveToCoral::AprilTagDriveToCoral(GripperPoseEnum               gripper
     if (GetJoystickToggle())
         AddCommands(GripperPose(gripperPose, gripper),
                     ChassisDriveToAprilTag(ChassisSpeed, CoralReefLeftDistanceOffsetX, CoralReefLeftDistanceOffsetY,
-                                           CoralReefLeftAngleOffset, TimeoutTime, aprilTags, drivetrain));
+                                           CoralReefLeftAngleOffset, TimeoutTime, drivetrain));
     else
         AddCommands(GripperPose(gripperPose, gripper),
                     ChassisDriveToAprilTag(ChassisSpeed, -CoralReefRightDistanceOffsetX, CoralReefRightDistanceOffsetY,
-                                           CoralReefRightAngleOffset, TimeoutTime, aprilTags, drivetrain));
+                                           CoralReefRightAngleOffset, TimeoutTime, drivetrain));
 }

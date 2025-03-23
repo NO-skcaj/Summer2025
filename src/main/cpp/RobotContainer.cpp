@@ -27,13 +27,13 @@ RobotContainer::RobotContainer()
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();
 
-    frc::SmartDashboard::PutData("Chassis: Time ",           new ChassisDriveTime(2_s, 0.5_mps,                                                                 &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: OneMeter",        new ChassisDrivePose(2.0_mps, 1_m,  0_m,  90_deg,        10_s,                                     &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: TwoMeters",       new ChassisDrivePose(2.0_mps, 2_m,  2_m,   0_deg,        10_s,                                     &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: Turn ",           new ChassisDrivePose(2.0_mps, 0_m,  0_m,  45_deg,        10_s,                                     &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: AprilTag ",       new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_aprilTags, &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: Serpentine ",     new ChassisDriveSerpentine(1.0_mps,                      10_s,                                     &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: Drive to Wall ",  new ChassisDriveToWall(1.0_mps,     1_m,                 10_s,                                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Time ",           new ChassisDriveTime(2_s, 0.5_mps,                                                   &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: OneMeter",        new ChassisDrivePose(2.0_mps, 1_m,  0_m,  90_deg,        10_s,                       &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: TwoMeters",       new ChassisDrivePose(2.0_mps, 2_m,  2_m,   0_deg,        10_s,                       &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Turn ",           new ChassisDrivePose(2.0_mps, 0_m,  0_m,  45_deg,        10_s,                       &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: AprilTag ",       new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Serpentine ",     new ChassisDriveSerpentine(1.0_mps,                      10_s,                       &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Drive to Wall ",  new ChassisDriveToWall(1.0_mps,     1_m,                 10_s,                       &m_drivetrain));
 
     // frc::SmartDashboard::PutData("Elevator Jog Up",          new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset( ElevatorConstants::HeightOffset); }));
     // frc::SmartDashboard::PutData("Elevator Jog Down",        new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset(-ElevatorConstants::HeightOffset); }));
@@ -80,16 +80,16 @@ RobotContainer::RobotContainer()
     m_autonomousChooser.AddOption("Place Coral L1 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralAutonomousL1,
                                                                     [this] { return GetStartPosition(); },
                                                                     [this] { return GetAutonomousOneCoralAprilTagParameters(-5_in, 0_in);    },
-                                                                    &m_drivetrain, &m_gripper, &m_aprilTags));
+                                                                    &m_drivetrain, &m_gripper));
     m_autonomousChooser.AddOption("Place Coral L4 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralL4,
                                                                     [this] { return GetStartPosition(); },
                                                                     [this] { return GetAutonomousOneCoralAprilTagParameters(8_in, 6_in);    },
-                                                                    &m_drivetrain, &m_gripper, &m_aprilTags));
+                                                                    &m_drivetrain, &m_gripper));
 
     m_autonomousChooser.AddOption("Place Coral and Algae",   new AutonomousCoralAndAlgae(GripperPoseEnum::CoralL4,
                                                                     [this] { return GetStartPosition(); },
                                                                     [this] { return GetAutonomousOneCoralAprilTagParameters(0_in, 0_in);    },
-                                                                    &m_drivetrain, &m_gripper, &m_aprilTags));
+                                                                    &m_drivetrain, &m_gripper));
 
     // Send the autonomous mode chooser to the SmartDashboard
     frc::SmartDashboard::PutData("Autonomous Mode", &m_autonomousChooser);
@@ -136,7 +136,7 @@ void RobotContainer::ConfigureDriverControls()
 {
     // Drive to position using the AprilTag
     frc2::JoystickButton (&m_driverController, ConstantsExtreme3D::HandleSide)
-        .WhileTrue(new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_aprilTags, &m_drivetrain));
+        .WhileTrue(new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
 
     // Use the trigger to activate the operation (Scores/Intakes Algae/Coral)
     frc2::JoystickButton (&m_driverController, ConstantsExtreme3D::HandleTrigger)
@@ -708,16 +708,6 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
 
     // Return the parameters
     return parameters;
-}
-#pragma endregion
-
-#pragma region GetClosestAprilTag
-/// @brief Method to get the closest AprilTag.
-/// @return The closest AprilTag.
-AprilTagInformation RobotContainer::GetClosestAprilTag()
-{
-    // Get the closest AprilTag
-    return m_aprilTags.GetClosestAprilTag();
 }
 #pragma endregion
 

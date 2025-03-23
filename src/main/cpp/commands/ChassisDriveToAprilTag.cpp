@@ -11,12 +11,10 @@ ChassisDriveToAprilTag::ChassisDriveToAprilTag(units::meters_per_second_t speed,
                                                units::meter_t             distanceOffsetY,
                                                units::degree_t            angleOffset,
                                                units::time::second_t      timeoutTime,
-                                               AprilTags                 *aprilTags,
                                                Drivetrain                *drivetrain) :
                                                m_speed(speed),                     m_distanceOffsetX(distanceOffsetX),
                                                m_distanceOffsetY(distanceOffsetY), m_angleOffset(angleOffset),
-                                               m_timeoutTime(timeoutTime),         m_aprilTags(aprilTags),
-                                               m_drivetrain(drivetrain)
+                                               m_timeoutTime(timeoutTime),         m_drivetrain(drivetrain)
 {
     // Set the command name
     SetName("ChassisDriveToAprilTag");
@@ -32,8 +30,8 @@ ChassisDriveToAprilTag::ChassisDriveToAprilTag(units::meters_per_second_t speed,
 #pragma region ChassisDriveToAprilTag
 /// @brief Construct a ChassisDriveToAprilTag command using a lambda function to get the parameters.
 /// @param getParmeters The lambda function to get the parameters.
-ChassisDriveToAprilTag::ChassisDriveToAprilTag(std::function<ChassDriveAprilTagParameters()> getParameters, AprilTags *aprilTags, Drivetrain *drivetrain) :
-                                               m_aprilTags(aprilTags), m_drivetrain(drivetrain)
+ChassisDriveToAprilTag::ChassisDriveToAprilTag(std::function<ChassDriveAprilTagParameters()> getParameters, Drivetrain *drivetrain) :
+                                               m_drivetrain(drivetrain)
 {
     // Set the command name
     SetName("ChassisDriveToAprilTag");
@@ -113,10 +111,21 @@ void ChassisDriveToAprilTag::Initialize()
 
     try
     {
-        auto aprilTagInformation = m_aprilTags->GetClosestAprilTag();
+        // Read Limelight information to Network Table
+        auto targetPose   = LimelightHelpers::getTargetPose_CameraSpace("limelight");
+        auto targetPose3d = LimelightHelpers::toPose3D(targetPose);
+
+        // Get the AprilTag information
+        auto aprilTagX   =  targetPose3d.Z();
+        auto aprilTagY   = -targetPose3d.X();
+        auto aprilTagRot =  targetPose3d.Rotation().Y();
+
+        frc::SmartDashboard::PutNumber("aprilTagX",   aprilTagX.value());
+        frc::SmartDashboard::PutNumber("aprilTagY",   aprilTagY.value());
+        frc::SmartDashboard::PutNumber("aprilTagRot", aprilTagRot.value() * 180.0 / M_PI);
 
         // Determine if an AprilTag was found
-        if (aprilTagInformation.Found == false)
+        if (aprilTagX.value() <= 0.0)
         {
             frc::SmartDashboard::PutString("Debug", "No AprilTag Found");
 
@@ -133,16 +142,16 @@ void ChassisDriveToAprilTag::Initialize()
 
         // Ensure the new pose requires an X or Y move
         // Note: GenerateTrajectory will throw an exception if the distance X and Y are zero
-        if (fabs(aprilTagInformation.X) < 0.001 && fabs(aprilTagInformation.Y) < 0.001)
-            aprilTagInformation.X = 0.01;
+        if (fabs(aprilTagX.value()) < 0.001 && fabs(aprilTagY.value()) < 0.001)
+            aprilTagX = 0.01_m;
 
         // Get the robot starting pose
         auto startPose = m_drivetrain->GetPose();
 
         // Offset the position based on the specified distances and angle
-        auto distanceX   =  (units::meter_t)          aprilTagInformation.Z         - m_distanceOffsetX;
-        auto distanceY   =  (units::meter_t)         -aprilTagInformation.X         + m_distanceOffsetY + ApriltagConstants::RobotCameraOffset;
-        auto angleOffset =  (units::angle::radian_t) -aprilTagInformation.rotationY + m_angleOffset;
+        auto distanceX   = aprilTagX   - m_distanceOffsetX;
+        auto distanceY   = aprilTagY   + m_distanceOffsetY;
+        auto angleOffset = aprilTagRot + m_angleOffset;
 
         // Create the trajectory to follow
         // frc::Pose2d endPose{startPose.X()                  + distanceX,  // Note: The start pose is the orgin so X, Y, and Rotation are all zero (not needed)
@@ -155,11 +164,7 @@ void ChassisDriveToAprilTag::Initialize()
 
         frc::SmartDashboard::PutNumber("Distance X",  distanceX.value());
         frc::SmartDashboard::PutNumber("Distance Y",  distanceY.value());
-        frc::SmartDashboard::PutNumber("Angle",       units::angle::degree_t(angleOffset).value());
-
-        frc::SmartDashboard::PutNumber("Start X",     startPose.X().value());
-        frc::SmartDashboard::PutNumber("Start Y",     startPose.Y().value());
-        frc::SmartDashboard::PutNumber("Start A",     startPose.Rotation().Degrees().value());
+        frc::SmartDashboard::PutNumber("Angle",       angleOffset.value() * 180.0 / M_PI);
 
         frc::SmartDashboard::PutNumber("End X",       endPose.X().value());
         frc::SmartDashboard::PutNumber("End Y",       endPose.Y().value());
@@ -186,6 +191,8 @@ void ChassisDriveToAprilTag::Initialize()
             [this](auto moduleStates) { m_drivetrain->SetModuleStates(moduleStates); },
             {m_drivetrain}
         );
+
+        frc::SmartDashboard::PutString("Debug", "Move to AprilTag");
 
         // Initialize the swerve controller command
         m_swerveControllerCommand->Initialize();

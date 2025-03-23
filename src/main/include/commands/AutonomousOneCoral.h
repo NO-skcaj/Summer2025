@@ -7,7 +7,6 @@
 
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
-#include "subsystems/AprilTags.h"
 
 #include "commands/ChassisDrivePose.h"
 #include "commands/AprilTagDriveToCoral.h"

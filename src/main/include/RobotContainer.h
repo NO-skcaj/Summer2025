@@ -21,7 +21,6 @@
 #include <frc2/command/SwerveControllerCommand.h>
 
 // Subsystems
-#include "subsystems/AprilTags.h"
 #include "subsystems/Climb.h"
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
@@ -30,7 +29,6 @@
 // Commands
 #include "commands/AprilTagDriveToAlgae.h"
 #include "commands/AprilTagDriveToCoral.h"
-#include "commands/AprilTagGet.h"
 #include "commands/AutonomousComplex.h"
 #include "commands/AutonomousCoralAndAlgae.h"
 #include "commands/AutonomousDoNothing.h"
@@ -85,8 +83,6 @@ class RobotContainer
 
         ChassDriveAprilTagParameters GetChassisDriveToAprilTagParameters();
 
-        AprilTagInformation          GetClosestAprilTag();
-
         Gripper                     *GetGripper();
 
         frc::PowerDistribution      *GetPowerDistribution();
@@ -117,7 +113,6 @@ class RobotContainer
         static RobotContainer                *m_robotContainer;
 
         // Instantiate the robot subsystems
-        AprilTags                             m_aprilTags;
         Climb                                 m_climb;
         Drivetrain                            m_drivetrain;
         Gripper                               m_gripper;

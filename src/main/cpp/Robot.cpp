@@ -41,16 +41,19 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Wrist",    m_robotContainer->GetGripper()->GetWristAngle().value());
     frc::SmartDashboard::PutNumber("Wheels",   m_robotContainer->GetGripper()->GetGripperWheelsVoltage().value());
 
-    // Show the AprilTag information
-    auto aprilTagInformation = m_robotContainer->GetClosestAprilTag();
-    frc::SmartDashboard::PutNumber("AprilTag Found",  aprilTagInformation.Found);
-    frc::SmartDashboard::PutNumber("AprilTag ID",     aprilTagInformation.Identification);
-    frc::SmartDashboard::PutNumber("AprilTag Dist X", aprilTagInformation.X);
-    frc::SmartDashboard::PutNumber("AprilTag Dist Y", aprilTagInformation.Y);
-    frc::SmartDashboard::PutNumber("AprilTag Dist Z", aprilTagInformation.Z);
-    frc::SmartDashboard::PutNumber("AprilTag Rot X",  aprilTagInformation.rotationX * 180.0 / M_PI);
-    frc::SmartDashboard::PutNumber("AprilTag Rot Y",  aprilTagInformation.rotationY * 180.0 / M_PI);
-    frc::SmartDashboard::PutNumber("AprilTag Rot Z",  aprilTagInformation.rotationZ * 180.0 / M_PI);
+    // Read Limelight information to Network Table
+    auto targetPose   = LimelightHelpers::getTargetPose_CameraSpace("limelight");
+    auto targetPose3d = LimelightHelpers::toPose3D(targetPose);
+
+    frc::SmartDashboard::PutNumber("AprilTag X",     targetPose3d.X().to<double>());
+    frc::SmartDashboard::PutNumber("AprilTag Y",     targetPose3d.Y().to<double>());
+    frc::SmartDashboard::PutNumber("AprilTag Z",     targetPose3d.Z().to<double>());
+    frc::SmartDashboard::PutNumber("AprilTag Rot X", targetPose3d.Rotation().X().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("AprilTag Rot Y", targetPose3d.Rotation().Y().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("AprilTag Rot Z", targetPose3d.Rotation().Z().to<double>() * 180.0 / M_PI);
+
+    auto pipelineLatency = LimelightHelpers::getLatency_Pipeline("limelight");
+    frc::SmartDashboard::PutNumber("Limelight Pipeline Latency", pipelineLatency);
 }
 #pragma endregion
 

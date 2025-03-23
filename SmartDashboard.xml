@@ -1,38 +1,63 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Coral: L2" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="711" y="201"/>
+	<widget field="aprilTagRot" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="443" y="482"/>
 	</widget>
-	<widget field="Ultra Xspeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="490" y="575"/>
+	<widget field="aprilTagY" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="455" y="456"/>
 	</widget>
-	<widget field="ultraSonic Doing Anything" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="430" y="552"/>
+	<widget field="aprilTagX" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="456" y="433"/>
+	</widget>
+	<widget field="AprilTag Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="657" y="292"/>
+	</widget>
+	<widget field="AprilTag Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="656" y="269"/>
+	</widget>
+	<widget field="AprilTag Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="656" y="245"/>
+	</widget>
+	<widget field="AprilTag Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="509" y="289"/>
+	</widget>
+	<widget field="AprilTag Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="509" y="264"/>
+	</widget>
+	<widget field="AprilTag X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="509" y="242"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="972" y="11"/>
+		<width>516</width>
+		<height>407</height>
+		<property name="Camera Choice" value="limelight"/>
+	</static-widget>
+	<widget field="LimeLight Pose Rotation X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="267" y="0"/>
+	</widget>
+	<widget field="Limelight Pipeline Latency" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="434" y="323"/>
+		<height>22</height>
 	</widget>
 	<widget field="ultraSonicEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="466" y="526"/>
+		<location x="621" y="569"/>
 	</widget>
 	<widget field="Wrist Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="817" y="85"/>
 		<height>20</height>
 	</widget>
-	<widget field="AprilTag ID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="512" y="236"/>
-	</widget>
-	<widget field="AprilTag Found" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="494" y="213"/>
-	</widget>
 	<widget field="Coral Angle Change" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="844" y="607"/>
+		<location x="824" y="584"/>
 	</widget>
 	<widget field="Coral Y Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="860" y="584"/>
+		<location x="840" y="563"/>
 	</widget>
 	<widget field="Coral X Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="862" y="558"/>
+		<location x="841" y="541"/>
 	</widget>
 	<widget field="Coral Start Position" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="848" y="532"/>
+		<location x="827" y="517"/>
 	</widget>
 	<widget field="AprilTag: TimeoutTime" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1058" y="608"/>
@@ -97,25 +122,6 @@
 	<widget field="Present X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="877" y="434"/>
 	</widget>
-	<widget field="AprilTag Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="667" y="310"/>
-	</widget>
-	<widget field="AprilTag Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="667" y="286"/>
-	</widget>
-	<widget field="AprilTag Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="669" y="262"/>
-	</widget>
-	<widget field="AprilTag Dist Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="497" y="309"/>
-		<height>20</height>
-	</widget>
-	<widget field="AprilTag Dist Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="497" y="284"/>
-	</widget>
-	<widget field="AprilTag Dist X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="496" y="261"/>
-	</widget>
 	<widget field="End A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="751" y="484"/>
 	</widget>
@@ -125,23 +131,15 @@
 	<widget field="End X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="752" y="434"/>
 	</widget>
-	<widget field="Start A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="617" y="482"/>
-	</widget>
-	<widget field="Start Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="618" y="458"/>
-	</widget>
-	<widget field="Start X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="617" y="434"/>
-	</widget>
 	<widget field="Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="482" y="483"/>
+		<location x="624" y="483"/>
+		<height>20</height>
 	</widget>
 	<widget field="Distance Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="457" y="458"/>
+		<location x="601" y="458"/>
 	</widget>
 	<widget field="Distance X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="457" y="434"/>
+		<location x="603" y="433"/>
 	</widget>
 	<widget field="Chassis: Drive to Wall " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="291" y="185"/>
@@ -156,7 +154,7 @@
 		<location x="299" y="157"/>
 	</widget>
 	<widget field="Field Centricity" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="528" y="159"/>
+		<location x="517" y="155"/>
 		<width>124</width>
 		<height>16</height>
 	</widget>
@@ -206,7 +204,7 @@
 		<location x="53" y="327"/>
 	</widget>
 	<widget field="Debug" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="442" y="365"/>
+		<location x="451" y="379"/>
 		<width>371</width>
 	</widget>
 	<widget field="Autonomous Mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
@@ -249,27 +247,22 @@
 		<location x="31" y="254"/>
 		<height>20</height>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="989" y="20"/>
-		<width>515</width>
-		<height>389</height>
-		<property name="Camera Choice" value="Detected"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="989" y="20"/>
-		<width>515</width>
-		<height>389</height>
-		<property name="Camera Choice" value="Detected"/>
-	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="700" y="151"/>
+		<location x="681" y="145"/>
 		<width>193</width>
 	</static-widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="startPose.Rotation"/>
-	<hidden field="startPose.Rotation("/>
-	<hidden field="startPose.X"/>
-	<hidden field="startPose.Y"/>
+	<hidden field="limelight_Interface"/>
+	<hidden field="Start A"/>
+	<hidden field="m_distanceOffsetX"/>
+	<hidden field="limelight_PipelineName"/>
+	<hidden field="m_angleOffset"/>
+	<hidden field="m_distanceOffsetY"/>
+	<hidden field="Start Y"/>
+	<hidden field="Coral: L1"/>
+	<hidden field="Coral: L2"/>
+	<hidden field="Start X"/>
+	<hidden field="limelight_Stream"/>
 </xml>

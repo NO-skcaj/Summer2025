@@ -9,7 +9,6 @@
 #include "commands/GripperPose.h"
 #include "commands/GripperActivate.h"
 
-#include "subsystems/AprilTags.h"
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Gripper.h"
 
@@ -18,7 +17,6 @@ class AprilTagDriveToAlgae : public frc2::CommandHelper<frc2::SequentialCommandG
     public:
 
         explicit AprilTagDriveToAlgae(GripperPoseEnum  gripperPose,
-                                      AprilTags       *aprilTags,
                                       Gripper         *gripper,
                                       Drivetrain      *drivetrain);
 };

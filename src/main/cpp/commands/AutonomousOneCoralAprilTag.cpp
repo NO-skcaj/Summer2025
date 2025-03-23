@@ -9,7 +9,7 @@
 AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum gripperPoseEnum,
                                                        std::function<std::string ()> getStartPosition,
                                                        std::function<ChassDrivePoseParameters ()> getParameters,
-                                                       Drivetrain *drivetrain, Gripper *gripper, AprilTags *aprilTags)
+                                                       Drivetrain *drivetrain, Gripper *gripper)
 {
     // Determine the starting position based on the selected string position ("L", "M", "R")
     if (getStartPosition().compare("M"))
@@ -19,7 +19,7 @@ AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum gripperPo
                     GripperPose(gripperPoseEnum, gripper),        // Set the gripper to the appropriate level
                     frc2::WaitCommand(2.0_s),                     // Allow time for the gripper pose to complete
                     //ChassisDrivePose(getParameters, drivetrain),  // Drive closer to the reef
-                    AprilTagDriveToCoral(gripperPoseEnum, []() { return true; }, aprilTags, gripper, drivetrain),
+                    AprilTagDriveToCoral(gripperPoseEnum, []() { return true; }, gripper, drivetrain),
                     GripperActivate(gripper),
                     ChassisDrivePose(getParameters().Speed,       // Move robot away from reef
                                      -12.0_in, 0.0_m, 0.0_deg,

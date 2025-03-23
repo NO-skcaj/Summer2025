@@ -5,6 +5,8 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandScheduler.h>
 
+#include "LimelightHelpers.h"
+
 #include "RobotContainer.h"
 
 #include "Constants.h"

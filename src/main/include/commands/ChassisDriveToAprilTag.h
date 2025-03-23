@@ -8,7 +8,8 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 
-#include "subsystems/AprilTags.h"
+#include "LimelightHelpers.h"
+
 #include "subsystems/Drivetrain.h"
 
 #include "commands/ChassisDrivePose.h"
@@ -29,10 +30,9 @@ class ChassisDriveToAprilTag : public frc2::CommandHelper<frc2::Command, Chassis
                                         units::meter_t             distanceOffsetY,
                                         units::degree_t            angleOffset,
                                         units::time::second_t      timeoutTime,
-                                        AprilTags                 *aprilTags,
                                         Drivetrain                *drivetrain);
 
-        explicit ChassisDriveToAprilTag(std::function<ChassDriveAprilTagParameters()> getParameters, AprilTags *aprilTags, Drivetrain *drivetrain);
+        explicit ChassisDriveToAprilTag(std::function<ChassDriveAprilTagParameters()> getParameters, Drivetrain *drivetrain);
 
         void     Initialize()          override;
         void     Execute()             override;
@@ -48,7 +48,6 @@ class ChassisDriveToAprilTag : public frc2::CommandHelper<frc2::Command, Chassis
         units::meter_t                    m_distanceOffsetX;            // The distance offset in the X direction
         units::meter_t                    m_distanceOffsetY;            // The distance offset in the Y direction
         units::degree_t                   m_angleOffset;                // The angle offset
-        AprilTags                        *m_aprilTags;                  // The AprilTag subsystem
         Drivetrain                       *m_drivetrain;                 // The drivetrain subsystem
 
         units::second_t                   m_startTime;                  // The start of the drive time
