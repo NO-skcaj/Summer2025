@@ -16,6 +16,8 @@
 
 #include <frc/TimedRobot.h>
 
+#include "LimelightHelpers.h"
+
 #include "Constants.h"
 
 #pragma region ApriltagConstants

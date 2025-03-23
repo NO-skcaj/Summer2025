@@ -23,6 +23,20 @@ AprilTags::AprilTags() : m_instance(nt::NetworkTableInstance::GetDefault()),
 // This method will be called once per scheduler run
 void AprilTags::Periodic()
 {
+    // Read Limelight information to Network Table
+    auto targetPose   = LimelightHelpers::getTargetPose_CameraSpace("limelight");
+    auto targetPose3d = LimelightHelpers::toPose3D(targetPose);
+
+    frc::SmartDashboard::PutNumber("Limelight Target Pose X",          targetPose3d.X().to<double>());
+    frc::SmartDashboard::PutNumber("Limelight Target Pose Y",          targetPose3d.Y().to<double>());
+    frc::SmartDashboard::PutNumber("Limelight Target Pose Z",          targetPose3d.Z().to<double>());
+    frc::SmartDashboard::PutNumber("Limelight Target Pose Rotation X", targetPose3d.Rotation().X().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("Limelight Target Pose Rotation Y", targetPose3d.Rotation().Y().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("Limelight Target Pose Rotation Z", targetPose3d.Rotation().Z().to<double>() * 180.0 / M_PI);
+
+    auto pipelineLatency = LimelightHelpers::getLatency_Pipeline("limelight");
+    frc::SmartDashboard::PutNumber("Limelight Pipeline Latency", pipelineLatency);
+
     // Read Apriltag information to Network Table
     auto foundAprilTags = m_aprilTagsIntegerArraySubscriber.Get();
 
@@ -74,7 +88,7 @@ bool AprilTags::GetTag(int id, AprilTagInformation &aprilTagInformation)
         if (id == m_detectedAprilTags[aprilTagIndex].Identification)
         {
             // Copy the AprilTag information and return
-            aprilTagInformation =  m_detectedAprilTags[aprilTagIndex];
+            aprilTagInformation = m_detectedAprilTags[aprilTagIndex];
             return true;
         }
     }
@@ -186,7 +200,7 @@ static void VisionThread()
             //std::cout << "***** ERROR: Not able to send stream" << std::endl;
 
             // If we don't have a frame from the camera, continueing the while loop would be pointless
-           continue;
+            continue;
         }
 
         // Make grayMat the same as mat(The current Frame), but in grayscale.

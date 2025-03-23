@@ -145,9 +145,13 @@ void ChassisDriveToAprilTag::Initialize()
         auto angleOffset =  (units::angle::radian_t) -aprilTagInformation.rotationY + m_angleOffset;
 
         // Create the trajectory to follow
-        frc::Pose2d endPose{startPose.X()                  + distanceX,
-                            startPose.Y()                  + distanceY,
-                            startPose.Rotation().Degrees() + angleOffset};
+        // frc::Pose2d endPose{startPose.X()                  + distanceX,  // Note: The start pose is the orgin so X, Y, and Rotation are all zero (not needed)
+        //                     startPose.Y()                  + distanceY,
+        //                     startPose.Rotation().Degrees() + angleOffset};
+
+        // Create the trajectory to follow
+        // Note: The start pose is the orgin so X, Y, and Rotation are all zero (not needed)
+        frc::Pose2d endPose{distanceX, distanceY, angleOffset};
 
         frc::SmartDashboard::PutNumber("Distance X",  distanceX.value());
         frc::SmartDashboard::PutNumber("Distance Y",  distanceY.value());
@@ -168,7 +172,7 @@ void ChassisDriveToAprilTag::Initialize()
         frc::ProfiledPIDController<units::radians> profiledPIDController{ChassisPoseConstants::PProfileController, 0, 0,
                                                                          ChassisPoseConstants::ThetaControllerConstraints};
 
-        // enable continuous input for the profile PID controller
+        // Enable continuous input for the profile PID controller
         profiledPIDController.EnableContinuousInput(units::radian_t{-std::numbers::pi}, units::radian_t{std::numbers::pi});
 
         // Create the swerve controller command

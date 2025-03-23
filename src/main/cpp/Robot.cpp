@@ -48,9 +48,9 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("AprilTag Dist X", aprilTagInformation.X);
     frc::SmartDashboard::PutNumber("AprilTag Dist Y", aprilTagInformation.Y);
     frc::SmartDashboard::PutNumber("AprilTag Dist Z", aprilTagInformation.Z);
-    frc::SmartDashboard::PutNumber("AprilTag Rot X",  aprilTagInformation.rotationX);
-    frc::SmartDashboard::PutNumber("AprilTag Rot Y",  aprilTagInformation.rotationY);
-    frc::SmartDashboard::PutNumber("AprilTag Rot Z",  aprilTagInformation.rotationZ);
+    frc::SmartDashboard::PutNumber("AprilTag Rot X",  aprilTagInformation.rotationX * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("AprilTag Rot Y",  aprilTagInformation.rotationY * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("AprilTag Rot Z",  aprilTagInformation.rotationZ * 180.0 / M_PI);
 }
 #pragma endregion
 

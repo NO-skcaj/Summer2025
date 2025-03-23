@@ -89,7 +89,6 @@ void Drivetrain::DriveUltaSonic(units::meters_per_second_t  xSpeed,
                                 bool                        ultraSonicEnabled)
 {
     frc::SmartDashboard::PutBoolean("ultraSonicEnabled", ultraSonicEnabled);
-    frc::SmartDashboard::PutBoolean("ultraSonic Doing Anything", false);
 
     if (GetDistance().value() <= DrivetrainConstants::UltraSonicReefDistance &&
         xSpeed.value() >= 0 &&
@@ -98,7 +97,6 @@ void Drivetrain::DriveUltaSonic(units::meters_per_second_t  xSpeed,
         xSpeed = 0_mps;
         frc::SmartDashboard::PutBoolean("ultraSonic Doing Anything", true);
     }
-    frc::SmartDashboard::PutNumber("Ultra Xspeed", xSpeed.value());
 
     Drive(xSpeed, ySpeed, rotation);
 }
