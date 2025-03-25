@@ -20,8 +20,8 @@
 #pragma region ConstantsChassisAprilTagToPose
 namespace ConstantsChassisAprilTagToPose
 {
-    constexpr auto ChassisSpeed                  =  1.0_mps;
-    constexpr auto TimeoutTime                   =  10_s;
+    constexpr auto ChassisSpeed                  =  2.0_mps;
+    constexpr auto TimeoutTime                   =  15_s;
 
     constexpr auto CoralStationDistanceOffsetX   =  0.0_m;
     constexpr auto CoralStationDistanceOffsetY   =  0.0_m;
@@ -44,7 +44,7 @@ namespace ConstantsChassisAprilTagToPose
     constexpr auto AlgaeProcessorAngleOffset     =  0.0_deg;
 
     constexpr auto AlgaelBargeDistanceOffsetX    =  0.0_m;
-    constexpr auto AlgaelBargeDistanceOffsetY    = -0.0_m;
+    constexpr auto AlgaelBargeDistanceOffsetY    =  0.0_m;
     constexpr auto AlgaelBargeAngleOffset        =  0.0_deg;
 }
 #pragma endregion

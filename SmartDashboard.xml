@@ -255,14 +255,6 @@
 <live-window>
 </live-window>
 	<hidden field="limelight_Interface"/>
-	<hidden field="Start A"/>
-	<hidden field="m_distanceOffsetX"/>
 	<hidden field="limelight_PipelineName"/>
-	<hidden field="m_angleOffset"/>
-	<hidden field="m_distanceOffsetY"/>
-	<hidden field="Start Y"/>
-	<hidden field="Coral: L1"/>
-	<hidden field="Coral: L2"/>
-	<hidden field="Start X"/>
 	<hidden field="limelight_Stream"/>
 </xml>
