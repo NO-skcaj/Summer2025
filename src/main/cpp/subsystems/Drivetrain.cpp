@@ -30,10 +30,10 @@ void Drivetrain::Periodic()
     frc::SmartDashboard::PutNumber("Rear Left Speed",      m_rearLeft.GetState().speed.value());
     frc::SmartDashboard::PutNumber("Rear Right Speed",     m_rearRight.GetState().speed.value());
 
-    frc::SmartDashboard::PutNumber("Front Left Distance",  m_frontLeft.GetPosition().distance.value());
-    frc::SmartDashboard::PutNumber("Front Right Distance", m_frontRight.GetPosition().distance.value());
-    frc::SmartDashboard::PutNumber("Rear Left Distance",   m_rearLeft.GetPosition().distance.value());
-    frc::SmartDashboard::PutNumber("Rear Right Distance",  m_rearRight.GetPosition().distance.value());
+    frc::SmartDashboard::PutNumber("Front Left Distance",  m_frontLeft.GetPosition().distance.value()  * 39.3701);
+    frc::SmartDashboard::PutNumber("Front Right Distance", m_frontRight.GetPosition().distance.value() * 39.3701);
+    frc::SmartDashboard::PutNumber("Rear Left Distance",   m_rearLeft.GetPosition().distance.value()   * 39.3701);
+    frc::SmartDashboard::PutNumber("Rear Right Distance",  m_rearRight.GetPosition().distance.value()  * 39.3701);
 
     frc::SmartDashboard::PutNumber("Front Left Angle",     m_frontLeft.GetPosition().angle.Degrees().value());
     frc::SmartDashboard::PutNumber("Front Right Angle",    m_frontRight.GetPosition().angle.Degrees().value());

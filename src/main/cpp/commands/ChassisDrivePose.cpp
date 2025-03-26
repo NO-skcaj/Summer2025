@@ -79,8 +79,6 @@ void ChassisDrivePose::Initialize()
         // Add kinematics to ensure maximum speed is actually obeyed
         trajectoryConfig.SetKinematics(m_drivetrain->m_kinematics);
 
-        frc::SmartDashboard::PutString("Debug", "SetKinematics");
-
         // Ensure the new pose requires an X or Y move
         // Note: GenerateTrajectory will throw an exception if the distance X and Y are zero
         if (fabs(m_distanceX.value()) < 0.001 && fabs(m_distanceY.value()) < 0.001)
@@ -89,21 +87,24 @@ void ChassisDrivePose::Initialize()
         // Get the robot starting pose
         auto startPose = m_drivetrain->GetPose();
 
+        // Offset the start pose to the front of the chassis
+        startPose = frc::Pose2d{startPose.X() + DrivetrainConstants::WheelBase / 2.0, startPose.Y(), startPose.Rotation()};
+
         // Create the trajectory to follow
         frc::Pose2d endPose{startPose.X()                  + m_distanceX,
                             startPose.Y()                  + m_distanceY,
                             startPose.Rotation().Degrees() + m_angle};
 
-        frc::SmartDashboard::PutNumber("Distance X", m_distanceX.value());
-        frc::SmartDashboard::PutNumber("Distance Y", m_distanceY.value());
-        frc::SmartDashboard::PutNumber("Angle",      m_angle.value());
-
-        frc::SmartDashboard::PutNumber("Start X",    startPose.X().value());
-        frc::SmartDashboard::PutNumber("Start Y",    startPose.Y().value());
+        frc::SmartDashboard::PutNumber("Start X",    startPose.X().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("Start Y",    startPose.Y().value() * 39.3701);
         frc::SmartDashboard::PutNumber("Start A",    startPose.Rotation().Degrees().value());
 
-        frc::SmartDashboard::PutNumber("End X",      endPose.X().value());
-        frc::SmartDashboard::PutNumber("End Y",      endPose.Y().value());
+        frc::SmartDashboard::PutNumber("Distance X", m_distanceX.value() * 39.3701);
+        frc::SmartDashboard::PutNumber("Distance Y", m_distanceY.value() * 39.3701);
+        frc::SmartDashboard::PutNumber("Angle",      m_angle.value());
+
+        frc::SmartDashboard::PutNumber("End X",      endPose.X().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("End Y",      endPose.Y().value() * 39.3701);
         frc::SmartDashboard::PutNumber("End A",      endPose.Rotation().Degrees().value());
 
         // Create the trajectory to follow
@@ -133,8 +134,6 @@ void ChassisDrivePose::Initialize()
 
         // Get the start time
         m_startTime = frc::GetTime();
-
-        frc::SmartDashboard::PutString("Debug", "Success!");
     }
     catch(const std::exception& exception)
     {

@@ -28,8 +28,8 @@ void Robot::RobotPeriodic()
 
     // Show the present chassis pose
     frc::Pose2d pressentPose = m_robotContainer->GetChassisPose();
-    frc::SmartDashboard::PutNumber("Present X", pressentPose.X().value());
-    frc::SmartDashboard::PutNumber("Present Y", pressentPose.Y().value());
+    frc::SmartDashboard::PutNumber("Present X", pressentPose.X().value() * 39.3701);
+    frc::SmartDashboard::PutNumber("Present Y", pressentPose.Y().value() * 39.3701);
     frc::SmartDashboard::PutNumber("Present A", pressentPose.Rotation().Degrees().value());
 
     // Show the control panel Gripper wheels potentiometer value
@@ -45,12 +45,12 @@ void Robot::RobotPeriodic()
     auto targetPose   = LimelightHelpers::getTargetPose_CameraSpace("limelight");
     auto targetPose3d = LimelightHelpers::toPose3D(targetPose);
 
-    frc::SmartDashboard::PutNumber("AprilTag X",     targetPose3d.X().to<double>());
-    frc::SmartDashboard::PutNumber("AprilTag Y",     targetPose3d.Y().to<double>());
-    frc::SmartDashboard::PutNumber("AprilTag Z",     targetPose3d.Z().to<double>());
-    frc::SmartDashboard::PutNumber("AprilTag Rot X", targetPose3d.Rotation().X().to<double>() * 180.0 / M_PI);
-    frc::SmartDashboard::PutNumber("AprilTag Rot Y", targetPose3d.Rotation().Y().to<double>() * 180.0 / M_PI);
-    frc::SmartDashboard::PutNumber("AprilTag Rot Z", targetPose3d.Rotation().Z().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("Limelight X",     targetPose3d.X().to<double>() * 39.3701);
+    frc::SmartDashboard::PutNumber("Limelight Y",     targetPose3d.Y().to<double>() * 39.3701);
+    frc::SmartDashboard::PutNumber("Limelight Z",     targetPose3d.Z().to<double>() * 39.3701);
+    frc::SmartDashboard::PutNumber("Limelight Rot X", targetPose3d.Rotation().X().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("Limelight Rot Y", targetPose3d.Rotation().Y().to<double>() * 180.0 / M_PI);
+    frc::SmartDashboard::PutNumber("Limelight Rot Z", targetPose3d.Rotation().Z().to<double>() * 180.0 / M_PI);
 
     auto pipelineLatency = LimelightHelpers::getLatency_Pipeline("limelight");
     frc::SmartDashboard::PutNumber("Limelight Pipeline Latency", pipelineLatency);

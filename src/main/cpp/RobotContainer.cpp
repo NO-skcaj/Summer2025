@@ -27,13 +27,17 @@ RobotContainer::RobotContainer()
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();
 
-    frc::SmartDashboard::PutData("Chassis: Time ",           new ChassisDriveTime(2_s, 0.5_mps,                                                   &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: OneMeter",        new ChassisDrivePose(2.0_mps, 1_m,  0_m,  90_deg,        10_s,                       &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: TwoMeters",       new ChassisDrivePose(2.0_mps, 2_m,  2_m,   0_deg,        10_s,                       &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: Turn ",           new ChassisDrivePose(2.0_mps, 0_m,  0_m,  45_deg,        10_s,                       &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: AprilTag ",       new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: Serpentine ",     new ChassisDriveSerpentine(1.0_mps,                      10_s,                       &m_drivetrain));
-    frc::SmartDashboard::PutData("Chassis: Drive to Wall ",  new ChassisDriveToWall(1.0_mps,     1_m,                 10_s,                       &m_drivetrain));
+    // frc::SmartDashboard::PutData("Chassis: Time",           new ChassisDriveTime(2_s, 0.5_mps,                                                   &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: X 50 Inches",    new ChassisDrivePose(2.0_mps,  50_in,   0_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: X 100 Inches",   new ChassisDrivePose(2.0_mps, 100_in,   0_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Y 50 Inches",    new ChassisDrivePose(2.0_mps,   0_in,  50_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Y 100 Inches",   new ChassisDrivePose(2.0_mps,   0_in, 100_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: XY 50 Inches",   new ChassisDrivePose(2.0_mps,  50_in,  50_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: XY 100 Inches",  new ChassisDrivePose(2.0_mps, 100_in, 100_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: XY 100 Turn",    new ChassisDrivePose(2.0_mps, 100_in, 100_in, 45_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: AprilTag ",      new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
+    // frc::SmartDashboard::PutData("Chassis: Drive to Wall",  new ChassisDriveToWall(1.0_mps,     1_m,                 10_s,                       &m_drivetrain));
+    // frc::SmartDashboard::PutData("Chassis: Serpentine",     new ChassisDriveSerpentine(1.0_mps,                      10_s,                       &m_drivetrain));
 
     // frc::SmartDashboard::PutData("Elevator Jog Up",          new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset( ElevatorConstants::HeightOffset); }));
     // frc::SmartDashboard::PutData("Elevator Jog Down",        new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset(-ElevatorConstants::HeightOffset); }));
@@ -542,8 +546,8 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralParameters(units::
     }
 
     frc::SmartDashboard::PutString("Coral Start Position", startPosition);
-    frc::SmartDashboard::PutNumber("Coral X Distance",     parameters.DistanceX.to<double>());
-    frc::SmartDashboard::PutNumber("Coral Y Distance",     parameters.DistanceY.to<double>());
+    frc::SmartDashboard::PutNumber("Coral X Distance",     parameters.DistanceX.to<double>() * 39.3701);
+    frc::SmartDashboard::PutNumber("Coral Y Distance",     parameters.DistanceY.to<double>() * 39.3701);
     frc::SmartDashboard::PutNumber("Coral Angle Change",   parameters.Angle.to<double>());
 
     // Return the parameters
@@ -604,7 +608,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 }
 #pragma endregion
 
-// #define READ_FROM_SMARTDASHBOARD
+//#define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.
@@ -633,9 +637,9 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
     m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect) ? parameters.ReefRightSide = true : parameters.ReefRightSide = false;
 
 #ifdef READ_FROM_SMARTDASHBOARD
-    parameters.PoseParameters.DistanceX = units::meter_t  {frc::SmartDashboard::GetNumber ("AprilTag: DistanceOffsetX", parameters.PoseParameters.DistanceX.to<double>())};
-    parameters.PoseParameters.DistanceY = units::meter_t  {frc::SmartDashboard::GetNumber ("AprilTag: DistanceOffsetY", parameters.PoseParameters.DistanceY.to<double>())};
-    parameters.PoseParameters.Angle     = units::degree_t {frc::SmartDashboard::GetNumber ("AprilTag: AngleOffset",     parameters.PoseParameters.Angle.to<double>())};
+    parameters.PoseParameters.DistanceX = units::inch_t   {frc::SmartDashboard::GetNumber ("AprilTag: DistanceOffsetX", 0.0)};
+    parameters.PoseParameters.DistanceY = units::inch_t   {frc::SmartDashboard::GetNumber ("AprilTag: DistanceOffsetY", 0.0)};
+    parameters.PoseParameters.Angle     = units::degree_t {frc::SmartDashboard::GetNumber ("AprilTag: AngleOffset",     0.0)};
 #else
     // Get the pose from the gripper
     auto gripperPose = m_gripper.GetPose();
@@ -744,8 +748,8 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
     frc::SmartDashboard::PutNumber("AprilTag: ValidPose",       parameters.ValidPose);
     frc::SmartDashboard::PutNumber("AprilTag: ReefRightSide",   parameters.ReefRightSide);
     frc::SmartDashboard::PutNumber("AprilTag: Speed",           parameters.PoseParameters.Speed.to<double>());
-    frc::SmartDashboard::PutNumber("AprilTag: DistanceOffsetX", parameters.PoseParameters.DistanceX.to<double>());
-    frc::SmartDashboard::PutNumber("AprilTag: DistanceOffsetY", parameters.PoseParameters.DistanceY.to<double>());
+    frc::SmartDashboard::PutNumber("AprilTag: DistanceOffsetX", parameters.PoseParameters.DistanceX.to<double>() * 39.3701);
+    frc::SmartDashboard::PutNumber("AprilTag: DistanceOffsetY", parameters.PoseParameters.DistanceY.to<double>() * 39.3701);
     frc::SmartDashboard::PutNumber("AprilTag: AngleOffset",     parameters.PoseParameters.Angle.to<double>());
     frc::SmartDashboard::PutNumber("AprilTag: TimeoutTime",     parameters.PoseParameters.TimeoutTime.to<double>());
 

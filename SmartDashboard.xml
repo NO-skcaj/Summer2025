@@ -1,5 +1,23 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Limelight Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="665" y="283"/>
+	</widget>
+	<widget field="Limelight Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="664" y="258"/>
+	</widget>
+	<widget field="Limelight Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="664" y="234"/>
+	</widget>
+	<widget field="Limelight Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="511" y="281"/>
+	</widget>
+	<widget field="Limelight Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="512" y="256"/>
+	</widget>
+	<widget field="Limelight X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="513" y="233"/>
+	</widget>
 	<widget field="aprilTagRot" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="443" y="482"/>
 	</widget>
@@ -9,39 +27,18 @@
 	<widget field="aprilTagX" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="456" y="433"/>
 	</widget>
-	<widget field="AprilTag Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="657" y="292"/>
-	</widget>
-	<widget field="AprilTag Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="656" y="269"/>
-	</widget>
-	<widget field="AprilTag Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="656" y="245"/>
-	</widget>
-	<widget field="AprilTag Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="509" y="289"/>
-	</widget>
-	<widget field="AprilTag Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="509" y="264"/>
-	</widget>
-	<widget field="AprilTag X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="509" y="242"/>
-	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="972" y="11"/>
 		<width>516</width>
 		<height>407</height>
 		<property name="Camera Choice" value="limelight"/>
 	</static-widget>
-	<widget field="LimeLight Pose Rotation X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="267" y="0"/>
-	</widget>
 	<widget field="Limelight Pipeline Latency" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="434" y="323"/>
 		<height>22</height>
 	</widget>
 	<widget field="ultraSonicEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="621" y="569"/>
+		<location x="467" y="537"/>
 	</widget>
 	<widget field="Wrist Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="817" y="85"/>
@@ -254,4 +251,11 @@
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="AprilTag Rot X"/>
+	<hidden field="LimeLight Pose Rotation X"/>
+	<hidden field="AprilTag Rot Y"/>
+	<hidden field="AprilTag Rot Z"/>
+	<hidden field="AprilTag Z"/>
+	<hidden field="AprilTag Y"/>
+	<hidden field="AprilTag X"/>
 </xml>

@@ -53,16 +53,16 @@ void ChassisDriveToWall::Initialize()
                             startPose.Y(),
                             startPose.Rotation().Degrees()};
 
-        frc::SmartDashboard::PutNumber("Distance X", distance.value());
-        frc::SmartDashboard::PutNumber("Distance Y", 0.0);
-        frc::SmartDashboard::PutNumber("Angle",     0.0);
-
-        frc::SmartDashboard::PutNumber("Start X", startPose.X().value());
-        frc::SmartDashboard::PutNumber("Start Y", startPose.Y().value());
+        frc::SmartDashboard::PutNumber("Start X", startPose.X().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("Start Y", startPose.Y().value() * 39.3701);
         frc::SmartDashboard::PutNumber("Start A", startPose.Rotation().Degrees().value());
 
-        frc::SmartDashboard::PutNumber("End X", endPose.X().value());
-        frc::SmartDashboard::PutNumber("End Y", endPose.Y().value());
+        frc::SmartDashboard::PutNumber("Distance X", distance.value() * 39.3701);
+        frc::SmartDashboard::PutNumber("Distance Y", 0.0);
+        frc::SmartDashboard::PutNumber("Angle",      0.0);
+
+        frc::SmartDashboard::PutNumber("End X", endPose.X().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("End Y", endPose.Y().value() * 39.3701);
         frc::SmartDashboard::PutNumber("End A", endPose.Rotation().Degrees().value());
 
         // Create the trajectory to follow
