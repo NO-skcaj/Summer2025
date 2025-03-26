@@ -45,6 +45,11 @@ void Gripper::ConfigureElevatorMotor(int motorCanId)
     motorOutputConfigs.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
     motorOutputConfigs.Inverted    = true;
 
+    // Add the Current Limits section settings
+    ctre::phoenix6::configs::CurrentLimitsConfigs &currentLimitsConfigs = elevatorMotorConfiguration.CurrentLimits;
+    currentLimitsConfigs.SupplyCurrentLimit = ElevatorConstants::MaximumAmperage;
+
+    // Add the Slot0 section settings
     ctre::phoenix6::configs::Slot0Configs &slot0Configs = elevatorMotorConfiguration.Slot0;
     slot0Configs.kS = ElevatorConstants::S;
     slot0Configs.kV = ElevatorConstants::V;
@@ -96,6 +101,11 @@ void Gripper::ConfigureArmMotor(int motorCanId)
     motorOutputConfigs.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
     motorOutputConfigs.Inverted = true;
 
+    // Add the Current Limits section settings
+    ctre::phoenix6::configs::CurrentLimitsConfigs &currentLimitsConfigs = armMotorConfiguration.CurrentLimits;
+    currentLimitsConfigs.SupplyCurrentLimit = ArmConstants::MaximumAmperage;
+
+    // Add the Current Limits section settings
     ctre::phoenix6::configs::Slot0Configs &slot0Configs = armMotorConfiguration.Slot0;
     slot0Configs.kS = ArmConstants::S;
     slot0Configs.kV = ArmConstants::V;
@@ -140,7 +150,7 @@ void Gripper::ConfigureWristMotor()
 
     sparkMaxConfig
         .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
-        .SmartCurrentLimit(WristConstants::MaxAmperage);
+        .SmartCurrentLimit(WristConstants::MaximumAmperage);
     sparkMaxConfig.closedLoop.maxMotion
         .MaxVelocity(WristConstants::MaximumVelocity)
         .MaxAcceleration(WristConstants::MaximumAcceleration)

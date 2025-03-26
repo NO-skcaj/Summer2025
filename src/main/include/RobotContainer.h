@@ -27,8 +27,6 @@
 #include "subsystems/Leds.h"
 
 // Commands
-#include "commands/AprilTagDriveToAlgae.h"
-#include "commands/AprilTagDriveToCoral.h"
 #include "commands/AutonomousComplex.h"
 #include "commands/AutonomousCoralAndAlgae.h"
 #include "commands/AutonomousDoNothing.h"

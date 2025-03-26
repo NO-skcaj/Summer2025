@@ -78,17 +78,20 @@ RobotContainer::RobotContainer()
                                                                     &m_drivetrain, &m_gripper));
 
     m_autonomousChooser.AddOption("Place Coral L1 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralAutonomousL1,
-                                                                    [this] { return GetStartPosition(); },
+                                                                    [this] { return GetStartPosition();                           },
                                                                     [this] { return GetAutonomousOneCoralAprilTagParameters();    },
+                                                                    [this] { return GetChassisDriveToAprilTagParameters();        },
                                                                     &m_drivetrain, &m_gripper));
     m_autonomousChooser.AddOption("Place Coral L4 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralL4,
-                                                                    [this] { return GetStartPosition(); },
+                                                                    [this] { return GetStartPosition();                           },
                                                                     [this] { return GetAutonomousOneCoralAprilTagParameters();    },
+                                                                    [this] { return GetChassisDriveToAprilTagParameters();        },
                                                                     &m_drivetrain, &m_gripper));
 
     m_autonomousChooser.AddOption("Place Coral and Algae",   new AutonomousCoralAndAlgae(GripperPoseEnum::CoralL4,
-                                                                    [this] { return GetStartPosition(); },
+                                                                    [this] { return GetStartPosition();                           },
                                                                     [this] { return GetAutonomousOneCoralAprilTagParameters();    },
+                                                                    [this] { return GetChassisDriveToAprilTagParameters();        },
                                                                     &m_drivetrain, &m_gripper));
 
     // Send the autonomous mode chooser to the SmartDashboard
@@ -607,19 +610,20 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.
 /// @return The parameters for the ChassisDriveToAprilTag command.
 ///
-///     bool                       ValidPose;
-///     bool                       ReefRightSide;
-///     units::meters_per_second_t Speed;
-///     units::meter_t             DistanceOffsetX;
-///     units::meter_t             DistanceOffsetY;
-///     units::degree_t            AngleOffset;
-///     units::time::second_t      TimeoutTime;
+///     bool                       ValidPose;        Must be a case in the switch statement
+///     bool                       ReefRightSide;    Read from the control panel
+///
+///     units::meters_per_second_t Speed;             Speed is set for all valid poses
+///     units::meter_t             DistanceOffsetX;   --+
+///     units::meter_t             DistanceOffsetY;     | Set in the case statement
+///     units::degree_t            AngleOffset;       --+
+///     units::time::second_t      TimeoutTime;       Time-out time is the same for all valid poses
 ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters()
 {
     ChassDriveAprilTagParameters parameters;
 
     // Assume the pose is valid
-    parameters.ValidPose  = true;
+    parameters.ValidPose = true;
 
     // Set the remaining parameters that are not set in the case statement
     parameters.PoseParameters.Speed       = ConstantsChassisAprilTagToPose::ChassisSpeed;        // Speed of the chassis
@@ -633,11 +637,15 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
     parameters.PoseParameters.DistanceY = units::meter_t  {frc::SmartDashboard::GetNumber ("AprilTag: DistanceOffsetY", parameters.PoseParameters.DistanceY.to<double>())};
     parameters.PoseParameters.Angle     = units::degree_t {frc::SmartDashboard::GetNumber ("AprilTag: AngleOffset",     parameters.PoseParameters.Angle.to<double>())};
 #else
-    frc::SmartDashboard::PutNumber("AprilTag Pose", m_gripper.GetPose());
+    // Get the pose from the gripper
+    auto gripperPose = m_gripper.GetPose();
 
-    switch (m_gripper.GetPose())
+    frc::SmartDashboard::PutNumber("AprilTag Pose", gripperPose);
+
+    // Determine the pose to drive to
+    switch (gripperPose)
     {
-        case GripperPoseEnum::CoralStation:  // Drive to the coral station
+        case GripperPoseEnum::CoralStation:  // Drive to the coral station for feeding coral
         {
             parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralStationDistanceOffsetX;
             parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralStationDistanceOffsetY;
@@ -645,15 +653,16 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
 
-        case GripperPoseEnum::CoralL1:
+        case GripperPoseEnum::CoralL1:  // Drive to the coral reef for placing on L1
         {
-            // Drive to the coral reef
-            if (m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect))
+            // Determine the side of the reef
+            if (parameters.ReefRightSide)
             {
                 parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL1ReefLeftDistanceOffsetX;
                 parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL1ReefLeftDistanceOffsetY;
                 parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL1ReefLeftAngleOffset;
-            } else
+            }
+            else
             {
                 parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL1ReefRightDistanceOffsetX;
                 parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL1ReefRightDistanceOffsetY;
@@ -662,16 +671,17 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
 
-        case GripperPoseEnum::CoralL2:
+        case GripperPoseEnum::CoralL2:  // Drive to the coral reef for placing on L2 or L3
         case GripperPoseEnum::CoralL3:
         {
-            // Drive to the coral reef
-            if (m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect))
+            // Determine the side of the reef
+            if (parameters.ReefRightSide)
             {
                 parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL23ReefLeftDistanceOffsetX;
                 parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL23ReefLeftDistanceOffsetY;
                 parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL23ReefLeftAngleOffset;
-            } else
+            }
+            else
             {
                 parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL23ReefRightDistanceOffsetX;
                 parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL23ReefRightDistanceOffsetY;
@@ -680,15 +690,16 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
 
-        case GripperPoseEnum::CoralL4:
+        case GripperPoseEnum::CoralL4:  // Drive to the coral reef for placing on L4
         {
-            // Drive to the coral reef
-            if (m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect))
+            // Determine the side of the reef
+            if (parameters.ReefRightSide)
             {
                 parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL4ReefLeftDistanceOffsetX;
                 parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL4ReefLeftDistanceOffsetY;
                 parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL4ReefLeftAngleOffset;
-            } else
+            }
+            else
             {
                 parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL4ReefRightDistanceOffsetX;
                 parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL4ReefRightDistanceOffsetY;
@@ -697,7 +708,7 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
 
-        case GripperPoseEnum::AlgaeLow:
+        case GripperPoseEnum::AlgaeLow:   // Drive to the reef for extracting algae
         case GripperPoseEnum::AlgaeHigh:
         {
             parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::AlgaeReefDistanceOffsetX;
@@ -706,7 +717,7 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
 
-        case GripperPoseEnum::AlgaeProcessor:
+        case GripperPoseEnum::AlgaeProcessor:  // Drive to the algae processor for processing algae
         {
             parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::AlgaeProcessorDistanceOffsetX;
             parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::AlgaeProcessorDistanceOffsetY;
@@ -714,7 +725,7 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
             break;
         }
 
-        case GripperPoseEnum::AlgaeBarge:
+        case GripperPoseEnum::AlgaeBarge:  // Drive to the algae barge for depositing algae on the barge
         {
             parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::AlgaelBargeDistanceOffsetX;
             parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::AlgaelBargeDistanceOffsetY;

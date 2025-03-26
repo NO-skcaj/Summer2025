@@ -9,8 +9,8 @@
 #include "subsystems/Gripper.h"
 
 #include "commands/ChassisDrivePose.h"
-#include "commands/AprilTagDriveToCoral.h"
 #include "commands/GripperActivate.h"
+#include "commands/GripperPose.h"
 
 #include "Constants.h"
 

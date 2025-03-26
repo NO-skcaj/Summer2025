@@ -37,7 +37,7 @@ void SwerveModule::ConfigureDriveMotor()
 
     // Add the "Current Limits" section settings
     ctre::phoenix6::configs::CurrentLimitsConfigs &currentLimitsConfigs = talonFXConfiguration.CurrentLimits;
-    currentLimitsConfigs.StatorCurrentLimit       = SwerveConstants::DriveMaxAmperage;
+    currentLimitsConfigs.StatorCurrentLimit       = SwerveConstants::DriveMaximumAmperage;
     currentLimitsConfigs.StatorCurrentLimitEnable = true;
 
     // Add the "Slot0" section settings
@@ -80,7 +80,7 @@ void SwerveModule::ConfigureAngleMotor()
     sparkMaxConfig
         .Inverted(true)
         .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
-        .SmartCurrentLimit(SwerveConstants::AngleMaxAmperage);
+        .SmartCurrentLimit(SwerveConstants::AngleMaximumAmperage);
 
     sparkMaxConfig.encoder
         .PositionConversionFactor(SwerveConstants::AngleRadiansToMotorRevolutions)

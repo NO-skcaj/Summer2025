@@ -36,8 +36,8 @@ namespace SwerveConstants
     constexpr auto RearLeftForwardAngle            =  0.268555 * 2.0_rad * std::numbers::pi;
 
     // Drive motor parameters
-    constexpr auto DriveMaxAmperage                =     60_A;
-    constexpr auto DriveMotorReduction             =     6.75;
+    constexpr auto DriveMaximumAmperage            = 60_A;
+    constexpr auto DriveMotorReduction             = 6.75;
     constexpr auto WheelDiameter                   = 0.0961_m;
     constexpr auto WheelCircumference              = WheelDiameter * std::numbers::pi;
     constexpr auto DriveMotorConversion            = WheelCircumference / DriveMotorReduction;
@@ -49,7 +49,7 @@ namespace SwerveConstants
     constexpr auto DriveA                          = 0.10;
 
     // Angle motor parameters
-    constexpr auto AngleMaxAmperage                =   20;
+    constexpr auto AngleMaximumAmperage            = 20;
     constexpr auto AngleMotorRevolutions           = 21.5;  // The number of motor revolutions per wheel revolutions
     constexpr auto AngleRadiansToMotorRevolutions  = (2.0 * std::numbers::pi) / AngleMotorRevolutions;  // Radians to motor revolutions	
 

@@ -2,6 +2,7 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc2/command/ConditionalCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 
@@ -9,8 +10,9 @@
 #include "subsystems/Gripper.h"
 
 #include "commands/ChassisDrivePose.h"
-#include "commands/AprilTagDriveToCoral.h"
+#include "commands/ChassisDriveToAprilTag.h"
 #include "commands/GripperActivate.h"
+#include "commands/GripperPose.h"
 
 #include "Constants.h"
 
@@ -18,8 +20,9 @@ class AutonomousOneCoralAprilTag : public frc2::CommandHelper<frc2::SequentialCo
 {
     public:
 
-        explicit AutonomousOneCoralAprilTag(GripperPoseEnum                           gripperPoseEnum,
-                                            std::function<std::string()>              getStartingPosition,
-                                            std::function<ChassDrivePoseParameters()> getParameters,
+        explicit AutonomousOneCoralAprilTag(GripperPoseEnum                               gripperPoseEnum,
+                                            std::function<std::string()>                  getStartingPosition,
+                                            std::function<ChassDrivePoseParameters ()>    getStartPoseParameters,
+                                            std::function<ChassDriveAprilTagParameters()> getAprilTagParameters,
                                             Drivetrain *drivetrain, Gripper *gripper);
 };

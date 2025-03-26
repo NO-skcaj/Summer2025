@@ -30,6 +30,8 @@ namespace ElevatorConstants
 
     constexpr auto PositionToTurnsConversionFactor = 64.0 / (0.06378 * 3.0 * std::numbers::pi); // The number of motor rotations per meter
 
+    constexpr auto MaximumAmperage                 = 60_A;
+
     constexpr auto MinimumPosition                 = 0_m;
     constexpr auto MaximumPosition                 = 1.7_m;
 
@@ -53,7 +55,7 @@ namespace ArmConstants
 
     constexpr auto AngleToTurnsConversionFactor    = 360_deg / 36;      // 36 to 1 gear box
 
-    constexpr auto AngleMaxAmperage                = 20;
+    constexpr auto MaximumAmperage                 = 40_A;
 
     constexpr auto MinimumPosition                 = -20_deg;
     constexpr auto PastElevatorPosition            =  25_deg;
@@ -74,7 +76,7 @@ namespace WristConstants
     constexpr auto MaximumAcceleration           = 1000.0;           // Acceleration
     constexpr auto AllowedError                  =   0.04;           // Allowed error for the pid controller (smaller values are more accurate)
 
-    constexpr auto MaxAmperage                   =  20;
+    constexpr auto MaximumAmperage               =  20;
     constexpr auto AngleToTurnsConversionFactor  = 360_deg / 20;     // 20 to 1 gear box
 
     constexpr auto MinimumPosition               = -10_deg;          // Note: Need to calibrate angle to motor rotations

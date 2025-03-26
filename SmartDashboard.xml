@@ -254,7 +254,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="limelight_Interface"/>
-	<hidden field="limelight_PipelineName"/>
-	<hidden field="limelight_Stream"/>
 </xml>
