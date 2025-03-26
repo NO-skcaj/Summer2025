@@ -26,8 +26,8 @@
 namespace DrivetrainConstants
 {
     // Chassis configuration
-    constexpr auto TrackWidth               = 0.6731_m;  // Distance between centers of right and left wheels on robot
-    constexpr auto WheelBase                = 0.6731_m;  // Distance between centers of front and back wheels on robot
+    constexpr auto TrackWidth               = 25_in;  // Distance between centers of right and left wheels on robot
+    constexpr auto WheelBase                = 25_in;  // Distance between centers of front and back wheels on robot
 
     constexpr auto MaxSpeed                 = 4.8_mps;
     constexpr auto MaxAngularSpeed          = std::numbers::pi * 2_rad_per_s;

@@ -149,7 +149,7 @@ void ChassisDriveToAprilTag::Initialize()
         auto startPose = m_drivetrain->GetPose();
 
         // Offset the start pose to the front of the chassis
-        startPose = frc::Pose2d{startPose.X() + DrivetrainConstants::WheelBase / 2.0, startPose.Y(), startPose.Rotation()};
+        // startPose = frc::Pose2d{startPose.X() + DrivetrainConstants::WheelBase / 2.0, startPose.Y(), startPose.Rotation()};
 
         // Offset the position based on the specified distances and angle
         auto distanceX   = aprilTagX   - m_distanceOffsetX;

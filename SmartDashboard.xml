@@ -1,5 +1,47 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Potentiometer" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="193" y="347"/>
+	</widget>
+	<widget field="Chassis: Drive to Wall " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="680"/>
+	</widget>
+	<widget field="Chassis: Serpentine " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="648"/>
+	</widget>
+	<widget field="Chassis: Turn " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="616"/>
+	</widget>
+	<widget field="Chassis: TwoMeters" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="347"/>
+	</widget>
+	<widget field="Chassis: OneMeter" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="203"/>
+	</widget>
+	<widget field="Chassis: Time " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="171"/>
+	</widget>
+	<widget field="limelight_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="151"/>
+	</widget>
+	<widget field="limelight_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="131"/>
+	</widget>
+	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="111"/>
+	</widget>
+	<widget field="AprilTag Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="91"/>
+	</widget>
+	<widget field="AprilTag Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="71"/>
+	</widget>
+	<widget field="AprilTag Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="51"/>
+	</widget>
+	<widget field="AprilTag Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="31"/>
+	</widget>
 	<widget field="ArmFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1301" y="532"/>
 	</widget>
@@ -276,18 +318,17 @@
 		<location x="681" y="145"/>
 		<width>193</width>
 	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="972" y="11"/>
+		<width>516</width>
+		<height>407</height>
+		<property name="Camera Choice" value="limelight"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="681" y="145"/>
+		<width>193</width>
+	</static-widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Chassis: Serpentine "/>
-	<hidden field="Chassis: Turn "/>
-	<hidden field="ChassisDrivePose"/>
-	<hidden field="Chassis: Time "/>
-	<hidden field="aprilTagX"/>
-	<hidden field="Chassis: TwoMeters"/>
-	<hidden field="aprilTagY"/>
-	<hidden field="Chassis: OneMeter"/>
-	<hidden field="Chassis: Drive to Wall "/>
-	<hidden field="Chassis: Time"/>
-	<hidden field="aprilTagRot"/>
 </xml>

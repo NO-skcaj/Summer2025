@@ -38,7 +38,7 @@ namespace SwerveConstants
     // Drive motor parameters
     constexpr auto DriveMaximumAmperage            = 60_A;
     constexpr auto DriveMotorReduction             = 6.75;
-    constexpr auto WheelDiameter                   = 0.0961_m;
+    constexpr auto WheelDiameter                   = 0.0961_m * 1.02;
     constexpr auto WheelCircumference              = WheelDiameter * std::numbers::pi;
     constexpr auto DriveMotorConversion            = WheelCircumference / DriveMotorReduction;
 
