@@ -1,5 +1,60 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="ArmFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1301" y="532"/>
+	</widget>
+	<widget field="ElevatorFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1280" y="507"/>
+	</widget>
+	<widget field="GripperVoltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1276" y="483"/>
+	</widget>
+	<widget field="ArmOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1298" y="459"/>
+	</widget>
+	<widget field="ElevatorOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1276" y="434"/>
+		<height>20</height>
+	</widget>
+	<widget field="Chassis: XY 100 Turn" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="277" y="180"/>
+	</widget>
+	<widget field="Chassis: XY 100 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="267" y="151"/>
+	</widget>
+	<widget field="Chassis: XY 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="274" y="123"/>
+	</widget>
+	<widget field="Chassis: Y 100 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="274" y="95"/>
+	</widget>
+	<widget field="Chassis: Y 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="282" y="68"/>
+	</widget>
+	<widget field="Chassis: X 100 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="278" y="42"/>
+	</widget>
+	<widget field="Chassis: X 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="284" y="14"/>
+	</widget>
+	<widget field="Start A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="448" y="485"/>
+	</widget>
+	<widget field="Start Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="450" y="462"/>
+	</widget>
+	<widget field="Start X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="450" y="436"/>
+	</widget>
+	<widget field="AprilTag A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="602" y="589"/>
+	</widget>
+	<widget field="AprilTag Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="601" y="563"/>
+	</widget>
+	<widget field="AprilTag X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="603" y="537"/>
+	</widget>
 	<widget field="Limelight Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="665" y="283"/>
 	</widget>
@@ -18,15 +73,6 @@
 	<widget field="Limelight X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="513" y="233"/>
 	</widget>
-	<widget field="aprilTagRot" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="443" y="482"/>
-	</widget>
-	<widget field="aprilTagY" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="455" y="456"/>
-	</widget>
-	<widget field="aprilTagX" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="456" y="433"/>
-	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="972" y="11"/>
 		<width>516</width>
@@ -38,7 +84,7 @@
 		<height>22</height>
 	</widget>
 	<widget field="ultraSonicEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="467" y="537"/>
+		<location x="668" y="323"/>
 	</widget>
 	<widget field="Wrist Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="817" y="85"/>
@@ -138,17 +184,11 @@
 	<widget field="Distance X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="603" y="433"/>
 	</widget>
-	<widget field="Chassis: Drive to Wall " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="291" y="185"/>
-	</widget>
 	<widget field="Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="249" y="253"/>
 	</widget>
 	<widget field="Ultrasonic" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="236" y="278"/>
-	</widget>
-	<widget field="Chassis: Serpentine " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="299" y="157"/>
 	</widget>
 	<widget field="Field Centricity" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="517" y="155"/>
@@ -158,20 +198,8 @@
 	<widget field="Gyro Rotation" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="215" y="303"/>
 	</widget>
-	<widget field="Chassis: Time " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="332" y="21"/>
-	</widget>
 	<widget field="Chassis: AprilTag " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="313" y="129"/>
-	</widget>
-	<widget field="Chassis: Turn " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="332" y="103"/>
-	</widget>
-	<widget field="Chassis: TwoMeters" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="305" y="75"/>
-	</widget>
-	<widget field="Chassis: OneMeter" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="310" y="48"/>
+		<location x="293" y="207"/>
 	</widget>
 	<widget field="Rear Left Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="26" y="596"/>
@@ -251,11 +279,15 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="AprilTag Rot X"/>
-	<hidden field="LimeLight Pose Rotation X"/>
-	<hidden field="AprilTag Rot Y"/>
-	<hidden field="AprilTag Rot Z"/>
-	<hidden field="AprilTag Z"/>
-	<hidden field="AprilTag Y"/>
-	<hidden field="AprilTag X"/>
+	<hidden field="Chassis: Serpentine "/>
+	<hidden field="Chassis: Turn "/>
+	<hidden field="ChassisDrivePose"/>
+	<hidden field="Chassis: Time "/>
+	<hidden field="aprilTagX"/>
+	<hidden field="Chassis: TwoMeters"/>
+	<hidden field="aprilTagY"/>
+	<hidden field="Chassis: OneMeter"/>
+	<hidden field="Chassis: Drive to Wall "/>
+	<hidden field="Chassis: Time"/>
+	<hidden field="aprilTagRot"/>
 </xml>
