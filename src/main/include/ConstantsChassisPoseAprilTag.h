@@ -27,13 +27,31 @@ namespace ConstantsChassisAprilTagToPose
     constexpr auto CoralStationDistanceOffsetY   =  0.0_m;
     constexpr auto CoralStationAngleOffset       =  0.0_deg;
 
-    constexpr auto CoralReefRightDistanceOffsetX =  24_in;  // 0.6_m;
-    constexpr auto CoralReefRightDistanceOffsetY =  12_in;  // 0.3_m;
-    constexpr auto CoralReefRightAngleOffset     =  0.0_deg;
+    // Right:
+    constexpr auto CoralL1ReefRightDistanceOffsetX =  0.5_m;  //24_in;  // 0.6_m;
+    constexpr auto CoralL1ReefRightDistanceOffsetY =  -0.2_m; //12_in;  // 0.3_m;
+    constexpr auto CoralL1ReefRightAngleOffset     =  0.0_deg;
+    
+    constexpr auto CoralL23ReefRightDistanceOffsetX =  0.4_m;  // 24_in;  // 0.6_m;
+    constexpr auto CoralL23ReefRightDistanceOffsetY =  -0.03_m; //12_in;  // 0.3_m;
+    constexpr auto CoralL23ReefRightAngleOffset     =  0.0_deg;
+    
+    constexpr auto CoralL4ReefRightDistanceOffsetX =  0.4_m;// 24_in;  // 0.6_m;
+    constexpr auto CoralL4ReefRightDistanceOffsetY =  0.0_m;//12_in;  // 0.3_m;
+    constexpr auto CoralL4ReefRightAngleOffset     =  0.0_deg;
 
-    constexpr auto CoralReefLeftDistanceOffsetX  =  24_in;  // 0.6_m;
-    constexpr auto CoralReefLeftDistanceOffsetY  = -12_in;  // 0.3_m;
-    constexpr auto CoralReefLeftAngleOffset      =  0.0_deg;
+    // Left
+    constexpr auto CoralL1ReefLeftDistanceOffsetX  =  0.5_m;//24_in;  // 0.6_m;
+    constexpr auto CoralL1ReefLeftDistanceOffsetY  =  0.3_m;//-12_in;  // 0.3_m;
+    constexpr auto CoralL1ReefLeftAngleOffset      =  0.0_deg;
+    
+    constexpr auto CoralL23ReefLeftDistanceOffsetX  = 0.4_m;  // 24_in;  // 0.6_m;
+    constexpr auto CoralL23ReefLeftDistanceOffsetY  = 0.32_m; //-12_in;  // 0.3_m;
+    constexpr auto CoralL23ReefLeftAngleOffset      = 0.0_deg;
+    
+    constexpr auto CoralL4ReefLeftDistanceOffsetX  =  0.42_m; // 24_in;  // 0.6_m;
+    constexpr auto CoralL4ReefLeftDistanceOffsetY  =  0.43_m; //-12_in;  // 0.3_m;
+    constexpr auto CoralL4ReefLeftAngleOffset      =  0.0_deg;
 
     constexpr auto AlgaeReefDistanceOffsetX      =  0.0_m;
     constexpr auto AlgaeReefDistanceOffsetY      =  0.0_m;

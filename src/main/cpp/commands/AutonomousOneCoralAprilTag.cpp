@@ -20,7 +20,7 @@ AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum gripperPo
                     frc2::WaitCommand(2.0_s),                                                             // Allow time for the gripper pose to complete
                     // ChassisDrivePose(getParameters, drivetrain),                                          // Drive closedr to the reef
                     // frc2::WaitCommand(0.5_s),                                                             // Allow time to read the AprilTag
-                    AprilTagDriveToCoral(gripperPoseEnum, []() { return true; }, gripper, drivetrain),    // Drive to the reef
+                    //AprilTagDriveToCoral(gripperPoseEnum, []() { return true; }, gripper, drivetrain),    // Drive to the reef
                     GripperActivate(gripper),                                                             // Activate the gripper to place the coral
                     ChassisDrivePose(getParameters().Speed, -12.0_in, 0.0_m, 0.0_deg, 5_s, drivetrain));  // Move robot away from reef
     }
@@ -32,7 +32,7 @@ AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum gripperPo
                     frc2::WaitCommand(2.0_s),                                                             // Allow time for the gripper pose to complete
                     ChassisDrivePose(getParameters, drivetrain),                                          // Drive closedr to the reef
                     frc2::WaitCommand(0.5_s),                                                             // Allow time to read the AprilTag
-                    AprilTagDriveToCoral(gripperPoseEnum, []() { return true; }, gripper, drivetrain),    // Drive to the reef
+                    //AprilTagDriveToCoral(gripperPoseEnum, []() { return true; }, gripper, drivetrain),    // Drive to the reef
                     GripperActivate(gripper),                                                             // Activate the gripper to place the coral
                     ChassisDrivePose(getParameters().Speed, -12.0_in, 0.0_m, 0.0_deg, 5_s, drivetrain));  // Move robot away from reef
     }

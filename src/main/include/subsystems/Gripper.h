@@ -74,7 +74,7 @@ namespace WristConstants
     constexpr auto MaximumAcceleration           = 1000.0;           // Acceleration
     constexpr auto AllowedError                  =   0.04;           // Allowed error for the pid controller (smaller values are more accurate)
 
-    constexpr auto MaxAmperage                   =  60;
+    constexpr auto MaxAmperage                   =  20;
     constexpr auto AngleToTurnsConversionFactor  = 360_deg / 20;     // 20 to 1 gear box
 
     constexpr auto MinimumPosition               = -10_deg;          // Note: Need to calibrate angle to motor rotations
@@ -87,7 +87,7 @@ namespace WristConstants
 #pragma region GripperConstants
 namespace GripperConstants
 {
-    constexpr auto MaximumAmperage      =  60;
+    constexpr auto MaximumAmperage      =  20;
 
     constexpr auto MeanAnalogInput      = 0.11811 / 2.0;
 

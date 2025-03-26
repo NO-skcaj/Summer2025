@@ -601,7 +601,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 }
 #pragma endregion
 
-#define READ_FROM_SMARTDASHBOARD
+// #define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.
@@ -646,21 +646,53 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
         }
 
         case GripperPoseEnum::CoralL1:
+        {
+            // Drive to the coral reef
+            if (m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect))
+            {
+                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL1ReefLeftDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL1ReefLeftDistanceOffsetY;
+                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL1ReefLeftAngleOffset;
+            } else
+            {
+                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL1ReefRightDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL1ReefRightDistanceOffsetY;
+                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL1ReefRightAngleOffset;
+            }
+            break;
+        }
+
         case GripperPoseEnum::CoralL2:
         case GripperPoseEnum::CoralL3:
+        {
+            // Drive to the coral reef
+            if (m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect))
+            {
+                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL23ReefLeftDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL23ReefLeftDistanceOffsetY;
+                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL23ReefLeftAngleOffset;
+            } else
+            {
+                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL23ReefRightDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL23ReefRightDistanceOffsetY;
+                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL23ReefRightAngleOffset;
+            }
+            break;
+        }
+
         case GripperPoseEnum::CoralL4:
         {
             // Drive to the coral reef
             if (m_operatorController.GetRawButton(ConstantsControlPanel::CoralSideSelect))
             {
-                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralReefLeftDistanceOffsetX;
-                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralReefLeftDistanceOffsetY;
-                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralReefLeftAngleOffset;
+                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL4ReefLeftDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL4ReefLeftDistanceOffsetY;
+                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL4ReefLeftAngleOffset;
             } else
             {
-                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralReefRightDistanceOffsetX;
-                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralReefRightDistanceOffsetY;
-                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralReefRightAngleOffset;
+                parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::CoralL4ReefRightDistanceOffsetX;
+                parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::CoralL4ReefRightDistanceOffsetY;
+                parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::CoralL4ReefRightAngleOffset;
             }
             break;
         }

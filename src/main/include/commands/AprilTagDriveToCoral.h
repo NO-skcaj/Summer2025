@@ -13,12 +13,12 @@
 
 #include "ConstantsChassisPoseAprilTag.h"
 
-class AprilTagDriveToCoral : public frc2::CommandHelper<frc2::SequentialCommandGroup, AprilTagDriveToCoral>
-{
-    public:
+// class AprilTagDriveToCoral : public frc2::CommandHelper<frc2::SequentialCommandGroup, AprilTagDriveToCoral>
+// {
+//     public:
 
-        explicit AprilTagDriveToCoral(GripperPoseEnum             gripperPose,
-                                    const std::function<bool ()> &GetJoystickToggle,
-                                    Gripper                      *gripper,
-                                    Drivetrain                   *drivetrain);
-};
+//         explicit AprilTagDriveToCoral(GripperPoseEnum             gripperPose,
+//                                     const std::function<bool ()> &GetJoystickToggle,
+//                                     Gripper                      *gripper,
+//                                     Drivetrain                   *drivetrain);
+// };
