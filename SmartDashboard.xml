@@ -1,47 +1,5 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Potentiometer" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="193" y="347"/>
-	</widget>
-	<widget field="Chassis: Drive to Wall " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="680"/>
-	</widget>
-	<widget field="Chassis: Serpentine " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="648"/>
-	</widget>
-	<widget field="Chassis: Turn " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="616"/>
-	</widget>
-	<widget field="Chassis: TwoMeters" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="347"/>
-	</widget>
-	<widget field="Chassis: OneMeter" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="203"/>
-	</widget>
-	<widget field="Chassis: Time " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="171"/>
-	</widget>
-	<widget field="limelight_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="151"/>
-	</widget>
-	<widget field="limelight_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="131"/>
-	</widget>
-	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="111"/>
-	</widget>
-	<widget field="AprilTag Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="91"/>
-	</widget>
-	<widget field="AprilTag Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="71"/>
-	</widget>
-	<widget field="AprilTag Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="51"/>
-	</widget>
-	<widget field="AprilTag Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="31"/>
-	</widget>
 	<widget field="ArmFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1301" y="532"/>
 	</widget>
@@ -79,23 +37,14 @@
 	<widget field="Chassis: X 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="284" y="14"/>
 	</widget>
-	<widget field="Start A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="448" y="485"/>
-	</widget>
-	<widget field="Start Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="450" y="462"/>
-	</widget>
-	<widget field="Start X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="450" y="436"/>
-	</widget>
 	<widget field="AprilTag A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="602" y="589"/>
+		<location x="443" y="481"/>
 	</widget>
 	<widget field="AprilTag Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="601" y="563"/>
+		<location x="441" y="456"/>
 	</widget>
 	<widget field="AprilTag X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="603" y="537"/>
+		<location x="444" y="432"/>
 	</widget>
 	<widget field="Limelight Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="665" y="283"/>
@@ -199,32 +148,22 @@
 		<location x="191" y="20"/>
 	</widget>
 	<widget field="Present A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="875" y="485"/>
+		<location x="747" y="483"/>
 	</widget>
 	<widget field="Present Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="877" y="460"/>
+		<location x="746" y="459"/>
 	</widget>
 	<widget field="Present X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="877" y="434"/>
+		<location x="749" y="435"/>
 	</widget>
 	<widget field="End A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="751" y="484"/>
+		<location x="603" y="482"/>
 	</widget>
 	<widget field="End Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="752" y="461"/>
+		<location x="602" y="458"/>
 	</widget>
 	<widget field="End X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="752" y="434"/>
-	</widget>
-	<widget field="Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="624" y="483"/>
-		<height>20</height>
-	</widget>
-	<widget field="Distance Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="601" y="458"/>
-	</widget>
-	<widget field="Distance X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="603" y="433"/>
+		<location x="602" y="434"/>
 	</widget>
 	<widget field="Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="249" y="253"/>
@@ -318,17 +257,30 @@
 		<location x="681" y="145"/>
 		<width>193</width>
 	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="972" y="11"/>
-		<width>516</width>
-		<height>407</height>
-		<property name="Camera Choice" value="limelight"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="681" y="145"/>
-		<width>193</width>
-	</static-widget>
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="aprilTagPose Y"/>
+	<hidden field="Start A"/>
+	<hidden field="targetPose A"/>
+	<hidden field="yOffset"/>
+	<hidden field="targetPosition Y"/>
+	<hidden field="aprilTagPose X"/>
+	<hidden field="xOffset"/>
+	<hidden field="targetPosition X"/>
+	<hidden field="aprilTagRotation"/>
+	<hidden field="offsetInAprilTagCoordinates X"/>
+	<hidden field="relativePosition X"/>
+	<hidden field="relativePosition Y"/>
+	<hidden field="offsetInAprilTagCoordinates Y"/>
+	<hidden field="robotPose A"/>
+	<hidden field="offsetInGlobalCoordinates X"/>
+	<hidden field="offsetInGlobalCoordinates Y"/>
+	<hidden field="aprilTagPose A"/>
+	<hidden field="targetPose X"/>
+	<hidden field="Start Y"/>
+	<hidden field="robotPose Y"/>
+	<hidden field="targetPose Y"/>
+	<hidden field="Start X"/>
+	<hidden field="robotPose X"/>
 </xml>

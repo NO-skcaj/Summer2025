@@ -213,14 +213,14 @@ frc::Pose2d Drivetrain::GetPose()
 void Drivetrain::ResetPositionToOrgin()
 {
     // Create a pose at the origin
-    frc::Pose2d poseOrgin = frc::Pose2d(0.0_in, 0.0_m, frc::Rotation2d(0_deg));
+    frc::Pose2d poseOrgin = frc::Pose2d(0.0_in, 0.0_in, frc::Rotation2d(0_deg));
 
     // reset the odometry pose
     m_odometry.ResetPose(poseOrgin);
 
     // Reset the present odometry
     m_odometry.ResetPosition(GetRotation2d(), { m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                                                m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, poseOrgin);                                             
+                                                m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, poseOrgin);
 }
 #pragma endregion
 

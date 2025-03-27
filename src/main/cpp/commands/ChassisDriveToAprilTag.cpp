@@ -68,17 +68,19 @@ ChassisDriveToAprilTag::ChassisDriveToAprilTag(std::function<ChassDriveAprilTagP
 /// Translation:  Pose X ->  Z
 ///               Pose Y -> -X
 ///               Pose A -> -Rotation Y
-
 void ChassisDriveToAprilTag::Initialize()
 {
-    // Reset the position of the drivetrain to be (X: 0_m, Y: 0_m, Rotation: 0_deg)
-    m_drivetrain->ResetPositionToOrgin();
-
     // Ensure the SwerveControllerCommand is set to nullptr
     m_swerveControllerCommand = nullptr;
 
     // Assume the pose command will run
     m_finished = false;
+
+    // Reset the position of the drivetrain to be (X: 0_m, Y: 0_m, Rotation: 0_deg)
+     m_drivetrain->ResetPositionToOrgin();
+
+    // Get the robot starting pose
+    auto startPose = m_drivetrain->GetPose();
 
     // Determine if the parameters should be read from the lambda function
     if (m_readParameters)
@@ -115,17 +117,15 @@ void ChassisDriveToAprilTag::Initialize()
         auto targetPose   = LimelightHelpers::getTargetPose_CameraSpace("limelight");
         auto targetPose3d = LimelightHelpers::toPose3D(targetPose);
 
-        // Get the AprilTag information
-        auto aprilTagX   =  targetPose3d.Z();
-        auto aprilTagY   = -targetPose3d.X();
-        auto aprilTagRot = -targetPose3d.Rotation().Y();
+        // Get the AprilTag's pose
+        frc::Pose2d aprilTagPose = frc::Pose2d{targetPose3d.Z(), -targetPose3d.X(), -targetPose3d.Rotation().Y()};
 
-        frc::SmartDashboard::PutNumber("AprilTag X", aprilTagX.value()   * 39.3701);
-        frc::SmartDashboard::PutNumber("AprilTag Y", aprilTagY.value()   * 39.3701);
-        frc::SmartDashboard::PutNumber("AprilTag A", aprilTagRot.value() * 180.0 / M_PI);
+        frc::SmartDashboard::PutNumber("AprilTag X", aprilTagPose.X().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("AprilTag Y", aprilTagPose.Y().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("AprilTag A", aprilTagPose.Rotation().Degrees().value());
 
         // Determine if an AprilTag was found
-        if (aprilTagX.value() <= 0.0)
+        if (aprilTagPose.X().value() <= 0.0)
         {
             frc::SmartDashboard::PutString("Debug", "No AprilTag Found");
 
@@ -134,44 +134,32 @@ void ChassisDriveToAprilTag::Initialize()
             return;
         }
 
+        // The AprilTag is actually farther from the center of the robot since the camera is mounted in the front
+        aprilTagPose = frc::Pose2d{aprilTagPose.X() + DrivetrainConstants::WheelBase / 2.0, aprilTagPose.Y(), aprilTagPose.Rotation()};
+
+        // Define the desired offset in the AprilTag's local coordinate system
+        // Note: Since the move is with the center of the robot directly over the AprilTag, increase the X offset by half the wheel base
+        // Note: Invert the X offset direction to stop short of the AprilTag
+        auto aprilTagXOffset = -(DrivetrainConstants::WheelBase / 2.0 + m_distanceOffsetX);
+
+        // Transform the X and Y offsets to the global coordinate system
+        frc::Translation2d offsetInGlobalCoordinates = frc::Translation2d{aprilTagXOffset, m_distanceOffsetY}.RotateBy(aprilTagPose.Rotation());
+
+        // Calculate the target position in the global coordinate system
+        frc::Translation2d targetPosition = aprilTagPose.Translation() + offsetInGlobalCoordinates;
+
+        // Create an end pose with the AprilTag's rotation
+        frc::Pose2d endPose{targetPosition, aprilTagPose.Rotation()};
+
+        frc::SmartDashboard::PutNumber("End X", endPose.X().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("End Y", endPose.Y().value() * 39.3701);
+        frc::SmartDashboard::PutNumber("End A", endPose.Rotation().Degrees().value());
+
         // Set up config for trajectory
         frc::TrajectoryConfig trajectoryConfig(m_speed, ChassisPoseConstants::MaxAcceleration);
 
         // Add kinematics to ensure maximum speed is actually obeyed
         trajectoryConfig.SetKinematics(m_drivetrain->m_kinematics);
-
-        // Ensure the new pose requires an X or Y move
-        // Note: GenerateTrajectory will throw an exception if the distance X and Y are zero
-        if (fabs(aprilTagX.value()) < 0.001 && fabs(aprilTagY.value()) < 0.001)
-            aprilTagX = 0.01_m;
-
-        // Get the robot starting pose
-        auto startPose = m_drivetrain->GetPose();
-
-        // Offset the start pose to the front of the chassis
-        // startPose = frc::Pose2d{startPose.X() + DrivetrainConstants::WheelBase / 2.0, startPose.Y(), startPose.Rotation()};
-
-        // Offset the position based on the specified distances and angle
-        auto distanceX   = aprilTagX   - m_distanceOffsetX;
-        auto distanceY   = aprilTagY   + m_distanceOffsetY;
-        auto angleOffset = aprilTagRot + m_angleOffset;
-
-        // Create the end pose
-        frc::Pose2d endPose{startPose.X()                  + distanceX,  // Note: The start pose is the orgin so X, Y, and Rotation are all zero (not needed)
-                            startPose.Y()                  + distanceY,
-                            startPose.Rotation().Degrees() + angleOffset};
-
-        frc::SmartDashboard::PutNumber("Start X",    startPose.X().value() * 39.3701);
-        frc::SmartDashboard::PutNumber("Start Y",    startPose.Y().value() * 39.3701);
-        frc::SmartDashboard::PutNumber("Start A",    startPose.Rotation().Degrees().value());
-
-        frc::SmartDashboard::PutNumber("Distance X", distanceX.value()   * 39.3701);
-        frc::SmartDashboard::PutNumber("Distance Y", distanceY.value()   * 39.3701);
-        frc::SmartDashboard::PutNumber("Angle",      angleOffset.value() * 180.0 / M_PI);
-
-        frc::SmartDashboard::PutNumber("End X",      endPose.X().value() * 39.3701);
-        frc::SmartDashboard::PutNumber("End Y",      endPose.Y().value() * 39.3701);
-        frc::SmartDashboard::PutNumber("End A",      endPose.Rotation().Degrees().value());
 
         // Create the trajectory to follow
         auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(startPose, {}, endPose, trajectoryConfig);
