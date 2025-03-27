@@ -8,7 +8,7 @@ using namespace ConstantsGripperPoseActivate;
 GripperActivate::GripperActivate(Gripper *gripper) : m_gripper(gripper)
 {
     // Set the command name
-    SetName("GripperPose");
+    SetName("GripperActivate");
 
     // Declare subsystem dependencies
     AddRequirements(m_gripper);
