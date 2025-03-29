@@ -54,7 +54,7 @@ namespace ConstantsGripperPoseCoral
     constexpr auto AutonomousL1GripperBothWheels = true;
     constexpr auto AutonomousL1GripperVoltage    = CoralGripVoltage;
 
-    constexpr auto L2Elevator                    = 0.4268;
+    constexpr auto L2Elevator                    = 0.4268_m;
     constexpr auto L2ArmAngle                    = 45.0_deg;
     constexpr auto L2WristAngle                  = 90.0_deg;
     constexpr auto L2GripperBothWheels           = true;
