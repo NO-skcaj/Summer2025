@@ -20,6 +20,8 @@
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/SwerveControllerCommand.h>
 
+#include <cameraserver/CameraServer.h>
+
 // Subsystems
 #include "subsystems/Climb.h"
 #include "subsystems/Drivetrain.h"
@@ -40,7 +42,6 @@
 #include "commands/ChassisDriveSerpentine.h"
 #include "commands/ChassisDriveTime.h"
 #include "commands/ChassisDriveToAprilTag.h"
-#include "commands/ChassisDriveToWall.h"
 #include "commands/ChassisSetSwerveWheelAnglesToZero.h"
 #include "commands/GripperActivate.h"
 #include "commands/GripperPose.h"
@@ -135,4 +136,10 @@ class RobotContainer
         frc::SendableChooser<std::string>     m_startingPositionChooser;
 
         frc::PowerDistribution                m_powerDistribution;
+
+        cs::VideoSink                         m_server;
+        cs::UsbCamera                         m_usbCamera;
+        cs::VideoSink                         m_limelightFeed;
+
+        bool                                  m_usbCameraActive = false;
 };

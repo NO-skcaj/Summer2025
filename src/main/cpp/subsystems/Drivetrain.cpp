@@ -40,8 +40,6 @@ void Drivetrain::Periodic()
     frc::SmartDashboard::PutNumber("Rear Left Angle",      m_rearLeft.GetPosition().angle.Degrees().value());
     frc::SmartDashboard::PutNumber("Rear Right Angle",     m_rearRight.GetPosition().angle.Degrees().value());
 
-    frc::SmartDashboard::PutNumber("Ultrasonic",           GetDistance().value());
-
     // Update the swerve drive odometry
     m_odometry.Update(GetRotation2d(),
                      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
@@ -75,30 +73,6 @@ void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
 
     // Set the module states
     SetModuleStates(states);
-}
-#pragma endregion
-
-#pragma region DriveUltaSonic
-/// @brief Method to drive the robot chassis.
-/// @param xSpeed The speed in the X dirction.
-/// @param ySpeed The speed in the Y dirction.
-/// @param rotation The rate of rotation.
-void Drivetrain::DriveUltaSonic(units::meters_per_second_t  xSpeed,
-                                units::meters_per_second_t  ySpeed,
-                                units::radians_per_second_t rotation,
-                                bool                        ultraSonicEnabled)
-{
-    frc::SmartDashboard::PutBoolean("ultraSonicEnabled", ultraSonicEnabled);
-
-    if (GetDistance().value() <= DrivetrainConstants::UltraSonicReefDistance &&
-        xSpeed.value() >= 0 &&
-        ultraSonicEnabled)
-    {
-        xSpeed = 0_mps;
-        frc::SmartDashboard::PutBoolean("ultraSonic Doing Anything", true);
-    }
-
-    Drive(xSpeed, ySpeed, rotation);
 }
 #pragma endregion
 
@@ -253,21 +227,5 @@ void Drivetrain::SetWheelAnglesToZero()
     m_frontRight.SetWheelAngleToForward(SwerveConstants::FrontRightForwardAngle);
     m_rearLeft.  SetWheelAngleToForward(SwerveConstants::RearLeftForwardAngle);
     m_rearRight. SetWheelAngleToForward(SwerveConstants::RearRightForwardAngle);
-}
-#pragma endregion
-
-#pragma region GetDistance
-/// @brief Method to get the distance from the ultrasonic sensor.
-/// @return The distance from the ultrasonic sensor.
-units::inch_t Drivetrain::GetDistance()
-{
-    // Get the ultrasonic sensor value
-    auto analogOut = m_ultrasonic.Get();
-
-    // Convert the ultrasonic sensor value to inches
-    auto distance = analogOut * DrivetrainConstants::UltraSonicSlope + DrivetrainConstants::UltraSonicIntercept;
-
-    // Return the distance in inches
-    return (units::inch_t) distance;
 }
 #pragma endregion

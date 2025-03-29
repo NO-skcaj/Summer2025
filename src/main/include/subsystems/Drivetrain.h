@@ -31,11 +31,6 @@ namespace DrivetrainConstants
 
     constexpr auto MaxSpeed                 = 4.8_mps;
     constexpr auto MaxAngularSpeed          = std::numbers::pi * 2_rad_per_s;
-
-    constexpr auto UltraSonicPort           =  0;
-    constexpr auto UltraSonicSlope          =  0.2125;
-    constexpr auto UltraSonicIntercept      = -2.1873;
-    constexpr auto UltraSonicReefDistance   =  6.35;
 }
 #pragma endregion
 
@@ -66,11 +61,6 @@ class Drivetrain : public frc2::SubsystemBase
         void            Drive(units::meters_per_second_t  xSpeed,
                               units::meters_per_second_t  ySpeed,
                               units::radians_per_second_t rotation);
-
-        void            DriveUltaSonic(units::meters_per_second_t  xSpeed,
-                                       units::meters_per_second_t  ySpeed,
-                                       units::radians_per_second_t rotation,
-                                       bool                        ultraSonicEnabled);
 
         void            SetX();                                 // Sets the wheels into an X formation to prevent movement
 
@@ -125,6 +115,4 @@ class Drivetrain : public frc2::SubsystemBase
 
         // Odometry class for tracking robot pose for the swerve modules modules
         frc::SwerveDriveOdometry<4> m_odometry;
-
-        frc::AnalogPotentiometer    m_ultrasonic{0, 1000, 0};  // MD 1043: 300 mm (~12 inches) to 5000 mm (~16 feet)
 };

@@ -9,12 +9,10 @@
 ChassisDrive::ChassisDrive(std::function<units::meters_per_second_t()>  forward,
                            std::function<units::meters_per_second_t()>  strafe,
                            std::function<units::radians_per_second_t()> angle,
-                           std::function<bool()>                        ultraSonicEnabled,
                            Drivetrain *drivetrain) :
                            m_forward{std::move(forward)},
                            m_strafe{std::move(strafe)},
                            m_angle{std::move(angle)},
-                           m_ultraSonicEnabled{std::move(ultraSonicEnabled)},
                            m_drivetrain(drivetrain)
 {
     // Set the command name
@@ -30,6 +28,6 @@ ChassisDrive::ChassisDrive(std::function<units::meters_per_second_t()>  forward,
 void ChassisDrive::Execute()
 {
     // Perform the chassis drive
-    m_drivetrain->DriveUltaSonic(m_forward(), m_strafe(), m_angle(), m_ultraSonicEnabled());
+    m_drivetrain->Drive(m_forward(), m_strafe(), m_angle());
 }
 #pragma endregion

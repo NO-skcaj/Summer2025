@@ -1,5 +1,12 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Active Camera" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="809" y="659"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="1274" y="576"/>
+		<property name="Camera Choice" value="USB Camera 0"/>
+	</static-widget>
 	<widget field="Trajectory States" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="576" y="607"/>
 	</widget>
@@ -102,9 +109,6 @@
 		<location x="434" y="323"/>
 		<height>22</height>
 	</widget>
-	<widget field="ultraSonicEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="668" y="323"/>
-	</widget>
 	<widget field="Wrist Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="817" y="85"/>
 		<height>20</height>
@@ -146,7 +150,7 @@
 		<location x="1098" y="430"/>
 	</widget>
 	<widget field="Wheels Input" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="219" y="327"/>
+		<location x="216" y="305"/>
 	</widget>
 	<widget field="Wheels Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="496" y="108"/>
@@ -196,16 +200,13 @@
 	<widget field="Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="249" y="253"/>
 	</widget>
-	<widget field="Ultrasonic" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="236" y="278"/>
-	</widget>
 	<widget field="Field Centricity" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="517" y="155"/>
 		<width>124</width>
 		<height>16</height>
 	</widget>
 	<widget field="Gyro Rotation" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="215" y="303"/>
+		<location x="217" y="278"/>
 	</widget>
 	<widget field="Chassis: AprilTag " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="293" y="207"/>

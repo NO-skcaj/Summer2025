@@ -37,7 +37,6 @@ RobotContainer::RobotContainer()
     frc::SmartDashboard::PutData("Chassis: XY 100 Inches",  new ChassisDrivePose(2.0_mps, 100_in, 100_in,  0_deg,      10_s,                     &m_drivetrain));
     frc::SmartDashboard::PutData("Chassis: XY 100 Turn",    new ChassisDrivePose(2.0_mps, 100_in, 100_in, 45_deg,      10_s,                     &m_drivetrain));
     frc::SmartDashboard::PutData("Chassis: AprilTag ",      new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
-    // frc::SmartDashboard::PutData("Chassis: Drive to Wall",  new ChassisDriveToWall(1.0_mps,     1_m,                 10_s,                       &m_drivetrain));
     // frc::SmartDashboard::PutData("Chassis: Serpentine",     new ChassisDriveSerpentine(1.0_mps,                      10_s,                       &m_drivetrain));
 
     // frc::SmartDashboard::PutData("Elevator Jog Up",          new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset( ElevatorConstants::HeightOffset); }));
@@ -112,7 +111,6 @@ RobotContainer::RobotContainer()
     m_drivetrain.SetDefaultCommand(ChassisDrive([this] { return Forward(); },
                                                 [this] { return Strafe();  },
                                                 [this] { return Angle();   },
-                                                [this] { return m_driverController.GetRawButton(ConstantsExtreme3D::HandleUpperRight);},
                                                 &m_drivetrain));
 
     // Set the LED default command
@@ -120,6 +118,27 @@ RobotContainer::RobotContainer()
 
     // Set the swerve wheels to zero
     SetSwerveWheelAnglesToZero();
+
+    // Start capturing video from the USB camera
+    cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
+
+    // Set the resolution and frame rate of the camera
+    camera.SetResolution(640, 480); // Set resolution to 640x480
+    camera.SetFPS(30);             // Set frame rate to 30 FPS
+
+    // Access the Limelight feed
+    m_limelightFeed = frc::CameraServer::AddSwitchedCamera("Limelight");
+
+    // Set the Limelight feed source to a valid video source
+    m_limelightFeed.SetSource(frc::CameraServer::GetVideo().GetSource());
+
+    // Create a VideoSink to control the stream
+    m_server = frc::CameraServer::GetServer();
+
+    // Set the initial camera source to the Limelight camera
+    m_server.SetSource(m_limelightFeed.GetSource());
+
+    frc::SmartDashboard::PutString("Active Camera", "USB Camera");
 }
 #pragma endregion
 
@@ -153,6 +172,25 @@ void RobotContainer::ConfigureDriverControls()
     // Reset the gyro angle
     frc2::JoystickButton (&m_driverController, ConstantsExtreme3D::HandleUpperLeft)
         .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeading(); }, {&m_drivetrain}));
+
+    // Switch between camera feeds
+    frc2::JoystickButton(&m_driverController, ConstantsExtreme3D::HandleUpperRight).OnTrue(new frc2::InstantCommand([this]
+    {
+       // Toggle the active camera flag
+       m_usbCameraActive = !m_usbCameraActive;
+
+       // Update the video source based on the active camera
+       if (m_usbCameraActive)
+       {
+           m_server.SetSource(m_usbCamera);
+           frc::SmartDashboard::PutString("Active Camera", "USB Camera");
+       }
+       else
+       {
+           m_server.SetSource(m_limelightFeed.GetSource());
+           frc::SmartDashboard::PutString("Active Camera", "Limelight");
+       }
+    }));
 
     // Reset the gyro angle
     // frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleUpperRight)
