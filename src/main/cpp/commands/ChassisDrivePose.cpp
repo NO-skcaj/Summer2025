@@ -79,6 +79,10 @@ void ChassisDrivePose::Initialize()
         // Add kinematics to ensure maximum speed is actually obeyed
         trajectoryConfig.SetKinematics(m_drivetrain->m_kinematics);
 
+        // Determine if the trajectory should be reversed
+        if (m_distanceX < 0_in)
+            trajectoryConfig.SetReversed(true);
+
         // Ensure the new pose requires an X or Y move
         // Note: GenerateTrajectory will throw an exception if the distance X and Y are zero
         if (fabs(m_distanceX.value()) < 0.001 && fabs(m_distanceY.value()) < 0.001)
@@ -86,9 +90,6 @@ void ChassisDrivePose::Initialize()
 
         // Get the robot starting pose
         auto startPose = m_drivetrain->GetPose();
-
-        // Offset the start pose to the front of the chassis
-        startPose = frc::Pose2d{startPose.X() + DrivetrainConstants::WheelBase / 2.0, startPose.Y(), startPose.Rotation()};
 
         // Create the trajectory to follow
         frc::Pose2d endPose{startPose.X()                  + m_distanceX,
@@ -109,6 +110,8 @@ void ChassisDrivePose::Initialize()
 
         // Create the trajectory to follow
         auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(startPose, {}, endPose, trajectoryConfig);
+
+        frc::SmartDashboard::PutNumber("Trajectory States", trajectory.States().size());
 
         // Create a profile PID controller
         frc::ProfiledPIDController<units::radians> profiledPIDController{ChassisPoseConstants::PProfileController, 0, 0,

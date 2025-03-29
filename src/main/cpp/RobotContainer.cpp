@@ -27,8 +27,9 @@ RobotContainer::RobotContainer()
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();
 
-    // frc::SmartDashboard::PutData("Chassis: Time",           new ChassisDriveTime(2_s, 0.5_mps,                                                   &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: Time",           new ChassisDriveTime(2_s, 0.5_mps,                                                   &m_drivetrain));
     frc::SmartDashboard::PutData("Chassis: X 50 Inches",    new ChassisDrivePose(2.0_mps,  50_in,   0_in,  0_deg,      10_s,                     &m_drivetrain));
+    frc::SmartDashboard::PutData("Chassis: X -50 Inches",   new ChassisDrivePose(2.0_mps,  -50_in,   0_in,  0_deg,      10_s,                     &m_drivetrain));
     frc::SmartDashboard::PutData("Chassis: X 100 Inches",   new ChassisDrivePose(2.0_mps, 100_in,   0_in,  0_deg,      10_s,                     &m_drivetrain));
     frc::SmartDashboard::PutData("Chassis: Y 50 Inches",    new ChassisDrivePose(2.0_mps,   0_in,  50_in,  0_deg,      10_s,                     &m_drivetrain));
     frc::SmartDashboard::PutData("Chassis: Y 100 Inches",   new ChassisDrivePose(2.0_mps,   0_in, 100_in,  0_deg,      10_s,                     &m_drivetrain));
@@ -608,7 +609,7 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 }
 #pragma endregion
 
-#define READ_FROM_SMARTDASHBOARD
+//#define READ_FROM_SMARTDASHBOARD
 
 #pragma region GetChassisDriveToAprilTagParameters
 /// @brief  Method to return the parameters for the ChassisDriveToAprilTag command.
@@ -658,6 +659,7 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
         }
 
         case GripperPoseEnum::CoralL1:  // Drive to the coral reef for placing on L1
+        case GripperPoseEnum::CoralAutonomousL1:
         {
             // Determine the side of the reef
             if (parameters.ReefRightSide)

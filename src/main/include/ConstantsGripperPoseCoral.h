@@ -54,19 +54,19 @@ namespace ConstantsGripperPoseCoral
     constexpr auto AutonomousL1GripperBothWheels = true;
     constexpr auto AutonomousL1GripperVoltage    = CoralGripVoltage;
 
-    constexpr auto L2Elevator                    = 0.376_m;
+    constexpr auto L2Elevator                    = 0.4268;
     constexpr auto L2ArmAngle                    = 45.0_deg;
     constexpr auto L2WristAngle                  = 90.0_deg;
     constexpr auto L2GripperBothWheels           = true;
     constexpr auto L2GripperVoltage              = CoralGripVoltage;
 
-    constexpr auto L3Elevator                    = 0.719_m;
+    constexpr auto L3Elevator                    = 0.8206_m;
     constexpr auto L3ArmAngle                    = 45.0_deg;
     constexpr auto L3WristAngle                  = 90.0_deg;
     constexpr auto L3GripperBothWheels           = true;
     constexpr auto L3GripperVoltage              = CoralGripVoltage;
 
-    constexpr auto L4Elevator                    = 1.571_m;
+    constexpr auto L4Elevator                    = 1.6726_m;
     constexpr auto L4ArmAngle                    = 73.0_deg;
     constexpr auto L4WristAngle                  = 90.0_deg;
     constexpr auto L4GripperBothWheels           = true;

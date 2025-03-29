@@ -20,7 +20,7 @@
 #pragma region ConstantsChassisAprilTagToPose
 namespace ConstantsChassisAprilTagToPose
 {
-    constexpr auto ChassisSpeed                     =  2.0_mps;
+    constexpr auto ChassisSpeed                     =  1.0_mps;
     constexpr auto TimeoutTime                      =  15_s;
 
     //*************************** Coral Station *************************************
@@ -30,48 +30,48 @@ namespace ConstantsChassisAprilTagToPose
 
     //*************************** Reef **********************************************
     // Coral L1 right
-    constexpr auto CoralL1ReefRightDistanceOffsetX  = 20.0_in;  // 0.5_m;    // 24_in;  // 0.6_m;
-    constexpr auto CoralL1ReefRightDistanceOffsetY  = -8.0_in;  // -0.2_m;    // 12_in;  // 0.3_m;
+    constexpr auto CoralL1ReefRightDistanceOffsetX  =  20.0_in;
+    constexpr auto CoralL1ReefRightDistanceOffsetY  = -10.0_in;
     constexpr auto CoralL1ReefRightAngleOffset      =  0.0_deg;
 
     // Coral L1 left
-    constexpr auto CoralL1ReefLeftDistanceOffsetX   =  20.0_in;  // 0.5_m;   // 24_in;  // 0.6_m;
-    constexpr auto CoralL1ReefLeftDistanceOffsetY   =  12.0_in;  // 0.3_m;   //-12_in;  // 0.3_m;
+    constexpr auto CoralL1ReefLeftDistanceOffsetX   =  20.0_in;
+    constexpr auto CoralL1ReefLeftDistanceOffsetY   =  10.0_in;
     constexpr auto CoralL1ReefLeftAngleOffset       =   0.0_deg;
 
     // Coral L2 and L3 right
-    constexpr auto CoralL23ReefRightDistanceOffsetX =  16.0_in;  // 0.4_m;   // 24_in;  // 0.6_m;
-    constexpr auto CoralL23ReefRightDistanceOffsetY = -12.0_in;  // -0.03_m;  // 12_in;  // 0.3_m;
+    constexpr auto CoralL23ReefRightDistanceOffsetX =  13.0_in;
+    constexpr auto CoralL23ReefRightDistanceOffsetY =  -5.0_in;
     constexpr auto CoralL23ReefRightAngleOffset     =   0.0_deg;
 
     // Coral L2 and L3 left
-    constexpr auto CoralL23ReefLeftDistanceOffsetX  =  16.0_in;  // 0.4_m;   // 24_in;  // 0.6_m;
-    constexpr auto CoralL23ReefLeftDistanceOffsetY  =  12.5_in;  //-12_in;  // 0.3_m;
+    constexpr auto CoralL23ReefLeftDistanceOffsetX  =  13.0_in;
+    constexpr auto CoralL23ReefLeftDistanceOffsetY  =   9.5_in;
     constexpr auto CoralL23ReefLeftAngleOffset      =   0.0_deg;
 
     // Coral L4 right
-    constexpr auto CoralL4ReefRightDistanceOffsetX  =  16.0_in;  // 0.4_m;   // 24_in;  // 0.6_m;
-    constexpr auto CoralL4ReefRightDistanceOffsetY  =   0.0_in;  // 12_in;  // 0.3_m;
+    constexpr auto CoralL4ReefRightDistanceOffsetX  =  15.5_in;
+    constexpr auto CoralL4ReefRightDistanceOffsetY  =  -5.5_in;
     constexpr auto CoralL4ReefRightAngleOffset      =  0.0_deg;
 
     // Coral L4 left
-    constexpr auto CoralL4ReefLeftDistanceOffsetX   =  16.0_in;  //  0.42_m;  // 24_in;  // 0.6_m;
-    constexpr auto CoralL4ReefLeftDistanceOffsetY   =  17.0_in;  //-12_in;  // 0.3_m;
+    constexpr auto CoralL4ReefLeftDistanceOffsetX   =  16.5_in;
+    constexpr auto CoralL4ReefLeftDistanceOffsetY   =   8.0_in;
     constexpr auto CoralL4ReefLeftAngleOffset       =   0.0_deg;
 
     // Reef Algae
-    constexpr auto AlgaeReefDistanceOffsetX         =  0.0_m;
-    constexpr auto AlgaeReefDistanceOffsetY         =  0.0_m;
-    constexpr auto AlgaeReefAngleOffset             =  0.0_deg;
+    constexpr auto AlgaeReefDistanceOffsetX         =   0.0_m;
+    constexpr auto AlgaeReefDistanceOffsetY         =   0.0_m;
+    constexpr auto AlgaeReefAngleOffset             =   0.0_deg;
 
     //*************************** Algae Processor ***********************************
-    constexpr auto AlgaeProcessorDistanceOffsetX    =  0.0_m;
-    constexpr auto AlgaeProcessorDistanceOffsetY    =  0.0_m;
-    constexpr auto AlgaeProcessorAngleOffset        =  0.0_deg;
+    constexpr auto AlgaeProcessorDistanceOffsetX    =   0.0_m;
+    constexpr auto AlgaeProcessorDistanceOffsetY    =   0.0_m;
+    constexpr auto AlgaeProcessorAngleOffset        =   0.0_deg;
 
     //*************************** Algae Barge ***************************************
-    constexpr auto AlgaelBargeDistanceOffsetX       =  0.0_m;
-    constexpr auto AlgaelBargeDistanceOffsetY       =  0.0_m;
-    constexpr auto AlgaelBargeAngleOffset           =  0.0_deg;
+    constexpr auto AlgaelBargeDistanceOffsetX       =   0.0_m;
+    constexpr auto AlgaelBargeDistanceOffsetY       =   0.0_m;
+    constexpr auto AlgaelBargeAngleOffset           =   0.0_deg;
 }
 #pragma endregion

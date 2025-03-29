@@ -10,6 +10,7 @@
 #include "subsystems/Gripper.h"
 
 #include "commands/ChassisDrivePose.h"
+#include "commands/ChassisDriveTime.h"
 #include "commands/ChassisDriveToAprilTag.h"
 #include "commands/GripperActivate.h"
 #include "commands/GripperPose.h"

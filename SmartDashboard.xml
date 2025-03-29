@@ -1,5 +1,33 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Trajectory States" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="576" y="607"/>
+	</widget>
+	<widget field="Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="614" y="570"/>
+		<width>116</width>
+	</widget>
+	<widget field="Distance Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="594" y="546"/>
+	</widget>
+	<widget field="Distance X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="591" y="522"/>
+	</widget>
+	<widget field="Start A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="462" y="571"/>
+	</widget>
+	<widget field="Start Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="460" y="546"/>
+	</widget>
+	<widget field="Start X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="459" y="522"/>
+	</widget>
+	<widget field="Chassis: X -50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="381" y="640"/>
+	</widget>
+	<widget field="Chassis: Time" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="418" y="611"/>
+	</widget>
 	<widget field="ArmFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1301" y="532"/>
 	</widget>
@@ -145,7 +173,7 @@
 		<location x="681" y="35"/>
 	</widget>
 	<widget field="Start Position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="191" y="20"/>
+		<location x="182" y="25"/>
 	</widget>
 	<widget field="Present A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="747" y="483"/>
@@ -260,27 +288,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="aprilTagPose Y"/>
-	<hidden field="Start A"/>
-	<hidden field="targetPose A"/>
-	<hidden field="yOffset"/>
-	<hidden field="targetPosition Y"/>
-	<hidden field="aprilTagPose X"/>
-	<hidden field="xOffset"/>
-	<hidden field="targetPosition X"/>
-	<hidden field="aprilTagRotation"/>
-	<hidden field="offsetInAprilTagCoordinates X"/>
-	<hidden field="relativePosition X"/>
-	<hidden field="relativePosition Y"/>
-	<hidden field="offsetInAprilTagCoordinates Y"/>
-	<hidden field="robotPose A"/>
-	<hidden field="offsetInGlobalCoordinates X"/>
-	<hidden field="offsetInGlobalCoordinates Y"/>
-	<hidden field="aprilTagPose A"/>
-	<hidden field="targetPose X"/>
-	<hidden field="Start Y"/>
-	<hidden field="robotPose Y"/>
-	<hidden field="targetPose Y"/>
-	<hidden field="Start X"/>
-	<hidden field="robotPose X"/>
 </xml>

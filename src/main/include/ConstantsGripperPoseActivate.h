@@ -33,8 +33,8 @@ namespace ConstantsGripperPoseActivate
     constexpr auto Coral1ArmFinish                =  0.0_deg;
 
     // Coral23
-    constexpr auto Coral123ElevatorOffset         = -0.2_m;
-    constexpr auto Coral123ElevatorWait           =  1.0_s;
+    constexpr auto Coral123ElevatorOffset         = -4_in;
+    constexpr auto Coral123ElevatorWait           =  0.25_s;
     constexpr auto Coral123ArmOffset              =  0.0_deg;
     constexpr auto Coral123ArmMoveWait            =  0.1_s;
     constexpr auto Coral123BothWheels             =  true;
@@ -44,7 +44,7 @@ namespace ConstantsGripperPoseActivate
     constexpr auto Coral123ArmFinish              =  0.0_deg;
 
     // Coral4
-    constexpr auto Coral4ElevatorOffset           = -0.26_m;
+    constexpr auto Coral4ElevatorOffset           = -4_in;
     constexpr auto Coral4ElevatorWait             =  1.0_s;
     constexpr auto Coral4ArmOffset                =  0.0_deg;
     constexpr auto Coral4ArmMoveWait              =  0.0_s;
