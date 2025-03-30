@@ -107,6 +107,7 @@ class RobotContainer
 
         ChassDrivePoseParameters GetAutonomousOneCoralParameters(units::length::inch_t distanceXOffset, units::length::inch_t distanceYOffset);
         ChassDrivePoseParameters GetAutonomousOneCoralAprilTagParameters();
+        ChassDrivePoseParameters GetAutonomousTwoCoralAprilTagParameters();
 
         // Singleton reference to the class (returned by the GetInstance Method)
         static RobotContainer                *m_robotContainer;

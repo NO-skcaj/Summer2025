@@ -35,27 +35,27 @@ namespace ConstantsChassisAprilTagToPose
     constexpr auto CoralL1ReefRightAngleOffset      =  0.0_deg;
 
     // Coral L1 left
-    constexpr auto CoralL1ReefLeftDistanceOffsetX   =  20.0_in;
+    constexpr auto CoralL1ReefLeftDistanceOffsetX   =  18.0_in;
     constexpr auto CoralL1ReefLeftDistanceOffsetY   =  10.0_in;
     constexpr auto CoralL1ReefLeftAngleOffset       =   0.0_deg;
 
     // Coral L2 and L3 right
-    constexpr auto CoralL23ReefRightDistanceOffsetX =  13.0_in;
-    constexpr auto CoralL23ReefRightDistanceOffsetY =  -5.0_in;
+    constexpr auto CoralL23ReefRightDistanceOffsetX =  13.5_in;
+    constexpr auto CoralL23ReefRightDistanceOffsetY =  -3.0_in;
     constexpr auto CoralL23ReefRightAngleOffset     =   0.0_deg;
 
     // Coral L2 and L3 left
-    constexpr auto CoralL23ReefLeftDistanceOffsetX  =  13.0_in;
+    constexpr auto CoralL23ReefLeftDistanceOffsetX  =  13.5_in;
     constexpr auto CoralL23ReefLeftDistanceOffsetY  =   9.5_in;
     constexpr auto CoralL23ReefLeftAngleOffset      =   0.0_deg;
 
     // Coral L4 right
     constexpr auto CoralL4ReefRightDistanceOffsetX  =  15.5_in;
-    constexpr auto CoralL4ReefRightDistanceOffsetY  =  -5.5_in;
+    constexpr auto CoralL4ReefRightDistanceOffsetY  =  -3.5_in;
     constexpr auto CoralL4ReefRightAngleOffset      =  0.0_deg;
 
     // Coral L4 left
-    constexpr auto CoralL4ReefLeftDistanceOffsetX   =  16.5_in;
+    constexpr auto CoralL4ReefLeftDistanceOffsetX   =  15.5_in;
     constexpr auto CoralL4ReefLeftDistanceOffsetY   =   8.0_in;
     constexpr auto CoralL4ReefLeftAngleOffset       =   0.0_deg;
 

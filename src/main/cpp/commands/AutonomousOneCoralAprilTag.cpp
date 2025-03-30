@@ -16,27 +16,25 @@ AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum          
     {
         AddCommands(GripperPose(GripperPoseEnum::Home, gripper),                          // Default behavior for other positions
                     frc2::WaitCommand(0.5_s),                                             // Allow time for the gripper pose to complete
+                    ChassisDrivePose(getStartPoseParameters, drivetrain),                 // Drive closedr to the reef
                     GripperPose(gripperPoseEnum, gripper),                                // Set the gripper to the appropriate level
-                    frc2::WaitCommand(1.0_s),                                             // Allow time for the gripper pose to complete
-                    //ChassisDrivePose(getStartPoseParameters, drivetrain),               // Drive closedr to the reef
-                    //frc2::WaitCommand(0.5_s),                                           // Allow time to read the AprilTag
+                    frc2::WaitCommand(1.0_s),                                             // Allow time to read the AprilTag
                     ChassisDriveToAprilTag(getAprilTagParameters, drivetrain),            // Drive to the reef
                     GripperActivate(gripper),                                             // Activate the gripper to place the coral
-                    ChassisDriveTime(1_s, -1_mps, drivetrain));
-                    //ChassisDrivePose(2_mps, -12.0_in, 0_in, 0_deg, 5_s, drivetrain));     // Move robot away from reef
+                    // ChassisDriveTime(1_s, -1_mps, drivetrain));
+                    ChassisDrivePose(1_mps, -36.0_in, 0_in, 0_deg, 5_s, drivetrain));     // Move robot away from reef
     }
     else
     {
         AddCommands(GripperPose(GripperPoseEnum::Home, gripper),                          // Default behavior for other positions
-                    frc2::WaitCommand(0.5_s),                                             // Allow time for the gripper pose to complete
-                    GripperPose(gripperPoseEnum, gripper),                                // Set the gripper to the appropriate level
-                    frc2::WaitCommand(2.0_s),                                             // Allow time for the gripper pose to complete
-                    ChassisDrivePose(getStartPoseParameters, drivetrain),                 // Drive closedr to the reef
-                    frc2::WaitCommand(0.5_s),                                             // Allow time to read the AprilTag
+                    frc2::WaitCommand(0.5_s),                                             // Set the gripper to the appropriate level
+                    ChassisDrivePose(getStartPoseParameters, drivetrain),                 // Allow time for the gripper pose to complete
+                    GripperPose(gripperPoseEnum, gripper),                                // Drive closedr to the reef
+                    frc2::WaitCommand(1.0_s),                                             // Allow time to read the AprilTag
                     ChassisDriveToAprilTag(getAprilTagParameters, drivetrain),            // Drive to the reef
                     GripperActivate(gripper),                                             // Activate the gripper to place the coral
-                    ChassisDriveTime(1_s, -1_mps, drivetrain));
-                    //ChassisDrivePose(2_mps, -12.0_in, 0_in, 0_deg, 5_s, drivetrain));     // Move robot away from reef
+                    //ChassisDriveTime(1_s, -1_mps, drivetrain));
+                    ChassisDrivePose(1_mps, -36.0_in, 0_in, 0_deg, 5_s, drivetrain));     // Move robot away from reef
     }
 }
 #pragma endregion

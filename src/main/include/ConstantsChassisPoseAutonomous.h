@@ -26,19 +26,22 @@ namespace ConstantsChassisPoseAutonomous
 
     /************************ OneCoral AprilTag **********************************/
     // Left starting position for one coral placement
-    constexpr auto OneCoralLeftXDistanceAprilTag    =  39_in;  // 1.0_m;
-    constexpr auto OneCoralLeftYDistanceAprilTag    =  20_in;  // 0.5_m;
+    constexpr auto OneCoralLeftXDistanceAprilTag    =  66_in;  // 1.0_m;
+    constexpr auto OneCoralLeftYDistanceAprilTag    =  16_in;  // 0.5_m;
     constexpr auto OneCoralLeftAngleChangeAprilTag  =  60_deg;
 
     // Middle starting position for one coral placement
-    constexpr auto OneCoralMiddleXDistanceAprilTag  =  20_in;  // 0.5_m;
+    constexpr auto OneCoralMiddleXDistanceAprilTag  =  32_in;  // 0.5_m;
     constexpr auto OneCoralMiddleYDistanceAprilTag  =  0_m;
     constexpr auto OneCoralAngleChangeAprilTag      =  0_deg;
 
     // Right starting position for one coral placement
-    constexpr auto OneCoralRightXDistanceAprilTag   =  39_in;  //  1.0_m;
-    constexpr auto OneCoralRightYDistanceAprilTag   = -20_in;  // -0.5_m;
+    constexpr auto OneCoralRightXDistanceAprilTag   =  66_in;  //  1.0_m;
+    constexpr auto OneCoralRightYDistanceAprilTag   = -16_in;  // -0.5_m;
     constexpr auto OneCoralRightAngleChangeAprilTag = -60_deg;
+
+    /************************* TwoCoral Pose AprilTag ****************************/
+    
 
     /************************ OneCoral Pose Only *********************************/
     // Left starting position for one coral placement

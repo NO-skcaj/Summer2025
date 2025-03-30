@@ -27,30 +27,30 @@ namespace ConstantsGripperPoseActivate
     constexpr auto Coral1ArmOffset                =  0.0_deg;
     constexpr auto Coral1ArmMoveWait              =  0.0_s;
     constexpr auto Coral1BothWheels               =  true;
-    constexpr auto Coral1GripperVoltage           = -3.0_V;
+    constexpr auto Coral1GripperVoltage           = -2.0_V;
     constexpr auto Coral1GripperPlaceWait         =  1.0_s;
     constexpr auto Coral1ElevatorFinish           =  0.0_m;
     constexpr auto Coral1ArmFinish                =  0.0_deg;
 
     // Coral23
-    constexpr auto Coral123ElevatorOffset         = -4_in;
+    constexpr auto Coral123ElevatorOffset         = -6_in;
     constexpr auto Coral123ElevatorWait           =  0.25_s;
-    constexpr auto Coral123ArmOffset              =  0.0_deg;
-    constexpr auto Coral123ArmMoveWait            =  0.1_s;
+    constexpr auto Coral123ArmOffset              =  20.0_deg;
+    constexpr auto Coral123ArmMoveWait            =  1.0_s;
     constexpr auto Coral123BothWheels             =  true;
-    constexpr auto Coral123GripperVoltage         = -3.0_V;
+    constexpr auto Coral123GripperVoltage         = -1.0_V;
     constexpr auto Coral123GripperPlaceWait       =  5.0_s;
     constexpr auto Coral123ElevatorFinish         =  0.0_m;
     constexpr auto Coral123ArmFinish              =  0.0_deg;
 
     // Coral4
-    constexpr auto Coral4ElevatorOffset           = -4_in;
+    constexpr auto Coral4ElevatorOffset           = -11.0_in;
     constexpr auto Coral4ElevatorWait             =  1.0_s;
     constexpr auto Coral4ArmOffset                =  0.0_deg;
     constexpr auto Coral4ArmMoveWait              =  0.0_s;
     constexpr auto Coral4BothWheels               =  true;
-    constexpr auto Coral4GripperVoltage           = -3.0_V;
-    constexpr auto Coral4GripperPlaceWait         =  5.0_s;
+    constexpr auto Coral4GripperVoltage           = -2.0_V;
+    constexpr auto Coral4GripperPlaceWait         =  3.0_s;
     constexpr auto Coral4ElevatorFinish           =  0.0_m;
     constexpr auto Coral4ArmFinish                =  0.0_deg;
 

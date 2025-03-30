@@ -120,23 +120,23 @@ RobotContainer::RobotContainer()
     SetSwerveWheelAnglesToZero();
 
     // Start capturing video from the USB camera
-    cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
+    // cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
 
-    // Set the resolution and frame rate of the camera
-    camera.SetResolution(640, 480); // Set resolution to 640x480
-    camera.SetFPS(30);             // Set frame rate to 30 FPS
+    // // Set the resolution and frame rate of the camera
+    // camera.SetResolution(640, 480); // Set resolution to 640x480
+    // camera.SetFPS(30);             // Set frame rate to 30 FPS
 
     // Access the Limelight feed
-    m_limelightFeed = frc::CameraServer::AddSwitchedCamera("Limelight");
+    // m_limelightFeed = frc::CameraServer::AddSwitchedCamera("Limelight");
 
     // Set the Limelight feed source to a valid video source
-    m_limelightFeed.SetSource(frc::CameraServer::GetVideo().GetSource());
+    // m_limelightFeed.SetSource(frc::CameraServer::GetVideo().GetSource());
 
-    // Create a VideoSink to control the stream
-    m_server = frc::CameraServer::GetServer();
+    // // Create a VideoSink to control the stream
+    // m_server = frc::CameraServer::GetServer();
 
-    // Set the initial camera source to the Limelight camera
-    m_server.SetSource(m_limelightFeed.GetSource());
+    // // Set the initial camera source to the Limelight camera
+    // m_server.SetSource(m_limelightFeed.GetSource());
 
     frc::SmartDashboard::PutString("Active Camera", "USB Camera");
 }
@@ -644,6 +644,17 @@ ChassDrivePoseParameters RobotContainer::GetAutonomousOneCoralAprilTagParameters
 
     // Return the parameters
     return parameters;
+}
+#pragma endregion
+
+#pragma region GetAutonomousTwoCoralAprilTagParameters
+ChassDrivePoseParameters RobotContainer::GetAutonomousTwoCoralAprilTagParameters()
+{
+    ChassDrivePoseParameters parameters;
+
+    parameters.Speed = ConstantsChassisPoseAutonomous::AutonomousSpeed;
+    parameters.TimeoutTime = ConstantsChassisPoseAutonomous::AutonomousTimeOut;
+    //paremeters.DistanceX = ConstantsChassisPoseAutonomous::OneCoralLeftXDistanceAprilTag;
 }
 #pragma endregion
 

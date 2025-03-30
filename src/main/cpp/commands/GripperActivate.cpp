@@ -19,7 +19,7 @@ GripperActivate::GripperActivate(Gripper *gripper) : m_gripper(gripper)
 /// @brief Called just before this Command runs.
 void GripperActivate::Initialize()
 {
-    m_state      = GripperState::ElevatorMove;
+    m_state      = GripperState::ArmMove;
     m_isFinished = false;
 
     // Determine the action based on the present gripper pose
@@ -76,24 +76,27 @@ void GripperActivate::Initialize()
 /// @brief Called repeatedly when this Command is scheduled to run.
 void GripperActivate::Execute()
 {
+    frc::SmartDashboard::PutNumber("ActivateState", m_state);
+
     // Execute the state machine
     switch (m_state)
     {
-        case GripperState::ElevatorMove:
-        {
-            m_gripper->SetElevatorOffset(m_stateData.ElevatorOffset);  // Move the elevator
-            m_timer = frc::GetTime() + m_stateData.ElevatorMoveWait;   // Time allowed to move the Elevator
-            m_state = ArmMove;                                         // Next state is ArmMove
-            break;
-        }
 
         case GripperState::ArmMove:
         {
+            m_gripper->SetArmAngleOffset(m_stateData.ArmOffset);  // Move the Arm
+            m_timer = frc::GetTime() + m_stateData.ArmMoveWait;   // Time allowed to move the Arm
+            m_state = ElevatorMove;                          // Next state is GripperWheelsMove
+            break;
+        }
+
+        case GripperState::ElevatorMove:
+        {
             if (frc::GetTime() > m_timer)
             {
-                m_gripper->SetArmAngleOffset(m_stateData.ArmOffset);  // Move the Arm
-                m_timer = frc::GetTime() + m_stateData.ArmMoveWait;   // Time allowed to move the Arm
-                m_state = GripperWheelsMove;                          // Next state is GripperWheelsMove
+                m_gripper->SetElevatorOffset(m_stateData.ElevatorOffset);  // Move the elevator
+                m_timer = frc::GetTime() + m_stateData.ElevatorMoveWait;   // Time allowed to move the Elevator
+                m_state = GripperWheelsMove;                                         // Next state is ArmMove
             }
             break;
         }
