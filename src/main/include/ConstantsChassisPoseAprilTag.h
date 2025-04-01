@@ -60,7 +60,7 @@ namespace ConstantsChassisAprilTagToPose
     constexpr auto CoralL4ReefLeftAngleOffset       =   0.0_deg;
 
     // Reef Algae
-    constexpr auto AlgaeReefDistanceOffsetX         =   0.0_m;
+    constexpr auto AlgaeReefDistanceOffsetX         =  17.0_m;
     constexpr auto AlgaeReefDistanceOffsetY         =   0.0_m;
     constexpr auto AlgaeReefAngleOffset             =   0.0_deg;
 
