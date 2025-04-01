@@ -111,8 +111,6 @@ void ChassisDrivePose::Initialize()
         // Create the trajectory to follow
         auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(startPose, {}, endPose, trajectoryConfig);
 
-        frc::SmartDashboard::PutNumber("Trajectory States", trajectory.States().size());
-
         // Create a profile PID controller
         frc::ProfiledPIDController<units::radians> profiledPIDController{ChassisPoseConstants::PProfileController, 0, 0,
                                                                          ChassisPoseConstants::ThetaControllerConstraints};

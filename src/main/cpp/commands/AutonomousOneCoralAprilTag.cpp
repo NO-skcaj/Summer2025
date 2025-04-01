@@ -21,7 +21,6 @@ AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum          
                     frc2::WaitCommand(1.0_s),                                             // Allow time to read the AprilTag
                     ChassisDriveToAprilTag(getAprilTagParameters, drivetrain),            // Drive to the reef
                     GripperActivate(gripper),                                             // Activate the gripper to place the coral
-                    // ChassisDriveTime(1_s, -1_mps, drivetrain));
                     ChassisDrivePose(1_mps, -36.0_in, 0_in, 0_deg, 5_s, drivetrain));     // Move robot away from reef
     }
     else
@@ -33,7 +32,6 @@ AutonomousOneCoralAprilTag::AutonomousOneCoralAprilTag(GripperPoseEnum          
                     frc2::WaitCommand(1.0_s),                                             // Allow time to read the AprilTag
                     ChassisDriveToAprilTag(getAprilTagParameters, drivetrain),            // Drive to the reef
                     GripperActivate(gripper),                                             // Activate the gripper to place the coral
-                    //ChassisDriveTime(1_s, -1_mps, drivetrain));
                     ChassisDrivePose(1_mps, -36.0_in, 0_in, 0_deg, 5_s, drivetrain));     // Move robot away from reef
     }
 }

@@ -53,7 +53,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Limelight Rot Z", targetPose3d.Rotation().Z().to<double>() * 180.0 / M_PI);
 
     auto pipelineLatency = LimelightHelpers::getLatency_Pipeline("limelight");
-    frc::SmartDashboard::PutNumber("Limelight Pipeline Latency", pipelineLatency);
+    //frc::SmartDashboard::PutNumber("Limelight Pipeline Latency", pipelineLatency);
 }
 #pragma endregion
 

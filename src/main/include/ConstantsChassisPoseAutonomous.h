@@ -43,6 +43,13 @@ namespace ConstantsChassisPoseAutonomous
     /************************* TwoCoral Pose AprilTag ****************************/
     
 
+    /******************** Algae and One Coral AprilTag ***************************/
+    // Algael/Barge starting position for one coral placement
+    constexpr auto AlgaeAndCoralSpeed               =  2_mps;
+    constexpr auto AlgaeAndCoralXDistance           =  39_in;  // 1_m;
+    constexpr auto AlgaeAndCoralYDistance           =  0_m;
+    constexpr auto AlgaeAndCoralAngleChange         = 180_deg;
+
     /************************ OneCoral Pose Only *********************************/
     // Left starting position for one coral placement
     constexpr auto OneCoralLeftXDistance            =  72_in;  // 1.829_m;
@@ -58,12 +65,5 @@ namespace ConstantsChassisPoseAutonomous
     constexpr auto OneCoralRightXDistance           =  72_in;  //  1.829_m;
     constexpr auto OneCoralRightYDistance           = -39_in;  // -0.9902_m;
     constexpr auto OneCoralRightAngleChange         = -60_deg;
-
-    /******************** Algae and One Coral AprilTag ***************************/
-    // Algael/Barge starting position for one coral placement
-    constexpr auto AlgaeAndCoralSpeed               =  2_mps;
-    constexpr auto AlgaeAndCoralXDistance           =  39_in;  // 1_m;
-    constexpr auto AlgaeAndCoralYDistance           =  0_m;
-    constexpr auto AlgaeAndCoralAngleChange         = 180_deg;
 };
 #pragma endregion

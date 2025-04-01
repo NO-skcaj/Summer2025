@@ -1,215 +1,149 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Active Camera" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="809" y="659"/>
-	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="1274" y="576"/>
+		<location x="967" y="420"/>
+		<width>296</width>
+		<height>213</height>
 		<property name="Camera Choice" value="USB Camera 0"/>
 	</static-widget>
-	<widget field="Trajectory States" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="576" y="607"/>
-	</widget>
 	<widget field="Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="614" y="570"/>
+		<location x="623" y="476"/>
 		<width>116</width>
 	</widget>
 	<widget field="Distance Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="594" y="546"/>
+		<location x="599" y="452"/>
 	</widget>
 	<widget field="Distance X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="591" y="522"/>
+		<location x="600" y="427"/>
 	</widget>
 	<widget field="Start A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="462" y="571"/>
+		<location x="457" y="475"/>
 	</widget>
 	<widget field="Start Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="460" y="546"/>
+		<location x="457" y="450"/>
 	</widget>
 	<widget field="Start X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="459" y="522"/>
-	</widget>
-	<widget field="Chassis: X -50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="381" y="640"/>
-	</widget>
-	<widget field="Chassis: Time" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="418" y="611"/>
-	</widget>
-	<widget field="ArmFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1301" y="532"/>
-	</widget>
-	<widget field="ElevatorFinish" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1280" y="507"/>
-	</widget>
-	<widget field="GripperVoltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1276" y="483"/>
-	</widget>
-	<widget field="ArmOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1298" y="459"/>
-	</widget>
-	<widget field="ElevatorOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1276" y="434"/>
-		<height>20</height>
-	</widget>
-	<widget field="Chassis: XY 100 Turn" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="277" y="180"/>
-	</widget>
-	<widget field="Chassis: XY 100 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="267" y="151"/>
-	</widget>
-	<widget field="Chassis: XY 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="274" y="123"/>
-	</widget>
-	<widget field="Chassis: Y 100 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="274" y="95"/>
-	</widget>
-	<widget field="Chassis: Y 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="282" y="68"/>
-	</widget>
-	<widget field="Chassis: X 100 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="278" y="42"/>
-	</widget>
-	<widget field="Chassis: X 50 Inches" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="284" y="14"/>
+		<location x="455" y="425"/>
 	</widget>
 	<widget field="AprilTag A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="443" y="481"/>
+		<location x="442" y="376"/>
 	</widget>
 	<widget field="AprilTag Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="441" y="456"/>
+		<location x="441" y="349"/>
 	</widget>
 	<widget field="AprilTag X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="444" y="432"/>
+		<location x="444" y="325"/>
 	</widget>
 	<widget field="Limelight Rot Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="665" y="283"/>
+		<location x="570" y="185"/>
 	</widget>
 	<widget field="Limelight Rot Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="664" y="258"/>
+		<location x="569" y="159"/>
 	</widget>
 	<widget field="Limelight Rot X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="664" y="234"/>
+		<location x="568" y="134"/>
 	</widget>
 	<widget field="Limelight Z" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="511" y="281"/>
+		<location x="418" y="184"/>
 	</widget>
 	<widget field="Limelight Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="512" y="256"/>
+		<location x="417" y="158"/>
 	</widget>
 	<widget field="Limelight X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="513" y="233"/>
+		<location x="417" y="133"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="972" y="11"/>
+		<location x="968" y="6"/>
 		<width>516</width>
 		<height>407</height>
 		<property name="Camera Choice" value="limelight"/>
 	</static-widget>
-	<widget field="Limelight Pipeline Latency" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="434" y="323"/>
-		<height>22</height>
-	</widget>
 	<widget field="Wrist Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="817" y="85"/>
+		<location x="581" y="216"/>
 		<height>20</height>
 	</widget>
-	<widget field="Coral Angle Change" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="824" y="584"/>
-	</widget>
-	<widget field="Coral Y Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="840" y="563"/>
-	</widget>
-	<widget field="Coral X Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="841" y="541"/>
-	</widget>
-	<widget field="Coral Start Position" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="827" y="517"/>
-	</widget>
 	<widget field="AprilTag: TimeoutTime" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1058" y="608"/>
+		<location x="750" y="180"/>
 	</widget>
 	<widget field="AprilTag: AngleOffset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1059" y="582"/>
+		<location x="752" y="155"/>
 	</widget>
 	<widget field="AprilTag: DistanceOffsetY" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1040" y="557"/>
+		<location x="733" y="130"/>
 	</widget>
 	<widget field="AprilTag: DistanceOffsetX" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1041" y="531"/>
+		<location x="732" y="105"/>
 	</widget>
 	<widget field="AprilTag: Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1089" y="506"/>
+		<location x="778" y="80"/>
 	</widget>
 	<widget field="AprilTag: ReefRightSide" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1049" y="481"/>
+		<location x="742" y="54"/>
 	</widget>
 	<widget field="AprilTag: ValidPose" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1071" y="456"/>
-	</widget>
-	<widget field="AprilTag Pose" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1098" y="430"/>
+		<location x="765" y="30"/>
 	</widget>
 	<widget field="Wheels Input" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="216" y="305"/>
 	</widget>
 	<widget field="Wheels Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="496" y="108"/>
+		<location x="399" y="96"/>
 	</widget>
 	<widget field="Wrist Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="506" y="82"/>
+		<location x="410" y="71"/>
 	</widget>
 	<widget field="Arm Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="512" y="57"/>
+		<location x="415" y="46"/>
 	</widget>
 	<widget field="Elevator Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="492" y="32"/>
+		<location x="396" y="22"/>
 	</widget>
 	<widget field="Wheels" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="684" y="109"/>
+		<location x="603" y="100"/>
 	</widget>
 	<widget field="Wrist" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="696" y="85"/>
+		<location x="612" y="75"/>
 	</widget>
 	<widget field="Arm" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="704" y="60"/>
+		<location x="619" y="51"/>
 	</widget>
 	<widget field="Elevator" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="681" y="35"/>
+		<location x="598" y="27"/>
 	</widget>
 	<widget field="Start Position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="182" y="25"/>
+		<location x="200" y="104"/>
 	</widget>
 	<widget field="Present A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="747" y="483"/>
+		<location x="738" y="378"/>
 	</widget>
 	<widget field="Present Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="746" y="459"/>
+		<location x="738" y="353"/>
 	</widget>
 	<widget field="Present X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="749" y="435"/>
+		<location x="739" y="329"/>
 	</widget>
 	<widget field="End A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="603" y="482"/>
+		<location x="605" y="378"/>
 	</widget>
 	<widget field="End Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="602" y="458"/>
+		<location x="607" y="352"/>
 	</widget>
 	<widget field="End X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="602" y="434"/>
+		<location x="606" y="328"/>
 	</widget>
 	<widget field="Voltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="249" y="253"/>
 	</widget>
 	<widget field="Field Centricity" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="517" y="155"/>
+		<location x="44" y="70"/>
 		<width>124</width>
-		<height>16</height>
+		<height>14</height>
 	</widget>
 	<widget field="Gyro Rotation" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="217" y="278"/>
 	</widget>
 	<widget field="Chassis: AprilTag " type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="293" y="207"/>
+		<location x="756" y="208"/>
 	</widget>
 	<widget field="Rear Left Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="26" y="596"/>
@@ -239,11 +173,11 @@
 		<location x="53" y="327"/>
 	</widget>
 	<widget field="Debug" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="451" y="379"/>
-		<width>371</width>
+		<location x="400" y="256"/>
+		<width>327</width>
 	</widget>
 	<widget field="Autonomous Mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="31" y="10"/>
+		<location x="27" y="93"/>
 	</widget>
 	<widget field="Rear Right Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="33" y="473"/>
@@ -283,10 +217,34 @@
 		<height>20</height>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="681" y="145"/>
+		<location x="42" y="16"/>
 		<width>193</width>
+		<height>44</height>
 	</static-widget>
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="Chassis: XY 100 Turn"/>
+	<hidden field="Active Camera"/>
+	<hidden field="Coral Start Position"/>
+	<hidden field="AprilTag Pose"/>
+	<hidden field="Chassis: XY 100 Inches"/>
+	<hidden field="ArmOffset"/>
+	<hidden field="Chassis: Y 100 Inches"/>
+	<hidden field="Chassis: XY 50 Inches"/>
+	<hidden field="Coral Y Distance"/>
+	<hidden field="Coral Angle Change"/>
+	<hidden field="ElevatorOffset"/>
+	<hidden field="GripperVoltage"/>
+	<hidden field="Limelight Pipeline Latency"/>
+	<hidden field="Chassis: X 100 Inches"/>
+	<hidden field="Chassis: X 50 Inches"/>
+	<hidden field="Trajectory States"/>
+	<hidden field="ArmFinish"/>
+	<hidden field="Chassis: Y 50 Inches"/>
+	<hidden field="Coral X Distance"/>
+	<hidden field="ActivateState"/>
+	<hidden field="Chassis: X -50 Inches"/>
+	<hidden field="Chassis: Time"/>
+	<hidden field="ElevatorFinish"/>
 </xml>

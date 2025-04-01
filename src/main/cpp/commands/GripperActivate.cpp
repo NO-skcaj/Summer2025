@@ -64,11 +64,11 @@ void GripperActivate::Initialize()
         }
     }
 
-    frc::SmartDashboard::PutNumber("ElevatorOffset", m_stateData.ElevatorOffset.value());
-    frc::SmartDashboard::PutNumber("ArmOffset",      m_stateData.ArmOffset.value());
-    frc::SmartDashboard::PutNumber("GripperVoltage", m_stateData.GripperVoltage.value());
-    frc::SmartDashboard::PutNumber("ElevatorFinish", m_stateData.ElevatorFinish.value());
-    frc::SmartDashboard::PutNumber("ArmFinish",      m_stateData.ArmFinish.value());
+    // frc::SmartDashboard::PutNumber("ElevatorOffset", m_stateData.ElevatorOffset.value());
+    // frc::SmartDashboard::PutNumber("ArmOffset",      m_stateData.ArmOffset.value());
+    // frc::SmartDashboard::PutNumber("GripperVoltage", m_stateData.GripperVoltage.value());
+    // frc::SmartDashboard::PutNumber("ElevatorFinish", m_stateData.ElevatorFinish.value());
+    // frc::SmartDashboard::PutNumber("ArmFinish",      m_stateData.ArmFinish.value());
 }
 #pragma endregion
 
@@ -76,8 +76,6 @@ void GripperActivate::Initialize()
 /// @brief Called repeatedly when this Command is scheduled to run.
 void GripperActivate::Execute()
 {
-    frc::SmartDashboard::PutNumber("ActivateState", m_state);
-
     // Execute the state machine
     switch (m_state)
     {
