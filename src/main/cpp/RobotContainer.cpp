@@ -676,6 +676,9 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
 {
     ChassDriveAprilTagParameters parameters;
 
+    // Sets the field centricity to true after getting to the position.
+    parameters.FieldCentricity = true;
+
     // Assume the pose is valid
     parameters.ValidPose = true;
 
@@ -764,6 +767,7 @@ ChassDriveAprilTagParameters RobotContainer::GetChassisDriveToAprilTagParameters
         case GripperPoseEnum::AlgaeLow:   // Drive to the reef for extracting algae
         case GripperPoseEnum::AlgaeHigh:
         {
+            parameters.FieldCentricity = false;
             parameters.PoseParameters.DistanceX = ConstantsChassisAprilTagToPose::AlgaeReefDistanceOffsetX;
             parameters.PoseParameters.DistanceY = ConstantsChassisAprilTagToPose::AlgaeReefDistanceOffsetY;
             parameters.PoseParameters.Angle     = ConstantsChassisAprilTagToPose::AlgaeReefAngleOffset;
