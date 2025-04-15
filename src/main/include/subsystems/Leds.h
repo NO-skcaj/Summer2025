@@ -7,9 +7,8 @@
 #include <frc/LEDPattern.h>
 #include <frc/LEDPattern.h>
 
-#include "Constants.h"
+#include "Constants/Controller.h"
 
-#pragma region LedConstants
 namespace LedConstants
 {
     constexpr auto PwmPort     =   9;
@@ -24,7 +23,6 @@ namespace LedConstants
     constexpr auto StrobeDelay =  20;  // The delay between strobe flashes
     constexpr auto HvaDelay    =  20;  // The delay between HVA color changes
 }
-#pragma endregion
 
 /// @brief modes for the LED string.
 enum LedMode

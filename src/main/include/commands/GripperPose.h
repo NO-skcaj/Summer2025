@@ -5,7 +5,7 @@
 
 #include "subsystems/Gripper.h"
 
-#include "Constants.h"
+#include "Constants/Controller.h"
 
 class GripperPose : public frc2::CommandHelper<frc2::Command, GripperPose>
 {

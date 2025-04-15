@@ -1,6 +1,5 @@
 #include "commands/AutonomousLed.h"
 
-#pragma region AutonomousLed (constructor)
 /// @brief Automonous command to test sequential commands.
 /// @param leds The LED subsystem
 AutonomousLed::AutonomousLed(Leds *leds)
@@ -13,4 +12,3 @@ AutonomousLed::AutonomousLed(Leds *leds)
                 SetLeds(LedMode::Strobe,    5_s, leds),
                 SetLeds(LedMode::HvaColors, 5_s, leds));
 }
-#pragma endregion

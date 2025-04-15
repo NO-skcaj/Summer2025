@@ -2,7 +2,6 @@
 
 using namespace std;
 
-#pragma region Leds (constructor)
 /// @brief Class to support an addressable LED string.
 Leds::Leds()
 {
@@ -18,9 +17,7 @@ Leds::Leds()
     // Start the addressable LED communications
     m_led.Start();
 }
-#pragma endregion
 
-#pragma region Periodic
 /// @brief This method will be called once periodically.
 void Leds::Periodic()
 {
@@ -57,9 +54,7 @@ void Leds::Periodic()
     // Set the LEDs
     m_led.SetData(m_ledBuffer);
 }
-#pragma endregion
 
-#pragma region SetMode
 /// @brief Setting the Led's mode to the given parameter.
 /// @param ledMode mode to set the Leds.
 void Leds::SetMode(LedMode ledMode)
@@ -99,9 +94,7 @@ void Leds::SetMode(LedMode ledMode)
     // Set the LEDs
     m_led.SetData(m_ledBuffer);
 }
-#pragma endregion
 
-#pragma region SolidColor
 /// @brief Method to support setting the LED string to the specified solid color.
 /// @param red The red component of the LED color.
 /// @param green The green component of the LED color.
@@ -112,9 +105,7 @@ void Leds::SolidColor(int red, int green, int blue)
     for (auto ledIndex = 0; ledIndex < LedConstants::Length; ledIndex++)
         m_ledBuffer[ledIndex].SetRGB(red * LedConstants::Brightness, green * LedConstants::Brightness, blue * LedConstants::Brightness);
 }
-#pragma endregion
 
-#pragma region HvaColors
 /// @brief Method to support setting the LED string to HVA alternating color.
 void Leds::HvaColors()
 {
@@ -141,9 +132,7 @@ void Leds::HvaColors()
     // Update the cycle counter
     m_cycleCounter++;
 }
-#pragma endregion
 
-#pragma region Strobe
 /// @brief Method to strobe the LED string.
 void Leds::Strobe()
 {
@@ -155,4 +144,3 @@ void Leds::Strobe()
     // Update the cycle counter
     m_cycleCounter++;
 }
-#pragma endregion

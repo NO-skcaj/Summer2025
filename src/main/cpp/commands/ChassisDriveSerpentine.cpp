@@ -1,6 +1,5 @@
 #include "commands/ChassisDriveSerpentine.h"
 
-#pragma region ChassisDriveSerpentine
 /// @brief Constructor for the ChassisDriveSerpentine class.
 /// @param speed The speed to move the chassis.
 /// @param timeoutTime The time-out time for the command.
@@ -16,9 +15,7 @@ ChassisDriveSerpentine::ChassisDriveSerpentine(units::velocity::meters_per_secon
     // Ensure the SwerveControllerCommand is set to nullptr
     m_swerveControllerCommand = nullptr;
 }
-#pragma endregion
 
-#pragma region Initialize
 /// @brief Called just before this Command runs.
 void ChassisDriveSerpentine::Initialize()
 {
@@ -28,7 +25,7 @@ void ChassisDriveSerpentine::Initialize()
     try
     {
         // Set up config for trajectory
-        frc::TrajectoryConfig trajectoryConfig(m_speed, ChassisPoseConstants::MaxAcceleration);
+        frc::TrajectoryConfig trajectoryConfig(m_speed, Constants::ChassisPose::MaxAcceleration);
 
         // Add kinematics to ensure maximum speed is actually obeyed
         trajectoryConfig.SetKinematics(m_drivetrain->m_kinematics);
@@ -44,8 +41,8 @@ void ChassisDriveSerpentine::Initialize()
             // Pass the config
             trajectoryConfig);
 
-        frc::ProfiledPIDController<units::radians> profiledPIDController{ChassisPoseConstants::PProfileController, 0, 0,
-                                                                         ChassisPoseConstants::ThetaControllerConstraints};
+        frc::ProfiledPIDController<units::radians> profiledPIDController{Constants::ChassisPose::PProfileController, 0, 0,
+                                                                         Constants::ChassisPose::ThetaControllerConstraints};
 
         // enable continuous input for the profile PID controller
         profiledPIDController.EnableContinuousInput(units::radian_t{-std::numbers::pi}, units::radian_t{std::numbers::pi});
@@ -55,8 +52,8 @@ void ChassisDriveSerpentine::Initialize()
             trajectory,
             [this]() { return m_drivetrain->GetPose(); },
             m_drivetrain->m_kinematics,
-            frc::PIDController(ChassisPoseConstants::PXController, 0, 0),
-            frc::PIDController(ChassisPoseConstants::PYController, 0, 0),
+            frc::PIDController(Constants::ChassisPose::PXController, 0, 0),
+            frc::PIDController(Constants::ChassisPose::PYController, 0, 0),
             profiledPIDController,
             [this](auto moduleStates) { m_drivetrain->SetModuleStates(moduleStates); },
             {m_drivetrain}
@@ -73,9 +70,7 @@ void ChassisDriveSerpentine::Initialize()
         frc::SmartDashboard::PutString("Debug", exception.what());
     }
 }
-#pragma endregion
 
-#pragma region Execute
 /// @brief Called repeatedly when this Command is scheduled to run.
 void ChassisDriveSerpentine::Execute()
 {
@@ -83,9 +78,7 @@ void ChassisDriveSerpentine::Execute()
     if (m_swerveControllerCommand)
         m_swerveControllerCommand->Execute();
 }
-#pragma endregion
 
-#pragma region IsFinished
 /// @brief Indicates if the command has completed.
 /// @return True is the command has completed.
 bool ChassisDriveSerpentine::IsFinished()
@@ -97,9 +90,7 @@ bool ChassisDriveSerpentine::IsFinished()
     // Determine if the swerve controller command is finished
     return m_swerveControllerCommand && m_swerveControllerCommand->IsFinished();
 }
-#pragma endregion
 
-#pragma region End
 /// @brief Called once after isFinished returns true.
 /// @param interrupted Indicated that the command was interrupted.
 void ChassisDriveSerpentine::End(bool interrupted)

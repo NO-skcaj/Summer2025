@@ -5,8 +5,8 @@
 
 #include "subsystems/Gripper.h"
 
-#include "Constants.h"
-#include "ConstantsGripperPoseActivate.h"
+#include "Constants/Controller.h"
+#include "Constants/GripperPoseActivate.h"
 
 enum GripperState
 {

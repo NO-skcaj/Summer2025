@@ -1,8 +1,7 @@
 #include "commands/GripperActivate.h"
 
-using namespace ConstantsGripperPoseActivate;
+using namespace Constants::GripperPoseActivate;
 
-#pragma region GripperActivate
 /// @brief CCommand to activate the gripper to a specific pose.
 /// @param gripper The gripper subsystem.
 GripperActivate::GripperActivate(Gripper *gripper) : m_gripper(gripper)
@@ -13,9 +12,7 @@ GripperActivate::GripperActivate(Gripper *gripper) : m_gripper(gripper)
     // Declare subsystem dependencies
     AddRequirements(m_gripper);
 }
-#pragma endregion
 
-#pragma region Initialize
 /// @brief Called just before this Command runs.
 void GripperActivate::Initialize()
 {
@@ -70,9 +67,7 @@ void GripperActivate::Initialize()
     // frc::SmartDashboard::PutNumber("ElevatorFinish", m_stateData.ElevatorFinish.value());
     // frc::SmartDashboard::PutNumber("ArmFinish",      m_stateData.ArmFinish.value());
 }
-#pragma endregion
 
-#pragma region Execute
 /// @brief Called repeatedly when this Command is scheduled to run.
 void GripperActivate::Execute()
 {
@@ -137,17 +132,13 @@ void GripperActivate::Execute()
         }
     }
 }
-#pragma endregion
 
-#pragma region IsFinished
 // Returns true when the command should end.
 bool GripperActivate::IsFinished()
 {
     return m_isFinished;
 }
-#pragma endregion
 
-#pragma region CoralL1
 /// @brief Method to set the gripper activate parameters for Coral at L1.
 void GripperActivate::CoralL1()
 {
@@ -162,9 +153,7 @@ void GripperActivate::CoralL1()
     m_stateData.ElevatorFinish   = Coral1ElevatorFinish;
     m_stateData.ArmFinish        = Coral1ArmFinish;
 }
-#pragma endregion
 
-#pragma region CoralL23
 /// @brief Method to set the gripper activate parameters for Coral at L2 or L3.
 void GripperActivate::CoralL23()
 {
@@ -179,9 +168,7 @@ void GripperActivate::CoralL23()
     m_stateData.ElevatorFinish   = Coral123ElevatorFinish;
     m_stateData.ArmFinish        = Coral123ArmFinish;
 }
-#pragma endregion
 
-#pragma region CoralL4
 /// @brief Method to set the gripper activate parameters for Coral at L4.
 void GripperActivate::CoralL4()
 {
@@ -196,9 +183,7 @@ void GripperActivate::CoralL4()
     m_stateData.ElevatorFinish   = Coral4ElevatorFinish;
     m_stateData.ArmFinish        = Coral4ArmFinish;
 }
-#pragma endregion
 
-#pragma region AlgaeProcessor
 /// @brief Method to set the gripper activate parameters for Algae at the Processor.
 void GripperActivate::AlgaeProcessor()
 {
@@ -213,9 +198,7 @@ void GripperActivate::AlgaeProcessor()
     m_stateData.ElevatorFinish   = AlgaeProcessorElevatorFinish;
     m_stateData.ArmFinish        = AlgaeProcessorArmFinish;
 }
-#pragma endregion
 
-#pragma region AlgaeBarge
 /// @brief Method to set the gripper activate parameters for Algae at the Barge.
 void GripperActivate::AlgaeBarge()
 {
@@ -230,4 +213,3 @@ void GripperActivate::AlgaeBarge()
     m_stateData.ElevatorFinish   = AlgaeBargeElevatorFinish;
     m_stateData.ArmFinish        = AlgaeBargeArmFinish;
 }
-#pragma endregion

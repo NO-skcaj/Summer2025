@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma region Includes
 #include <iostream>
 #include <numbers>
 #include <string>
@@ -16,10 +15,11 @@
 #include <units/voltage.h>
 
 #include "subsystems/Gripper.h"
-#pragma endregion
 
-#pragma region ConstantsGripperPoseAlgae
-namespace ConstantsGripperPoseAlgae
+namespace Constants
+{
+
+namespace GripperPoseAlgae
 {
     constexpr auto AlgeaGripVoltage           = 3.0_V;
     constexpr auto AlgaePickupVoltage         = 5.0_V;
@@ -61,4 +61,5 @@ namespace ConstantsGripperPoseAlgae
     constexpr auto BargeGripperBothWheels     = true;
     constexpr auto BargeGripperVoltage        = AlgeaGripVoltage;
 }
-#pragma endregion
+
+}

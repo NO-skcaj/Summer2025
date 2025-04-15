@@ -7,14 +7,20 @@
 #include <ctre/phoenix6/CANcoder.hpp>
 #include <ctre/phoenix6/configs/Configs.hpp>
 #include <ctre/phoenix6/TalonFX.hpp>
+
 #include <rev/SparkMax.h>
+
 #include <rev/config/SparkMaxConfig.h>
+
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
+
 #include <frc/geometry/Rotation2d.h>
 #include <frc/geometry/Translation2d.h>
+
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveModulePosition.h>
 #include <frc/kinematics/SwerveModuleState.h>
@@ -23,11 +29,13 @@
 
 #include <frc2/command/SubsystemBase.h>
 
-#include "Constants.h"
-#include "ConstantsCanIds.h"
+#include "Constants/Controller.h"
+#include "Constants/CanIds.h"
 
-#pragma region SwerveConstants
-namespace SwerveConstants
+namespace Constants
+{
+
+namespace Swerve
 {
     // Define the absolute encoder value for forward
     constexpr auto FrontRightForwardAngle          = -0.193604 * 2.0_rad * std::numbers::pi;
@@ -57,7 +65,8 @@ namespace SwerveConstants
     constexpr auto AngleI                          = 0.00;
     constexpr auto AngleD                          = 0.20;
 }
-#pragma endregion
+
+}
 
 class SwerveModule
 {

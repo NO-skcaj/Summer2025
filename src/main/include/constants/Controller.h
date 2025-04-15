@@ -1,11 +1,9 @@
 #pragma once
 
-#pragma region Includes
 #include <iostream>
 #include <numbers>
 #include <string>
 
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 
@@ -19,10 +17,11 @@
 #include <units/time.h>
 #include <units/velocity.h>
 #include <units/voltage.h>
-#pragma endregion
 
-#pragma region ConstantsController
-namespace ConstantsController
+namespace Constants
+{
+
+namespace Controller
 {
     constexpr auto DriverControllerUsbPort =   0;
     constexpr auto JoystickOperatorUsbPort =   1;
@@ -41,10 +40,8 @@ namespace ConstantsController
     constexpr auto ExponentStrafe          = 2.0;
     constexpr auto ExponentAngle           = 5.0;
 }
-#pragma endregion
 
-#pragma region ConstantsExtreme3D
-namespace ConstantsExtreme3D
+namespace Extreme3D
 {
     constexpr auto HandleTrigger    =  1;
     constexpr auto HandleSide       =  2;
@@ -59,10 +56,8 @@ namespace ConstantsExtreme3D
     constexpr auto Handle11         = 11;
     constexpr auto Handle12         = 12;
     }
-#pragma endregion
 
-#pragma region ConstantsControlPanel
-namespace ConstantsControlPanel
+namespace ControlPanel
 {
     // Digital Inputs
     constexpr auto CoralGnd         =  1;
@@ -94,10 +89,8 @@ namespace ConstantsControlPanel
     // Analog Inputs
     constexpr auto GripperMotor     =  3;
 }
-#pragma endregion
 
-#pragma region ConstantsXBox
-namespace ConstantsXBox
+namespace XBox
 {
     constexpr auto A                 =   1;
     constexpr auto B                 =   2;
@@ -119,4 +112,5 @@ namespace ConstantsXBox
     constexpr auto Pov_270           = 270;
     constexpr auto Pov_315           = 315;
 }
-#pragma endregion
+
+}

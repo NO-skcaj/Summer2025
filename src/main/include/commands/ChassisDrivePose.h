@@ -1,60 +1,33 @@
 #pragma once
 
-#include <utility>
-
-#include <frc/MathUtil.h>
-#include <frc/trajectory/TrajectoryGenerator.h>
-#include <frc/controller/ProfiledPIDController.h>
-#include <frc2/command/SwerveControllerCommand.h>
+#include <pathplanner/lib/path/PathPlannerPath.h>
+#include <pathplanner/lib/auto/AutoBuilder.h>
 
 #include <frc2/command/Command.h>
-#include <frc2/command/CommandHelper.h>
 
-#include "subsystems/Drivetrain.h"
 
-#include "Constants.h"
+using namespace pathplanner;
 
-struct ChassDrivePoseParameters
+namespace ChassisDrivePose
 {
-    units::meters_per_second_t Speed;
-    units::meter_t             DistanceX;
-    units::meter_t             DistanceY;
-    units::degree_t            Angle;
-    units::time::second_t      TimeoutTime;
-};
+    frc2::CommandPtr ChassisDrivePose(auto CommandName)
+    {
+        return PathPlannerPath::fromPathFile(CommandName);
+    };
 
-class ChassisDrivePose : public frc2::CommandHelper<frc2::Command, ChassisDrivePose>
-{
-    public:
+    frc2::CommandPtr ChassisDrivePose(frc::Pose2d targetPose)
+    {
 
-        explicit ChassisDrivePose(units::velocity::meters_per_second_t speed,
-                                  units::meter_t                       distanceX,
-                                  units::meter_t                       distanceY,
-                                  units::angle::degree_t               angle,
-                                  units::time::second_t                timeoutTime,
-                                  Drivetrain                          *drivetrain);
+        PathConstraints constraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq); // The constraints for this path.
+        // PathConstraints constraints = PathConstraints::unlimitedConstraints(12_V); // You can also use unlimited constraints, only limited by motor torque and nominal battery voltage
 
-        explicit ChassisDrivePose(std::function<ChassDrivePoseParameters()> getParameters, Drivetrain *drivetrain);
+        // Create the path using the waypoints created above
+        // We make a shared pointer here since the path following commands require a shared pointer
+        auto path = std::make_shared<PathPlannerPath>(
+            constraints,
+            GoalEndState(0.0_mps, frc::Rotation2d(-90_deg)) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
+        );
 
-        void     Initialize()          override;
-        void     Execute()             override;
-        bool     IsFinished()          override;
-        void     End(bool interrupted) override;
-
-    private:
-
-        bool                              m_readParameters;           // Indicates the parameters should be read from the lambda function
-
-        units::meters_per_second_t        m_speed;                    // The speed that the chassis will drive
-        units::meter_t                    m_distanceX;                // The distance that the chassis will drive in the X direction
-        units::meter_t                    m_distanceY;                // The distance that the chassis will drive in the Y direction
-        units::time::second_t             m_timeoutTime;              // The command time-out time
-        units::angle::degree_t            m_angle;                    // The angle that the chassis will drive
-        Drivetrain                       *m_drivetrain;               // The drivetrain subsystem
-
-        units::second_t                   m_startTime;                // The start of the drive time
-        bool                              m_finished;                 // Indicates the command is finished
-        frc2::SwerveControllerCommand<4> *m_swerveControllerCommand;  // The swerve controller command
-
-        std::function<ChassDrivePoseParameters()> m_getParameters;    // The lambda function to get the parameters
+        return AutoBuilder::followPath(path);
+    };
 };

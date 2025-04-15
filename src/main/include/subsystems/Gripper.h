@@ -9,13 +9,15 @@
 #include <rev/SparkMax.h>
 #include <rev/config/SparkMaxConfig.h>
 
-#include "Constants.h"
-#include "ConstantsCanIds.h"
-#include "ConstantsGripperPoseCoral.h"
-#include "ConstantsGripperPoseAlgae.h"
+#include "Constants/Controller.h"
+#include "Constants/CanIds.h"
+#include "Constants/GripperPoseCoral.h"
+#include "Constants/GripperPoseAlgae.h"
 
-#pragma region ElevatorConstants
-namespace ElevatorConstants
+namespace Constants
+{
+
+namespace Elevator
 {
     constexpr auto P                               = 2.00;             // Proportional:    A position error of 0.2 rotations results in 12 V output
     constexpr auto I                               = 0.00;             // Integral:        No output for integrated error
@@ -37,10 +39,8 @@ namespace ElevatorConstants
 
     constexpr auto HeightOffset                    = 0.025_m;
 }
-#pragma endregion
 
-#pragma region ArmConstants
-namespace ArmConstants
+namespace Arm
 {
     constexpr auto P                               = 2.0;              // Proportional:    A position error of 0.2 rotations results in 12 V output
     constexpr auto I                               = 0.0;              // Integral:        No output for integrated error
@@ -63,10 +63,8 @@ namespace ArmConstants
 
     constexpr auto AngleOffset                     = 5.0_deg;
 }
-#pragma endregion
 
-#pragma region WristConstants
-namespace WristConstants
+namespace Wrist
 {
     constexpr auto P                             = 0.8;              // Proportional
     constexpr auto I                             = 0.0;              // Integral
@@ -84,10 +82,8 @@ namespace WristConstants
 
     constexpr auto AngleOffset                   = 1.0_deg;
 }
-#pragma endregion
 
-#pragma region GripperConstants
-namespace GripperConstants
+namespace Gripper
 {
     constexpr auto MaximumAmperage      =  20;
 
@@ -96,9 +92,9 @@ namespace GripperConstants
     constexpr auto GripperWheelDeadZone = 0.01;
     constexpr auto AnalogConversion     = 75.0;
 }
-#pragma endregion
 
-#pragma region GripperPoseEnum
+}
+
 enum GripperPoseEnum
 {
     Home,
@@ -118,15 +114,12 @@ enum GripperPoseEnum
     AlgaeProcessor,
     AlgaeBarge,
 };
-#pragma endregion
 
-#pragma region GripperWheelState
 struct GripperWheelState
 {
     bool                   bothWheels = true;
     units::voltage::volt_t voltage    = 0_V;
 };
-#pragma endregion
 
 class Gripper : public frc2::SubsystemBase
 {
@@ -169,8 +162,8 @@ class Gripper : public frc2::SubsystemBase
         ctre::phoenix6::controls::MotionMagicVoltage m_motionMagicVoltage{0_tr};
 
         rev::spark::SparkMax                         m_wristMotor;
-        rev::spark::SparkClosedLoopController        m_wristTurnClosedLoopController;
         rev::spark::SparkRelativeEncoder             m_wristEncoder;
+        rev::spark::SparkClosedLoopController        m_wristTurnClosedLoopController;
         units::angle::degree_t                       m_wristAngle       = 0_deg;
         units::angle::degree_t                       m_wristAngleOffset = 0_deg;
 

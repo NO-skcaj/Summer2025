@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma region Includes
 #include <iostream>
 #include <numbers>
 #include <string>
@@ -16,10 +15,11 @@
 #include <units/voltage.h>
 
 #include "subsystems/Gripper.h"
-#pragma endregion
 
-#pragma region ConstantsGripperPoseCoral
-namespace ConstantsGripperPoseCoral
+namespace Constants
+{
+
+namespace GripperPoseCoral
 {
     constexpr auto CoralGroundPickupVoltage      = 4.0_V;
     constexpr auto CoralGripVoltage              = 0.5_V;
@@ -72,4 +72,5 @@ namespace ConstantsGripperPoseCoral
     constexpr auto L4GripperBothWheels           = true;
     constexpr auto L4GripperVoltage              = CoralGripVoltage;
 }
-#pragma endregion
+
+}

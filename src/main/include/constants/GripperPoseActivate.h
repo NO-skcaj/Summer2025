@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma region Includes
 #include <iostream>
 #include <numbers>
 #include <string>
@@ -16,10 +15,11 @@
 #include <units/voltage.h>
 
 #include "subsystems/Gripper.h"
-#pragma endregion
 
-#pragma region ConstantsGripperPoseActivate
-namespace ConstantsGripperPoseActivate
+namespace Constants
+{
+
+namespace GripperPoseActivate
 {
     // Coral1
     constexpr auto Coral1ElevatorOffset           =  0.0_m;
@@ -76,4 +76,5 @@ namespace ConstantsGripperPoseActivate
     constexpr auto AlgaeBargeElevatorFinish       =  0.0_m;
     constexpr auto AlgaeBargeArmFinish            =  0.0_deg;
 }
-#pragma endregion
+
+}

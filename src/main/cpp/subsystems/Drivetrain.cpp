@@ -1,53 +1,67 @@
 #include "subsystems/Drivetrain.h"
 
-using namespace ConstantsCanIds;
+using namespace Constants::CanIds;
+using namespace pathplanner;
 
-#pragma region Drivetrain (constructor)
 /// @brief The Constructor for the Drivetrain class.
 Drivetrain::Drivetrain()
     : m_frontLeft {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
       m_frontRight{SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
       m_rearLeft  {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
       m_rearRight {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
-      m_odometry  {m_kinematics, GetRotation2d(),
+      m_vision    {},
+      m_estimator  {m_kinematics, GetRotation2d(),
                   {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                    m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}}
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
-}
-#pragma endregion
 
-#pragma region Periodic
+    // 
+
+    // Load the RobotConfig from the GUI settings. You should probably
+    // store this in your Constants file
+    RobotConfig config = RobotConfig::fromGUISettings();
+    
+    // Configure the AutoBuilder last
+    AutoBuilder::configure(
+        [this](){ return GetPose(); }, // Robot pose supplier
+        [this](frc::Pose2d pose){ ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        [this](auto speeds, auto feedforwards){ Drive(speeds.vx, speeds.vy, speeds.omega, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+        std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
+            PIDConstants(1.0, 0.0, 0.0), // Translation PID constants
+            PIDConstants(1.0, 0.0, 0.0) // Rotation PID constants
+        ),
+        config, // The robot configuration
+        []() {
+            // Boolean supplier that controls when the path will be mirrored for the red alliance
+            // This will flip the path being followed to the red side of the field.
+            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+            auto alliance = frc::DriverStation::GetAlliance();
+            if (alliance) {
+                return alliance.value() == frc::DriverStation::Alliance::kRed;
+            }
+            return false;
+        },
+        this // Reference to this subsystem to set requirements
+    );
+}
+
 /// @brief This method will be called once periodically.
 void Drivetrain::Periodic()
 {
-    frc::SmartDashboard::PutNumber("Gyro Angle",           GetHeading().value());
-    frc::SmartDashboard::PutBoolean("Field Centricity",    m_fieldCentricity);
-
-    frc::SmartDashboard::PutNumber("Front Left Speed",     m_frontLeft.GetState().speed.value());
-    frc::SmartDashboard::PutNumber("Front Right Speed",    m_frontRight.GetState().speed.value());
-    frc::SmartDashboard::PutNumber("Rear Left Speed",      m_rearLeft.GetState().speed.value());
-    frc::SmartDashboard::PutNumber("Rear Right Speed",     m_rearRight.GetState().speed.value());
-
-    frc::SmartDashboard::PutNumber("Front Left Distance",  m_frontLeft.GetPosition().distance.value()  * 39.3701);
-    frc::SmartDashboard::PutNumber("Front Right Distance", m_frontRight.GetPosition().distance.value() * 39.3701);
-    frc::SmartDashboard::PutNumber("Rear Left Distance",   m_rearLeft.GetPosition().distance.value()   * 39.3701);
-    frc::SmartDashboard::PutNumber("Rear Right Distance",  m_rearRight.GetPosition().distance.value()  * 39.3701);
-
-    frc::SmartDashboard::PutNumber("Front Left Angle",     m_frontLeft.GetPosition().angle.Degrees().value());
-    frc::SmartDashboard::PutNumber("Front Right Angle",    m_frontRight.GetPosition().angle.Degrees().value());
-    frc::SmartDashboard::PutNumber("Rear Left Angle",      m_rearLeft.GetPosition().angle.Degrees().value());
-    frc::SmartDashboard::PutNumber("Rear Right Angle",     m_rearRight.GetPosition().angle.Degrees().value());
+    frc::SmartDashboard::PutNumber("Gyro Rotation", (double) GetRotation2d().Degrees());
 
     // Update the swerve drive odometry
-    m_odometry.Update(GetRotation2d(),
+    m_estimator.Update(GetRotation2d(),
                      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                       m_rearLeft.GetPosition(),  m_rearRight.GetPosition()});
-}
-#pragma endregion
 
-#pragma region Drive
+    AddVisionMeasurements(); // resets position to coord system origin blue
+}
+
 /// @brief Method to drive the robot chassis.
 /// @param xSpeed The speed in the X dirction.
 /// @param ySpeed The speed in the Y dirction.
@@ -56,16 +70,6 @@ void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
                        units::meters_per_second_t  ySpeed,
                        units::radians_per_second_t rotation)
 {
-    // xSpeed   = (units::meters_per_second_t)  frc::SmartDashboard::GetNumber("Chassis Forward", 0.0);
-    // ySpeed   = (units::meters_per_second_t)  frc::SmartDashboard::GetNumber("Chassis Strafe",  0.0);
-    // rotation = (units::radians_per_second_t) frc::SmartDashboard::GetNumber("Chassis Angle",   0.0);
-
-    frc::SmartDashboard::PutNumber("Chassis Forward", (double) xSpeed);
-    frc::SmartDashboard::PutNumber("Chassis Strafe",  (double) ySpeed);
-    frc::SmartDashboard::PutNumber("Chassis Angle",   (double) rotation);
-
-    frc::SmartDashboard::PutNumber("Gyro Rotation", (double) GetRotation2d().Degrees());
-
     // Determine the swerve module states
     auto states = m_kinematics.ToSwerveModuleStates(m_fieldCentricity ?
                   frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
@@ -74,10 +78,29 @@ void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
     // Set the module states
     SetModuleStates(states);
 }
-#pragma endregion
 
-#pragma region SetX
-/// @brief
+/// @brief Method to drive the robot chassis.
+/// @param xSpeed The speed in the X dirction.
+/// @param ySpeed The speed in the Y dirction.
+/// @param rotation The rate of rotation.
+/// @param fieldCentric Boolean to indicate if the robor control should be field centric.
+void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
+                       units::meters_per_second_t  ySpeed,
+                       units::radians_per_second_t rotation,
+                       bool                        fieldCentric)
+{
+    // Determine the swerve module states
+    auto states = m_kinematics.ToSwerveModuleStates(fieldCentric ?
+                  frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
+                  frc::ChassisSpeeds{xSpeed, ySpeed, rotation});
+
+    m_robotRelativeSpeeds = frc::ChassisSpeeds{xSpeed, ySpeed, rotation};
+
+    // Set the module states
+    SetModuleStates(states);
+}
+
+/// @brief X MODE MAXIMUM DEFENCE 100% SAFE NO ROBOTS GETTING THROUGH HERE, CHAT
 void Drivetrain::SetX()
 {
     frc::SwerveModuleState frontLeftState {0_mps, frc::Rotation2d{ 45_deg}};
@@ -90,9 +113,7 @@ void Drivetrain::SetX()
     m_rearLeft.  SetDesiredState(rearLeftState,   "Rear Left "  );
     m_rearRight. SetDesiredState(rearRightState,  "Rear Right " );
 }
-#pragma endregion
 
-#pragma region ResetDriveEncoders
 /// @brief Method to reset the drive encoders for each swerve module.
 void Drivetrain::ResetDriveEncoders()
 {
@@ -102,15 +123,13 @@ void Drivetrain::ResetDriveEncoders()
     m_rearLeft.  ResetDriveEncoder();
     m_rearRight. ResetDriveEncoder();
 }
-#pragma endregion
 
-#pragma region SetModuleStates
 /// @brief Method to set the swerve drive states.
 /// @param desiredStates
 void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates)
 {
     // Normalize the wheel speeds if any individual speed is above the specified maximum
-    m_kinematics.DesaturateWheelSpeeds(&desiredStates, DrivetrainConstants::MaxSpeed);
+    m_kinematics.DesaturateWheelSpeeds(&desiredStates, Constants::Drivetrain::MaxSpeed);
 
     auto [frontLeft, frontRight, rearLeft, rearRight] = desiredStates;
 
@@ -120,9 +139,7 @@ void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredSt
     m_rearLeft.  SetDesiredState(rearLeft,   "Rear Left "  );
     m_rearRight. SetDesiredState(rearRight,  "Rear Right " );
 }
-#pragma endregion
 
-#pragma region GetHeading
 /// @brief Method to get the robot heading.
 /// @return The robot heading.
 frc::Rotation2d Drivetrain::GetRotation2d()
@@ -130,9 +147,7 @@ frc::Rotation2d Drivetrain::GetRotation2d()
     // Return the robot rotation
     return m_gyro.GetRotation2d();
 }
-#pragma endregion
 
-#pragma region GetHeading
 /// @brief Method to get the robot heading.
 /// @return The robot heading.
 units::degree_t Drivetrain::GetHeading()
@@ -140,18 +155,14 @@ units::degree_t Drivetrain::GetHeading()
     // Return the robot heading
     return m_gyro.GetRotation2d().Degrees();
 }
-#pragma endregion
 
-#pragma region ZeroHeading
 /// @brief Method to zero the robot heading.
 void Drivetrain::ZeroHeading()
 {
     // Reset the gyro
     m_gyro.Reset();
 }
-#pragma endregion
 
-#pragma region ZeroHeadingReverse
 /// @brief Method to zero the robot heading.
 void Drivetrain::ZeroHeadingReverse()
 {
@@ -161,44 +172,48 @@ void Drivetrain::ZeroHeadingReverse()
     // Reverse the chassis heading
     ReverseHeading();
 }
-#pragma endregion
 
-#pragma region ReverseHeading
 /// @brief Reverse the chassis heading.
 void Drivetrain::ReverseHeading()
 {
     // Reverse the gyro heading
     m_gyro.SetAngleAdjustment(180);
 }
-#pragma endregion
 
-#pragma region GetPose
 /// @brief Method to get the pose of the chassis.
 /// @return The chassis pose.
 frc::Pose2d Drivetrain::GetPose()
 {
     // Return the chassis pose
-    return m_odometry.GetPose();
+    return m_estimator.GetEstimatedPosition();
 }
-#pragma endregion
 
-#pragma region ResetPositionToOrgin
 /// @brief Method to reset the chassis position to the orgin.
 void Drivetrain::ResetPositionToOrgin()
 {
     // Create a pose at the origin
-    frc::Pose2d poseOrgin = frc::Pose2d(0.0_in, 0.0_in, frc::Rotation2d(0_deg));
+    frc::Pose2d poseOrgin = frc::Pose2d();
 
     // reset the odometry pose
-    m_odometry.ResetPose(poseOrgin);
+    m_estimator.ResetPose(poseOrgin);
 
     // Reset the present odometry
-    m_odometry.ResetPosition(GetRotation2d(), { m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+    m_estimator.ResetPosition(GetRotation2d(), { m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                                                 m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, poseOrgin);
 }
-#pragma endregion
 
-#pragma region SetFieldCentricity
+/// @brief Method to reset the chassis position to the orgin.
+/// @param pose The pose to reset the odometry.
+void Drivetrain::ResetPose(frc::Pose2d pose)
+{
+    // reset the odometry pose
+    m_estimator.ResetPose(pose);
+
+    // Reset the present odometry
+    m_estimator.ResetPosition(GetRotation2d(), { m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                                                m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, pose);
+}
+
 /// @brief Method to set the robot control field centricity.
 /// @param fieldCentric Boolean to indicate if the robor control should be field centric.
 void Drivetrain::SetFieldCentricity(bool fieldCentric)
@@ -206,9 +221,7 @@ void Drivetrain::SetFieldCentricity(bool fieldCentric)
     // Set the field centric member variable
     m_fieldCentricity = fieldCentric;
 }
-#pragma endregion
 
-#pragma region GetFieldCentricity
 /// @brief Method to set the field centricity.
 /// @return The field centricity setting.
 bool Drivetrain::GetFieldCentricity()
@@ -216,16 +229,35 @@ bool Drivetrain::GetFieldCentricity()
     // Return the field centricity setting
     return m_fieldCentricity;
 }
-#pragma endregion
 
-#pragma region SetWheelAnglesToZero
+/// @brief Method to get the relative chassis speeds.
+/// @return The robot relative speeds.
+frc::ChassisSpeeds Drivetrain::GetRobotRelativeSpeeds()
+{
+    // Return the robot relative speeds
+    return this->m_robotRelativeSpeeds;
+}
+
+/// @brief adds vision measurement (if any) to the odometry mesurement
+void Drivetrain::AddVisionMeasurements()
+{
+    auto visionEst = m_vision.GetEstimatedGlobalPose();
+    if (visionEst.has_value()) {
+        auto est = visionEst.value();
+        auto estPose = est.estimatedPose.ToPose2d();
+        auto estStdDevs = m_vision.GetEstimationStdDevs(estPose).array();
+        m_estimator.AddVisionMeasurement(est.estimatedPose.ToPose2d(), est.timestamp,
+                                         {estStdDevs[0], estStdDevs[1], estStdDevs[2]});
+                                         
+    }
+}
+
 /// @brief Method to set the swerve wheel to the absoulute encoder angle then zero the PID controller angle.
 void Drivetrain::SetWheelAnglesToZero()
 {
     // Set the swerve wheel angles to zero
-    m_frontLeft. SetWheelAngleToForward(SwerveConstants::FrontLeftForwardAngle);
-    m_frontRight.SetWheelAngleToForward(SwerveConstants::FrontRightForwardAngle);
-    m_rearLeft.  SetWheelAngleToForward(SwerveConstants::RearLeftForwardAngle);
-    m_rearRight. SetWheelAngleToForward(SwerveConstants::RearRightForwardAngle);
+    m_frontLeft. SetWheelAngleToForward(Constants::Swerve::FrontLeftForwardAngle);
+    m_frontRight.SetWheelAngleToForward(Constants::Swerve::FrontRightForwardAngle);
+    m_rearLeft.  SetWheelAngleToForward(Constants::Swerve::RearLeftForwardAngle);
+    m_rearRight. SetWheelAngleToForward(Constants::Swerve::RearRightForwardAngle);
 }
-#pragma endregion

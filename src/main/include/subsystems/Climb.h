@@ -6,10 +6,9 @@
 #include <frc/DigitalInput.h>
 #include <frc2/command/SubsystemBase.h>
 
-#include "Constants.h"
-#include "ConstantsCanIds.h"
+#include "Constants/Controller.h"
+#include "Constants/CanIds.h"
 
-#pragma region ClimbConstants
 namespace ClimbConstants
 {
     constexpr auto ClimbVoltage       = 12_V;
@@ -17,7 +16,6 @@ namespace ClimbConstants
     constexpr auto ClimbLimitSwtich   = 0;
     constexpr auto CaptureLimitSwitch = 1;
 }
-#pragma endregion
 
 class Climb : public frc2::SubsystemBase
 {

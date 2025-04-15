@@ -1,7 +1,9 @@
 #pragma once
 
-#pragma region ConstantsCanIds
-namespace ConstantsCanIds
+namespace Constants
+{
+
+namespace CanIds
 {
     const     auto CanBus                            = "rio";
 
@@ -31,4 +33,5 @@ namespace ConstantsCanIds
 
     constexpr auto MotorConfigurationAttempts        =  5;
 }
-#pragma endregion
+
+}

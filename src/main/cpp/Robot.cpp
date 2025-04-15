@@ -1,6 +1,5 @@
 #include "Robot.h"
 
-#pragma region RobotInit
 /// @brief Method called when the robot class is instantiated.
 void Robot::RobotInit()
 {
@@ -13,9 +12,7 @@ void Robot::RobotInit()
     // Reset the debug message
     frc::SmartDashboard::PutString("Debug", "RobotInit");
 }
-#pragma endregion
 
-#pragma region RobotPeriodic
 /// @brief Method is called every robot packet, no matter the mode.
 void Robot::RobotPeriodic()
 {
@@ -33,7 +30,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Present A", pressentPose.Rotation().Degrees().value());
 
     // Show the control panel Gripper wheels potentiometer value
-    frc::SmartDashboard::PutNumber("Wheels Input", m_robotContainer->GetOperatorController()->GetRawAxis(ConstantsControlPanel::GripperMotor));
+    frc::SmartDashboard::PutNumber("Wheels Input", m_robotContainer->GetOperatorController()->GetRawAxis(Constants::ControlPanel::GripperMotor));
 
     // Show the Gripper pose positions
     frc::SmartDashboard::PutNumber("Elevator", m_robotContainer->GetGripper()->GetElevatorHeight().value());
@@ -41,23 +38,8 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Wrist",    m_robotContainer->GetGripper()->GetWristAngle().value());
     frc::SmartDashboard::PutNumber("Wheels",   m_robotContainer->GetGripper()->GetGripperWheelsVoltage().value());
 
-    // Read Limelight information to Network Table
-    auto targetPose   = LimelightHelpers::getTargetPose_CameraSpace("limelight");
-    auto targetPose3d = LimelightHelpers::toPose3D(targetPose);
-
-    frc::SmartDashboard::PutNumber("Limelight X",     targetPose3d.X().to<double>() * 39.3701);
-    frc::SmartDashboard::PutNumber("Limelight Y",     targetPose3d.Y().to<double>() * 39.3701);
-    frc::SmartDashboard::PutNumber("Limelight Z",     targetPose3d.Z().to<double>() * 39.3701);
-    frc::SmartDashboard::PutNumber("Limelight Rot X", targetPose3d.Rotation().X().to<double>() * 180.0 / M_PI);
-    frc::SmartDashboard::PutNumber("Limelight Rot Y", targetPose3d.Rotation().Y().to<double>() * 180.0 / M_PI);
-    frc::SmartDashboard::PutNumber("Limelight Rot Z", targetPose3d.Rotation().Z().to<double>() * 180.0 / M_PI);
-
-    auto pipelineLatency = LimelightHelpers::getLatency_Pipeline("limelight");
-    //frc::SmartDashboard::PutNumber("Limelight Pipeline Latency", pipelineLatency);
 }
-#pragma endregion
 
-#pragma region AutonomousInit
 /// @brief Method is called when switching to autonomous mode.
 void Robot::AutonomousInit()
 {
@@ -68,10 +50,10 @@ void Robot::AutonomousInit()
     m_autonomousCommand = m_robotContainer->GetAutonomousCommand();
 
     // Ensure the arm angle is past the elevator
-    if (m_robotContainer->GetGripper()->GetArmAngle() < ArmConstants::PastElevatorPosition)
+    if (m_robotContainer->GetGripper()->GetArmAngle() < Constants::Arm::PastElevatorPosition)
     {
         // Set the arm to the past elevator position
-        m_robotContainer->GetGripper()->SetArmAngle(ArmConstants::PastElevatorPosition);
+        m_robotContainer->GetGripper()->SetArmAngle(Constants::Arm::PastElevatorPosition);
     }
 
     // Determine if the chooser returned a pointer to a command
@@ -81,17 +63,13 @@ void Robot::AutonomousInit()
         m_autonomousCommand->Schedule();
     }
 }
-#pragma endregion
 
-#pragma region AutonomousPeriodic
 /// @brief Method is called periodically when the robot is in autonomous mode.
 void Robot::AutonomousPeriodic()
 {
 
 }
-#pragma endregion
 
-#pragma region TeleopInit
 /// @brief Method is called when switching to teleoperated mode.
 void Robot::TeleopInit()
 {
@@ -117,69 +95,51 @@ void Robot::TeleopInit()
     }
 
     // Ensure the arm angle is past the elevator
-    if (m_robotContainer->GetGripper()->GetArmAngle() < ArmConstants::PastElevatorPosition)
+    if (m_robotContainer->GetGripper()->GetArmAngle() < Constants::Arm::PastElevatorPosition)
     {
         // Set the arm to the past elevator position
-        m_robotContainer->GetGripper()->SetArmAngle(ArmConstants::PastElevatorPosition);
+        m_robotContainer->GetGripper()->SetArmAngle(Constants::Arm::PastElevatorPosition);
     }
 }
-#pragma endregion
 
-#pragma region TeleopPeriodic
 /// @brief Method is called periodically when the robot is in tleloperated mode.
 void Robot::TeleopPeriodic()
 {
 
 }
-#pragma endregion
 
-#pragma region DisabledInit
 /// @brief Method is called once each time the robot enters Disabled mode.
 void Robot::DisabledInit()
 {
 
 }
-#pragma endregion
 
-#pragma region DisabledPeriodic
 /// @brief Method is called periodically when the robot is disabled.
 void Robot::DisabledPeriodic()
 {
 
 }
-#pragma endregion
 
-#pragma region TestInit
 /// @brief Method is called when switching to test mode.
 void Robot::TestInit()
 {
 
 }
-#pragma endregion
-
-#pragma region TestPeriodic
 // This function is called periodically during test mode.
 void Robot::TestPeriodic()
 {
 
 }
-#pragma endregion
-
-#pragma region SimulationInit
 /// @brief Method is called when starting in simulation mode.
 void Robot::SimulationInit()
 {
 
 }
-#pragma endregion
-
-#pragma region SimulationPeriodic
 /// @brief Method is called periodically when in simulation mode.
 void Robot::SimulationPeriodic()
 {
 
 }
-#pragma endregion
 
 #ifndef RUNNING_FRC_TESTS
 int main()

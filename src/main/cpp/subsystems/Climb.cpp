@@ -1,17 +1,14 @@
 #include "subsystems/Climb.h"
 
-using namespace ConstantsCanIds;
+using namespace Constants::CanIds;
 
-#pragma region Climb (constructor)
 /// @brief Class to support the Climb subsystem.
 Climb::Climb()
 {
     // Configure the climb motor
     ConfigureClimbMotor(ClimbMotorCanId);
 }
-#pragma endregion
 
-#pragma region ConfigureClimbMotor
 /// @brief Method to configure the climb motor using MotionMagic.
 /// @param motorCanId The CAN identifier for the climb motor.
 void Climb::ConfigureClimbMotor(int motorCanId)
@@ -28,7 +25,7 @@ void Climb::ConfigureClimbMotor(int motorCanId)
 
     // Apply the configuration to the drive motor
     ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < MotorConfigurationAttempts; attempt++)
+    for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
     {
         // Apply the configuration to the drive motor
         status = m_climbMotor->GetConfigurator().Apply(climbMotorConfiguration);
@@ -42,9 +39,7 @@ void Climb::ConfigureClimbMotor(int motorCanId)
     if (!status.IsOK())
         std::cout << "***** ERROR: Could not configure climb motor. Error: " << status.GetName() << std::endl;
 }
-#pragma endregion
 
-#pragma region SetAngle
 /// @brief Method to set the climb angle.
 /// @param position The setpoint for the climb angle.
 void Climb::SetVoltage(units::volt_t voltage)
@@ -61,4 +56,3 @@ void Climb::SetVoltage(units::volt_t voltage)
     // Set the motor voltage
     m_climbMotor->SetVoltage(voltage);
 }
-#pragma endregion

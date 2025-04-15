@@ -1,11 +1,9 @@
 #pragma once
 
-#pragma region Includes
 #include <iostream>
 #include <numbers>
 #include <string>
 
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 
@@ -15,10 +13,11 @@
 #include <units/velocity.h>
 
 #include "subsystems/Gripper.h"
-#pragma endregion
 
-#pragma region ConstantsChassisAprilTagToPose
-namespace ConstantsChassisAprilTagToPose
+namespace Constants
+{
+
+namespace ChassisAprilTagToPose
 {
     constexpr auto ChassisSpeed                     =  1.0_mps;
     constexpr auto TimeoutTime                      =  15_s;
@@ -74,4 +73,5 @@ namespace ConstantsChassisAprilTagToPose
     constexpr auto AlgaelBargeDistanceOffsetY       =   0.0_m;
     constexpr auto AlgaelBargeAngleOffset           =   0.0_deg;
 }
-#pragma endregion
+
+}

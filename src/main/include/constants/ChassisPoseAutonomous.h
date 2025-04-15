@@ -1,11 +1,9 @@
 #pragma once
 
-#pragma region Includes
 #include <iostream>
 #include <numbers>
 #include <string>
 
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 
@@ -16,10 +14,11 @@
 #include <units/voltage.h>
 
 #include "subsystems/Gripper.h"
-#pragma endregion
 
-#pragma region ConstantsChassisPoseAutonomous
-namespace ConstantsChassisPoseAutonomous
+namespace Constants
+{
+
+namespace ChassisPoseAutonomous
 {
     constexpr auto AutonomousSpeed                  =  2_mps;
     constexpr auto AutonomousTimeOut                = 15_s;
@@ -65,5 +64,6 @@ namespace ConstantsChassisPoseAutonomous
     constexpr auto OneCoralRightXDistance           =  72_in;  //  1.829_m;
     constexpr auto OneCoralRightYDistance           = -39_in;  // -0.9902_m;
     constexpr auto OneCoralRightAngleChange         = -60_deg;
-};
-#pragma endregion
+}
+
+}
