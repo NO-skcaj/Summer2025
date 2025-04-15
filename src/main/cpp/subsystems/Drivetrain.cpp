@@ -94,8 +94,6 @@ void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
                   frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
                   frc::ChassisSpeeds{xSpeed, ySpeed, rotation});
 
-    m_robotRelativeSpeeds = frc::ChassisSpeeds{xSpeed, ySpeed, rotation};
-
     // Set the module states
     SetModuleStates(states);
 }
@@ -235,7 +233,9 @@ bool Drivetrain::GetFieldCentricity()
 frc::ChassisSpeeds Drivetrain::GetRobotRelativeSpeeds()
 {
     // Return the robot relative speeds
-    return this->m_robotRelativeSpeeds;
+    return kinematics.ToChassisSpeeds({m_frontLeft.getState(), m_frontRight.getState(),
+                                       m_backLeft.getState(),  m_backRight.getState()});
+
 }
 
 /// @brief adds vision measurement (if any) to the odometry mesurement
