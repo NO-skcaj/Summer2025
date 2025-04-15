@@ -127,8 +127,6 @@ class Drivetrain : public frc2::SubsystemBase
 
         Vision                           m_vision;
 
-        frc::ChassisSpeeds               m_robotRelativeSpeeds{0_mps, 0_mps, 0_rad_per_s};  // The robot relative speeds
-
         studica::AHRS                    m_gyro{studica::AHRS::NavXComType::kMXP_SPI};  // The gyro sensor
 
         bool                             m_fieldCentricity = true;                      // Field centricity flag
