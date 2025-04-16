@@ -1,5 +1,7 @@
 #include "RobotContainer.h"
 
+using namespace pathplanner;
+
 // Reference to the RobotContainer singleton class
 RobotContainer *RobotContainer::m_robotContainer = NULL;
 
@@ -35,9 +37,8 @@ RobotContainer::RobotContainer()
     // frc::SmartDashboard::PutData("Wrist Jog Positive",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset( Constants::Wrist::AngleOffset);}));
     // frc::SmartDashboard::PutData("Wrist Jog Negative",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset(-Constants::Wrist::AngleOffset);}));
 
-    // Configure the autonomous command chooser
-    m_autonomousChooser.SetDefaultOption("Do Nothing",       new AutonomousDoNothing());
-    m_autonomousChooser.AddOption("Drive Forward",           new ChassisDrivePose(1.0_mps, 1_m, 0_m, 0_deg, 10_s, &m_drivetrain));
+    // Build an auto chooser. This will use frc2::cmd::None() as the default option.
+    frc::SendableChooser<frc2::Command *> autoChooser = AutoBuilder::buildAutoChooser();
 
     // m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,
     //                                                                 [this] { return GetAutonomousOneCoralParameters(-5_in, 0_in); },
@@ -59,13 +60,7 @@ RobotContainer::RobotContainer()
     //                                                                 &m_drivetrain, &m_gripper));
 
     // Send the autonomous mode chooser to the SmartDashboard
-    frc::SmartDashboard::PutData("Autonomous Mode", &m_autonomousChooser);
-
-    m_startingPositionChooser.SetDefaultOption("Middle", "M");
-    m_startingPositionChooser.AddOption("Left",          "L");
-    m_startingPositionChooser.AddOption("Right",         "R");
-
-    frc::SmartDashboard::PutData("Start Position", &m_startingPositionChooser);
+    frc::SmartDashboard::PutData("Autonomous Mode", &autoChooser);
 
     // Set the default commands for the subsystems
     m_drivetrain.SetDefaultCommand(ChassisDrive([this] { return Forward(); },
@@ -418,14 +413,6 @@ Gripper *RobotContainer::GetGripper()
 {
     // Return the pointer to the gripper
     return &m_gripper;
-}
-
-/// @brief Method to get the starting position for the robot.
-/// @return String representing the starting position.
-std::string RobotContainer::GetStartPosition()
-{
-    // Return the selected starting position
-    return m_startingPositionChooser.GetSelected();;
 }
 
 /// @brief Method to return a pointer to the power distribution panel.

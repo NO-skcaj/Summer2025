@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Far Start to E"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to Far Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoralAuto"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Far Source to F"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreL4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Far Start",
+  "choreoAuto": false
+}

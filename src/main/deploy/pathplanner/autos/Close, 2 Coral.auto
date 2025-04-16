@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Close to C"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C to Close Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoralAuto"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Close Source to B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreL4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Close Start",
+  "choreoAuto": false
+}

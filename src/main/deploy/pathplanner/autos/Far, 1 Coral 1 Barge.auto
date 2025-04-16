@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Far Start to E"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LowAlgaeIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E to Barge"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreBarge"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Far Start",
+  "choreoAuto": false
+}

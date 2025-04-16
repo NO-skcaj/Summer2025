@@ -233,22 +233,29 @@ bool Drivetrain::GetFieldCentricity()
 frc::ChassisSpeeds Drivetrain::GetRobotRelativeSpeeds()
 {
     // Return the robot relative speeds
-    return kinematics.ToChassisSpeeds({m_frontLeft.getState(), m_frontRight.getState(),
-                                       m_backLeft.getState(),  m_backRight.getState()});
+    return m_kinematics.ToChassisSpeeds({m_frontLeft.GetState(), m_frontRight.GetState(),
+                                       m_rearLeft.GetState(),  m_rearRight.GetState()});
 
 }
 
 /// @brief adds vision measurement (if any) to the odometry mesurement
 void Drivetrain::AddVisionMeasurements()
 {
+    // Get the vision estimate
+    // This will be a nullopt if no vision measurement is available
     auto visionEst = m_vision.GetEstimatedGlobalPose();
+
+    // Check if the vision estimate is valid
     if (visionEst.has_value()) {
-        auto est = visionEst.value();
-        auto estPose = est.estimatedPose.ToPose2d();
+        // Get the vision measurement pose
+        auto estPose = visionEst.value().estimatedPose.ToPose2d();
+
+        // Get the vision measurement standard deviations
         auto estStdDevs = m_vision.GetEstimationStdDevs(estPose).array();
-        m_estimator.AddVisionMeasurement(est.estimatedPose.ToPose2d(), est.timestamp,
+
+        // Add the vision measurement to the odometry
+        m_estimator.AddVisionMeasurement(estPose, visionEst.value().timestamp,
                                          {estStdDevs[0], estStdDevs[1], estStdDevs[2]});
-                                         
     }
 }
 
@@ -260,4 +267,11 @@ void Drivetrain::SetWheelAnglesToZero()
     m_frontRight.SetWheelAngleToForward(Constants::Swerve::FrontRightForwardAngle);
     m_rearLeft.  SetWheelAngleToForward(Constants::Swerve::RearLeftForwardAngle);
     m_rearRight. SetWheelAngleToForward(Constants::Swerve::RearRightForwardAngle);
+}
+
+/// @brief Method to get the kinematics of the robot.
+/// @return the kinematics of the robot given the swerve module order and position.
+frc::SwerveDriveKinematics<4> Drivetrain::GetKinematics() 
+{ 
+    return this->m_kinematics; 
 }

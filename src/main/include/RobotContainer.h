@@ -3,13 +3,16 @@
 #include <utility>
 
 #include <frc/filter/SlewRateLimiter.h>
+
+#include <frc/XboxController.h>
 #include <frc/Joystick.h>
+
 #include <frc/MathUtil.h>
 #include <frc/PowerDistribution.h>
+
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
-#include <frc/XboxController.h>
 
 #include <frc2/command/button/JoystickButton.h>
 #include <frc2/command/button/POVButton.h>
@@ -17,9 +20,10 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
-#include <frc2/command/SwerveControllerCommand.h>
 
 #include <cameraserver/CameraServer.h>
+
+#include <pathplanner/lib/auto/AutoBuilder.h>
 
 // Subsystems
 #include "subsystems/Climb.h"
@@ -29,15 +33,8 @@
 #include "subsystems/Leds.h"
 
 // Commands
-#include "commands/AutonomousComplex.h"
-#include "commands/AutonomousDoNothing.h"
-#include "commands/AutonomousLed.h"
-#include "commands/AutonomousParallel.h"
-#include "commands/AutonomousRaceGroup.h"
 #include "commands/ChassisDrive.h"
 #include "commands/ChassisDrivePose.h"
-#include "commands/ChassisDriveSerpentine.h"
-#include "commands/ChassisDriveTime.h"
 #include "commands/ChassisSetSwerveWheelAnglesToZero.h"
 #include "commands/GripperActivate.h"
 #include "commands/GripperPose.h"
@@ -96,8 +93,6 @@ class RobotContainer
         double                   GetThrottleRange();
         double                   GetExponentialValue(double joystickValue, double exponent);
 
-        std::string              GetStartPosition();
-
         // Singleton reference to the class (returned by the GetInstance Method)
         static RobotContainer                *m_robotContainer;
 
@@ -121,9 +116,6 @@ class RobotContainer
 
         // Autonomous command chooser
         frc::SendableChooser<frc2::Command*>  m_autonomousChooser;
-
-        // Autonomous starting position command chooser
-        frc::SendableChooser<std::string>     m_startingPositionChooser;
 
         frc::PowerDistribution                m_powerDistribution;
 
