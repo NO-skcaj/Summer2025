@@ -9,7 +9,7 @@ using namespace Constants::CanIds;
 SwerveModule::SwerveModule(int driveMotorCanId, int angleMotorCanId, int angleEncoderCanId) :
                            m_driveMotor(driveMotorCanId),
                            m_angleMotor(angleMotorCanId, true),
-                           m_angleAbsoluteEncoder(angleEncoderCanId, CanBus)
+                           m_angleAbsoluteEncoder(angleEncoderCanId)
 
 {
     // Configure the drive and angle motors
@@ -131,7 +131,7 @@ void SwerveModule::SetWheelAngleToForward(units::angle::radian_t forwardAngle)
 units::angle::radian_t SwerveModule::GetAbsoluteEncoderAngle()
 {
     // The GetAbsolutePosition() method returns a value from -1 to 1
-    double encoderValue = (double) m_angleAbsoluteEncoder.GetAbsolutePosition().GetValue();
+    double encoderValue = m_angleAbsoluteEncoder.GetAbsoluteValue().value();
 
     // To convert to radians
     return encoderValue * 2.0_rad * std::numbers::pi;
