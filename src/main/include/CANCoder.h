@@ -9,7 +9,7 @@ namespace hardware
 class CANCoder : Encoder
 {
 public:
-CANCoder(int CanId) : m_encoder{CanId}
+CANCoder(int CanId) : m_encoder{CanId, "rio"}
 {}
 
 units::turn_t GetAbsoluteValue() override
