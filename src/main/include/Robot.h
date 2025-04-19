@@ -29,10 +29,10 @@ class Robot : public frc::TimedRobot
     private:
 
         // Pointer to the autonomous command
-        frc2::Command  *m_autonomousCommand   = nullptr;
+        std::unique_ptr<frc2::Command>  m_autonomousCommand;
 
         // Instantiate the Robot container and get a pointer to the class
-        RobotContainer *m_robotContainer      = RobotContainer::GetInstance();
+        RobotContainer *m_robotContainer;
 
         bool            m_chassisGyroReversed = false;
 };

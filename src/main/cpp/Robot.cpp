@@ -9,6 +9,8 @@ void Robot::RobotInit()
     // Report the robot framework usage
     HAL_Report(HALUsageReporting::kResourceType_Framework, HALUsageReporting::kFramework_RobotBuilder);
 
+    m_robotContainer = RobotContainer::GetInstance();
+
     // Reset the debug message
     frc::SmartDashboard::PutString("Debug", "RobotInit");
 }
@@ -47,7 +49,7 @@ void Robot::AutonomousInit()
     m_robotContainer->SetSwerveWheelAnglesToZero();
 
     // Get the selected autonomous command
-    m_autonomousCommand = m_robotContainer->GetAutonomousCommand();
+    m_autonomousCommand = m_robotContainer->GetAutonomousCommand().Unwrap();
 
     // Ensure the arm angle is past the elevator
     if (m_robotContainer->GetGripper()->GetArmAngle() < Constants::Arm::PastElevatorPosition)
@@ -57,10 +59,10 @@ void Robot::AutonomousInit()
     }
 
     // Determine if the chooser returned a pointer to a command
-    if (m_autonomousCommand != nullptr)
+    if (m_autonomousCommand.get() != nullptr)
     {
         // Schedule the autonomous command
-        m_autonomousCommand->Schedule();
+        m_autonomousCommand.get()->Schedule();
     }
 }
 
@@ -87,11 +89,10 @@ void Robot::TeleopInit()
     m_robotContainer->SetSwerveWheelAnglesToZero();
 
     // This makes sure that the autonomous stops running when teleop starts running.
-    if (m_autonomousCommand != nullptr)
+    if (m_autonomousCommand.get() != nullptr)
     {
         // Cancel the autonomous command and set the pointer to null
-        m_autonomousCommand->Cancel();
-        m_autonomousCommand = nullptr;
+        m_autonomousCommand.get()->Cancel();
     }
 
     // Ensure the arm angle is past the elevator

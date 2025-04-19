@@ -54,7 +54,7 @@ class RobotContainer
         static RobotContainer       *GetInstance();
 
         // Method to get a pointer to the selected autonomous command
-        frc2::Command               *GetAutonomousCommand();
+        frc2::CommandPtr             GetAutonomousCommand();
 
         // Method to set the swerve wheels to starting position based on the absolute encoder
         void                         SetSwerveWheelAnglesToZero();
@@ -112,10 +112,9 @@ class RobotContainer
         frc::SlewRateLimiter<units::scalar>   m_rotLimiter   {3 / 1_s};
 
         // Create the command to set the swerve wheel angles to zero based on the absolute encoder
-        ChassisSetSwerveWheelAnglesToZero    *m_swerveWheelAnglesToZero = new ChassisSetSwerveWheelAnglesToZero(&m_drivetrain);
+        frc2::CommandPtr m_swerveWheelAnglesToZero = ChassisSetSwerveWheelAnglesToZero::ChassisSetSwerveWheelAnglesToZero(&m_drivetrain);
 
-        // Autonomous command chooser
-        frc::SendableChooser<frc2::Command*>  m_autonomousChooser;
+        frc::SendableChooser<frc2::Command *> m_autoChooser;
 
         frc::PowerDistribution                m_powerDistribution;
 

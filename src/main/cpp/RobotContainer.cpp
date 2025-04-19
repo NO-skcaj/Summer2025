@@ -38,7 +38,7 @@ RobotContainer::RobotContainer()
     // frc::SmartDashboard::PutData("Wrist Jog Negative",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset(-Constants::Wrist::AngleOffset);}));
 
     // Build an auto chooser. This will use frc2::cmd::None() as the default option.
-    frc::SendableChooser<frc2::Command *> autoChooser = AutoBuilder::buildAutoChooser();
+    m_autoChooser = AutoBuilder::buildAutoChooser();
 
     // m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,
     //                                                                 [this] { return GetAutonomousOneCoralParameters(-5_in, 0_in); },
@@ -60,14 +60,14 @@ RobotContainer::RobotContainer()
     //                                                                 &m_drivetrain, &m_gripper));
 
     // Send the autonomous mode chooser to the SmartDashboard
-    frc::SmartDashboard::PutData("Autonomous Mode", &autoChooser);
+    frc::SmartDashboard::PutData("Autonomous Mode", &m_autoChooser);
 
     // Set the default commands for the subsystems
-    m_drivetrain.SetDefaultCommand(ChassisDrive([this] { return Forward(); },
-                                                [this] { return Strafe();  },
-                                                [this] { return Angle();   },
-                                                &m_drivetrain));
-
+    m_drivetrain.SetDefaultCommand(ChassisDrive::ChassisDrive([this] { return Forward(); },
+                                                              [this] { return Strafe();  },
+                                                              [this] { return Angle();   },
+                                                              &m_drivetrain));
+     
     // Set the LED default command
     m_leds.SetDefaultCommand(SetLeds(LedMode::Off, &m_leds));
 
@@ -155,7 +155,7 @@ void RobotContainer::ConfigureGripperControls()
         .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
 
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::Home)
-        .OnTrue(GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
+        .OnTrue(GripperPose::GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
 
     // Manually offsets elevator upwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ElevatorUp)
@@ -190,7 +190,7 @@ void RobotContainer::ConfigureCoralPoseControls()
     for (const auto& mapping : coralPoses)
     {
         frc2::JoystickButton (&m_operatorController, mapping.button)
-            .OnTrue(GripperPose(mapping.pose, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
+            .OnTrue(GripperPose::GripperPose(mapping.pose, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
     }
 }
 
@@ -218,7 +218,7 @@ void RobotContainer::ConfigureAlgaePoseControls()
     for (const auto& mapping : algaePoses)
     {
         frc2::JoystickButton (&m_operatorController, mapping.button)
-            .OnTrue(GripperPose(mapping.pose, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
+            .OnTrue(GripperPose::GripperPose(mapping.pose, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
     }
 }
 
@@ -254,17 +254,19 @@ frc::XboxController *RobotContainer::GetOperatorController()
 
 /// @brief Method to return a pointer to the autonomous command.
 /// @return Pointer to the autonomous command
-frc2::Command *RobotContainer::GetAutonomousCommand()
+frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
+
+    // Get the selected autonomous command from the chooser
     // The selected command will be run in autonomous
-    return m_autonomousChooser.GetSelected();
+    return frc2::CommandPtr(std::unique_ptr<frc2::Command>(m_autoChooser.GetSelected()));
 }
 
 /// @brief Method to set the swerve wheels to starting position based on the absolute encoder.
 void RobotContainer::SetSwerveWheelAnglesToZero()
  {
     // Execute the command
-    m_swerveWheelAnglesToZero->Execute();
+    m_swerveWheelAnglesToZero.get()->Execute();
  }
 /// @brief Method to return the forward joystick value.
 /// @return The forward joystick meters per second value.

@@ -3,7 +3,7 @@
 using namespace Constants::CanIds;
 
 /// @brief Class to support the Climb subsystem.
-Climb::Climb()
+Climb::Climb() : m_climbMotor{ClimbMotorCanId}
 {
     // Configure the climb motor
     ConfigureClimbMotor(ClimbMotorCanId);
@@ -13,9 +13,6 @@ Climb::Climb()
 /// @param motorCanId The CAN identifier for the climb motor.
 void Climb::ConfigureClimbMotor(int motorCanId)
 {
-    // Instantiate the climb motor
-    m_climbMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanBus};
-
     // Create the climb motor configuration
     ctre::phoenix6::configs::TalonFXConfiguration climbMotorConfiguration{};
 
@@ -28,9 +25,9 @@ void Climb::ConfigureClimbMotor(int motorCanId)
     for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
     {
         // Apply the configuration to the drive motor
-        status = m_climbMotor->GetConfigurator().Apply(climbMotorConfiguration);
+        status = m_climbMotor.GetConfigurator().Apply(climbMotorConfiguration);
 
-        // Check if the configuration was successful
+        // Ch eck if the configuration was successful
         if (status.IsOK())
            break;
     }
@@ -49,10 +46,10 @@ void Climb::SetVoltage(units::volt_t voltage)
         (voltage < 0_V && m_captureLimit.Get() == 1))
     {
         // Stop the motor
-        m_climbMotor->SetVoltage(0_V);
+        m_climbMotor.SetVoltage(0_V);
         return;
     }
 
     // Set the motor voltage
-    m_climbMotor->SetVoltage(voltage);
+    m_climbMotor.SetVoltage(voltage);
 }

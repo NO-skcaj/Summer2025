@@ -29,6 +29,9 @@
 
 #include <frc2/command/SubsystemBase.h>
 
+#include "TalonFX.h"
+#include "SparkMax.h"
+
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
 
@@ -86,17 +89,13 @@ class SwerveModule
 
     private:
 
-        // Private methods
         void                       ConfigureDriveMotor();
         void                       ConfigureAngleMotor();
 
         units::angle::radian_t     GetAbsoluteEncoderAngle();
         units::meters_per_second_t GetDriveEncoderRate();
 
-        ctre::phoenix6::hardware::TalonFX     m_driveMotor;
-        rev::spark::SparkMax                  m_angleMotor;
-        ctre::phoenix6::hardware::CANcoder    m_angleAbsoluteEncoder;
-
-        rev::spark::SparkRelativeEncoder      m_angleEncoder;
-        rev::spark::SparkClosedLoopController m_turnClosedLoopController;
+        hardware::TalonFX                  m_driveMotor;
+        hardware::SparkMax                 m_angleMotor;
+        ctre::phoenix6::hardware::CANcoder m_angleAbsoluteEncoder;
 };

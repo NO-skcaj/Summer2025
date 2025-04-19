@@ -5,21 +5,13 @@
 
 #include "subsystems/Drivetrain.h"
 
-class ChassisDrive : public frc2::CommandHelper<frc2::Command, ChassisDrive>
+namespace ChassisDrive
 {
-    public:
-
-        explicit ChassisDrive(std::function<units::meters_per_second_t()>  forward,
-                              std::function<units::meters_per_second_t()>  strafe,
-                              std::function<units::radians_per_second_t()> angle,
-                              Drivetrain                                  *drivetrain);
-
-        void     Execute() override;
-
-    private:
-
-        std::function<units::meters_per_second_t()>  m_forward;            // The forward speed
-        std::function<units::meters_per_second_t()>  m_strafe;             // The strafe speed
-        std::function<units::radians_per_second_t()> m_angle;              // The angle speed
-        Drivetrain                                  *m_drivetrain;         // The drivetrain subsystem;
-};
+    inline frc2::CommandPtr ChassisDrive(std::function<units::meters_per_second_t()>  forward,
+                                  std::function<units::meters_per_second_t()>  strafe,
+                                  std::function<units::radians_per_second_t()> angle,
+                                  Drivetrain                                  *drivetrain)
+    {
+        return frc2::cmd::Run( [forward, strafe, angle, drivetrain] { drivetrain->Drive(forward(), strafe(), angle()); }, {drivetrain});
+    }
+}

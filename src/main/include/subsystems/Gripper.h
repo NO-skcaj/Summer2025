@@ -9,6 +9,8 @@
 #include <rev/SparkMax.h>
 #include <rev/config/SparkMaxConfig.h>
 
+#include "TalonFX.h"
+
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
 #include "Constants/GripperPoseCoral.h"
@@ -149,17 +151,15 @@ class Gripper : public frc2::SubsystemBase
 
     private:
 
-        void ConfigureElevatorMotor(int driveMotorCanId);
-        void ConfigureArmMotor(int driveMotorCanId);
+        void ConfigureElevatorMotor();
+        void ConfigureArmMotor();
         void ConfigureWristMotor();
         void ConfigureGripperMotorRight();
         void ConfigureGripperMotorLeft();
 
-        ctre::phoenix6::hardware::TalonFX           *m_elevatorMotor;
-        ctre::phoenix6::controls::MotionMagicVoltage m_elevatorMotionMagicVoltage{0_tr};
-
-        ctre::phoenix6::hardware::TalonFX           *m_armMotor;
-        ctre::phoenix6::controls::MotionMagicVoltage m_motionMagicVoltage{0_tr};
+        hardware::TalonFX                            m_elevatorMotor;
+                    
+        hardware::TalonFX                            m_armMotor;
 
         rev::spark::SparkMax                         m_wristMotor;
         rev::spark::SparkRelativeEncoder             m_wristEncoder;

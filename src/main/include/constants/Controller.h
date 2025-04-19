@@ -7,6 +7,8 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 
+#include <pathplanner/lib/path/PathPlannerPath.h>
+
 #include <units/acceleration.h>
 #include <units/angle.h>
 #include <units/angular_acceleration.h>

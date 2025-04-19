@@ -3,7 +3,11 @@
 using namespace Constants::CanIds;
 
 /// @brief The Constructor for the Gripper class.
-Gripper::Gripper() : m_wristMotor(WristMotorCanId, rev::spark::SparkMax::MotorType::kBrushless),
+Gripper::Gripper() : m_elevatorMotor(ElevatorMotorCanId),
+
+                     m_armMotor(ArmMotorCanId),
+
+                     m_wristMotor(WristMotorCanId, rev::spark::SparkMax::MotorType::kBrushless),
                      m_wristEncoder(m_wristMotor.GetEncoder()),
                      m_wristTurnClosedLoopController(m_wristMotor.GetClosedLoopController()),
 
@@ -11,10 +15,10 @@ Gripper::Gripper() : m_wristMotor(WristMotorCanId, rev::spark::SparkMax::MotorTy
                      m_gripperMotorFree(GripperMotorCanIdFree,   rev::spark::SparkMax::MotorType::kBrushless)
 {
     // Configure the elevator motor
-    ConfigureElevatorMotor(ElevatorMotorCanId);
+    ConfigureElevatorMotor();
 
     // Configure the Arm motor
-    ConfigureArmMotor(ArmMotorCanId);
+    ConfigureArmMotor();
 
     // Configure the wrist motor
     ConfigureWristMotor();
@@ -29,53 +33,27 @@ Gripper::Gripper() : m_wristMotor(WristMotorCanId, rev::spark::SparkMax::MotorTy
 
 /// @brief Method to configure the elevator motor using MotionMagic.
 /// @param motorCanId The CAN identifier for the elevator motor.
-void Gripper::ConfigureElevatorMotor(int motorCanId)
+void Gripper::ConfigureElevatorMotor()
 {
-    // Instantiate the elevator motor
-    m_elevatorMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanBus};
 
     // Create the elevator motor configuration
-    ctre::phoenix6::configs::TalonFXConfiguration elevatorMotorConfiguration{};
-
-    // Add the Motor Output section settings
-    ctre::phoenix6::configs::MotorOutputConfigs &motorOutputConfigs = elevatorMotorConfiguration.MotorOutput;
-    motorOutputConfigs.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
-    motorOutputConfigs.Inverted    = true;
-
-    // Add the Current Limits section settings
-    ctre::phoenix6::configs::CurrentLimitsConfigs &currentLimitsConfigs = elevatorMotorConfiguration.CurrentLimits;
-    currentLimitsConfigs.SupplyCurrentLimit = Constants::Elevator::MaximumAmperage;
-
-    // Add the Slot0 section settings
-    ctre::phoenix6::configs::Slot0Configs &slot0Configs = elevatorMotorConfiguration.Slot0;
-    slot0Configs.kS = Constants::Elevator::S;
-    slot0Configs.kV = Constants::Elevator::V;
-    slot0Configs.kA = Constants::Elevator::A;
-    slot0Configs.kP = Constants::Elevator::P;
-    slot0Configs.kI = Constants::Elevator::I;
-    slot0Configs.kD = Constants::Elevator::D;
-
-    // Configure Motion Magic
-    ctre::phoenix6::configs::MotionMagicConfigs &motionMagicConfigs = elevatorMotorConfiguration.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = Constants::Elevator::MotionMagicCruiseVelocity;
-    motionMagicConfigs.MotionMagicAcceleration   = Constants::Elevator::MotionMagicAcceleration;
-    motionMagicConfigs.MotionMagicJerk           = Constants::Elevator::MotionMagicJerk;
-
-    // Apply the configuration to the drive motor
-    ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
+    hardware::TalonMotorConfiguration elevatorMotorConfiguration
     {
-        // Apply the configuration to the drive motor
-        status = m_elevatorMotor->GetConfigurator().Apply(elevatorMotorConfiguration);
+        hardware::TalonMotorConfiguration::NeutralMode::Brake,
+        Constants::Elevator::MaximumAmperage,
+        true,
+        Constants::Elevator::P,
+        Constants::Elevator::I,
+        Constants::Elevator::D,
+        Constants::Elevator::V,
+        Constants::Elevator::A,
+        Constants::Elevator::MotionMagicCruiseVelocity,
+        Constants::Elevator::MotionMagicAcceleration,
+        Constants::Elevator::MotionMagicJerk
+    };
 
-        // Check if the configuration was successful
-        if (status.IsOK())
-           break;
-    }
-
-    // Determine if the last configuration load was successful
-    if (!status.IsOK())
-        std::cout << "***** ERROR: Could not configure elevator motor. Error: " << status.GetName() << std::endl;
+    // Apply the configuration to the elevator motor
+    m_elevatorMotor.ConfigureMotor(elevatorMotorConfiguration);
 
     // Set the elevator motor control to the default
     SetElevatorHeight(0_m);
@@ -83,53 +61,26 @@ void Gripper::ConfigureElevatorMotor(int motorCanId)
 
 /// @brief Method to configure the Arm motor using MotionMagic.
 /// @param motorCanId The CAN identifier for the Arm motor.
-void Gripper::ConfigureArmMotor(int motorCanId)
+void Gripper::ConfigureArmMotor()
 {
-    // Instantiate the Arm motor
-    m_armMotor = new ctre::phoenix6::hardware::TalonFX{motorCanId, CanBus};
-
-    // Create the Arm motor configuration
-    ctre::phoenix6::configs::TalonFXConfiguration armMotorConfiguration{};
-
-    // Add the Motor Output section settings
-    ctre::phoenix6::configs::MotorOutputConfigs &motorOutputConfigs = armMotorConfiguration.MotorOutput;
-    motorOutputConfigs.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
-    motorOutputConfigs.Inverted = true;
-
-    // Add the Current Limits section settings
-    ctre::phoenix6::configs::CurrentLimitsConfigs &currentLimitsConfigs = armMotorConfiguration.CurrentLimits;
-    currentLimitsConfigs.SupplyCurrentLimit = Constants::Arm::MaximumAmperage;
-
-    // Add the Current Limits section settings
-    ctre::phoenix6::configs::Slot0Configs &slot0Configs = armMotorConfiguration.Slot0;
-    slot0Configs.kS = Constants::Arm::S;
-    slot0Configs.kV = Constants::Arm::V;
-    slot0Configs.kA = Constants::Arm::A;
-    slot0Configs.kP = Constants::Arm::P;
-    slot0Configs.kI = Constants::Arm::I;
-    slot0Configs.kD = Constants::Arm::D;
-
-    // Configure Motion Magic
-    ctre::phoenix6::configs::MotionMagicConfigs &motionMagicConfigs = armMotorConfiguration.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = Constants::Arm::MotionMagicCruiseVelocity;
-    motionMagicConfigs.MotionMagicAcceleration   = Constants::Arm::MotionMagicAcceleration;
-    motionMagicConfigs.MotionMagicJerk           = Constants::Arm::MotionMagicJerk;
-
-    // Apply the configuration to the drive motor
-    ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
+    // Create the arm motor configuration
+    hardware::TalonMotorConfiguration armMotorConfiguration
     {
-        // Apply the configuration to the drive motor
-        status = m_armMotor->GetConfigurator().Apply(armMotorConfiguration);
+        hardware::TalonMotorConfiguration::NeutralMode::Brake,
+        Constants::Arm::MaximumAmperage,
+        true,
+        Constants::Arm::P,
+        Constants::Arm::I,
+        Constants::Arm::D,
+        Constants::Arm::V,
+        Constants::Arm::A,
+        Constants::Arm::MotionMagicCruiseVelocity,
+        Constants::Arm::MotionMagicAcceleration,
+        Constants::Arm::MotionMagicJerk
+    };
 
-        // Check if the configuration was successful
-        if (status.IsOK())
-           break;
-    }
-
-    // Determine if the last configuration load was successful
-    if (!status.IsOK())
-        std::cout << "***** ERROR: Could not configure arm motor. Error: " << status.GetName() << std::endl;
+    // Apply the configuration to the arm motor
+    m_armMotor.ConfigureMotor(armMotorConfiguration);
 
     // Start the control at zero degrees
     SetArmAngle(0_deg);
@@ -376,7 +327,7 @@ void Gripper::SetElevatorHeight(units::length::meter_t position)
     units::angle::turn_t newPosition = (units::angle::turn_t) (position.value() * Constants::Elevator::PositionToTurnsConversionFactor);
 
     // Set the elevator set position
-    m_elevatorMotor->SetControl(m_elevatorMotionMagicVoltage.WithPosition(newPosition).WithSlot(0));
+    m_elevatorMotor.SetPosition(newPosition);
 }
 
 /// @brief Moves the elevator by the given offset
@@ -391,11 +342,8 @@ void Gripper::SetElevatorOffset(units::length::meter_t offset)
 /// @return The elevator height.
 units::length::meter_t Gripper::GetElevatorHeight()
 {
-    // Get the current elevator motor position
-    auto currentPosition = m_elevatorMotor->GetPosition().GetValueAsDouble();
-
     // Return the elevator height
-    return (units::length::meter_t) (currentPosition / Constants::Elevator::PositionToTurnsConversionFactor);
+    return (units::length::meter_t) (m_elevatorMotor.GetPosition().value() / Constants::Elevator::PositionToTurnsConversionFactor);
 }
 
 /// @brief Method to set the arm angle.
@@ -416,7 +364,7 @@ void Gripper::SetArmAngle(units::angle::degree_t angle)
     units::angle::turn_t position = (units::angle::turn_t) (angle.value() / Constants::Arm::AngleToTurnsConversionFactor.value());
 
     // Set the arm set position
-    m_armMotor->SetControl(m_motionMagicVoltage.WithPosition(position).WithSlot(0));
+    m_armMotor.SetPosition(position);
 }
 
 /// @brief Method to set the arm angle.
@@ -431,11 +379,8 @@ void Gripper::SetArmAngleOffset(units::angle::degree_t angleOffset)
 /// @return The arm angle.
 units::angle::degree_t Gripper::GetArmAngle()
 {
-    // Get the current arm motor angle
-    auto currentAngle = m_armMotor->GetPosition().GetValueAsDouble();
-
     // Return the arm angle
-    return (units::angle::degree_t) (currentAngle * Constants::Arm::AngleToTurnsConversionFactor.value());
+    return (units::angle::degree_t) (m_armMotor.GetPosition().value() * Constants::Arm::AngleToTurnsConversionFactor.value());
 }
 
 /// @brief Method to set the Wrist angle.

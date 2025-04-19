@@ -61,6 +61,12 @@ namespace ChassisPose
     extern const frc::TrapezoidProfile<units::radians>::Constraints ThetaControllerConstraints;
 }
 
+namespace PathPlanner
+{
+    const pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq}; // The constraints for this path.
+
+}
+
 }
 
 class Drivetrain : public frc2::SubsystemBase

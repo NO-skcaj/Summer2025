@@ -5,16 +5,10 @@
 
 #include "subsystems/Drivetrain.h"
 
-class ChassisSetSwerveWheelAnglesToZero : public frc2::CommandHelper<frc2::Command, ChassisSetSwerveWheelAnglesToZero>
+namespace ChassisSetSwerveWheelAnglesToZero
 {
-    public:
-
-        explicit ChassisSetSwerveWheelAnglesToZero(Drivetrain *drivetrain);
-
-        void     Execute()    override;
-        bool     IsFinished() override;
-
-    private:
-
-        Drivetrain *m_drivetrain;  // Pointer to the chassis set the swerve wheel angles to zero
-};
+    inline frc2::CommandPtr ChassisSetSwerveWheelAnglesToZero(Drivetrain *drivetrain)
+    {
+        return frc2::cmd::Run( [drivetrain] { drivetrain->SetWheelAnglesToZero(); }, {drivetrain} );
+    };
+}
