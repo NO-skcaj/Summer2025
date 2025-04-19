@@ -31,6 +31,7 @@
 
 #include "TalonFX.h"
 #include "SparkMax.h"
+#include "CANCoder.h"
 
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
@@ -97,5 +98,5 @@ class SwerveModule
 
         hardware::TalonFX                  m_driveMotor;
         hardware::SparkMax                 m_angleMotor;
-        ctre::phoenix6::hardware::CANcoder m_angleAbsoluteEncoder;
+        hardware::CANcoder m_angleAbsoluteEncoder;
 };
