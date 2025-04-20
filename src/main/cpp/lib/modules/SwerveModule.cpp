@@ -53,6 +53,7 @@ void SwerveModule::ConfigureAngleMotor()
         Constants::Swerve::AngleP,
         Constants::Swerve::AngleI,
         Constants::Swerve::AngleD,
+        false,
         true,
         0.0,
         2.0 * std::numbers::pi
@@ -131,11 +132,7 @@ void SwerveModule::SetWheelAngleToForward(units::angle::radian_t forwardAngle)
 units::angle::radian_t SwerveModule::GetAbsoluteEncoderAngle()
 {
     // The GetAbsolutePosition() method returns a value from -1 to 1
-<<<<<<< Updated upstream
     double encoderValue = m_angleAbsoluteEncoder.GetAbsoluteValue().value();
-=======
-    double encoderValue = (double) m_angleAbsoluteEncoder.GetAbsoluteValue();
->>>>>>> Stashed changes
 
     // To convert to radians
     return encoderValue * 2.0_rad * std::numbers::pi;

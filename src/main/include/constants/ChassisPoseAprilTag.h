@@ -4,7 +4,7 @@
 #include <numbers>
 #include <string>
 
-#include <frc/geometry/Translation2d.h>
+#include <frc/geometry/Transform2d.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 
 #include <units/angle.h>
@@ -19,59 +19,58 @@ namespace Constants
 
 namespace ChassisAprilTagToPose
 {
-    constexpr auto ChassisSpeed                     =  1.0_mps;
-    constexpr auto TimeoutTime                      =  15_s;
+    constexpr auto ChassisSpeed = 1.0_mps;
+    constexpr auto TimeoutTime  = 15_s;
 
     //*************************** Coral Station *************************************
-    constexpr auto CoralStationDistanceOffsetX      =  0.0_m;
-    constexpr auto CoralStationDistanceOffsetY      =  0.0_m;
-    constexpr auto CoralStationAngleOffset          =  0.0_deg;
+    constexpr frc::Transform2d CoralStation{ 0.0_m,
+                                             0.0_m,
+                                             0.0_deg};
 
     //*************************** Reef **********************************************
     // Coral L1 right
-    constexpr auto CoralL1ReefRightDistanceOffsetX  =  20.0_in;
-    constexpr auto CoralL1ReefRightDistanceOffsetY  = -10.0_in;
-    constexpr auto CoralL1ReefRightAngleOffset      =  0.0_deg;
+    constexpr frc::Transform2d CoralL1ReefRight{ 20.0_in,
+                                                -10.0_in,
+                                                 0.0_deg};
 
     // Coral L1 left
-    constexpr auto CoralL1ReefLeftDistanceOffsetX   =  18.0_in;
-    constexpr auto CoralL1ReefLeftDistanceOffsetY   =  10.0_in;
-    constexpr auto CoralL1ReefLeftAngleOffset       =   0.0_deg;
-
+    constexpr frc::Transform2d CoralL1ReefLeft{ 20.0_in,
+                                                10.0_in,
+                                                 0.0_deg};
     // Coral L2 and L3 right
-    constexpr auto CoralL23ReefRightDistanceOffsetX =  13.5_in;
-    constexpr auto CoralL23ReefRightDistanceOffsetY =  -3.0_in;
-    constexpr auto CoralL23ReefRightAngleOffset     =   0.0_deg;
+    constexpr frc::Transform2d CoralL23ReefRight{ 20.0_in,
+                                                  -3.0_in,
+                                                   0.0_deg};
 
     // Coral L2 and L3 left
-    constexpr auto CoralL23ReefLeftDistanceOffsetX  =  13.5_in;
-    constexpr auto CoralL23ReefLeftDistanceOffsetY  =   9.5_in;
-    constexpr auto CoralL23ReefLeftAngleOffset      =   0.0_deg;
+    constexpr frc::Transform2d CoralL23ReefLeft{ 20.0_in,
+                                                 10.0_in,
+                                                  0.0_deg};
 
     // Coral L4 right
-    constexpr auto CoralL4ReefRightDistanceOffsetX  =  15.5_in;
-    constexpr auto CoralL4ReefRightDistanceOffsetY  =  -3.5_in;
-    constexpr auto CoralL4ReefRightAngleOffset      =  0.0_deg;
+    constexpr frc::Transform2d CoralL4ReefRight{ 20.0_in,
+                                                 -3.0_in,
+                                                  0.0_deg};
 
     // Coral L4 left
-    constexpr auto CoralL4ReefLeftDistanceOffsetX   =  15.5_in;
-    constexpr auto CoralL4ReefLeftDistanceOffsetY   =   8.0_in;
-    constexpr auto CoralL4ReefLeftAngleOffset       =   0.0_deg;
+    constexpr frc::Transform2d CoralL4ReefLeft{ 20.0_in,
+                                                10.0_in,
+                                                 0.0_deg};
 
     // Reef Algae
-    constexpr auto AlgaeReefDistanceOffsetX         =  17.0_in;
-    constexpr auto AlgaeReefDistanceOffsetY         =   0.0_m;
-    constexpr auto AlgaeReefAngleOffset             =   0.0_deg;
+    constexpr frc::Transform2d AlgaeReef{ 20.0_in,
+                                           0.0_in,
+                                           0.0_deg};
 
     //*************************** Algae Processor ***********************************
-    constexpr auto AlgaeProcessorDistanceOffsetX    =   0.0_m;
-    constexpr auto AlgaeProcessorDistanceOffsetY    =   0.0_m;
-    constexpr auto AlgaeProcessorAngleOffset        =   0.0_deg;
+    constexpr frc::Transform2d AlgaeProcessor{ 20.0_in,
+                                                0.0_in,
+                                                0.0_deg};
 
     //*************************** Algae Barge ***************************************
-    constexpr auto AlgaelBargeDistanceOffsetX       =   0.0_m;
-    constexpr auto AlgaelBargeDistanceOffsetY       =   0.0_m;
-    constexpr auto AlgaelBargeAngleOffset           =   0.0_deg;
+    constexpr frc::Transform2d AlgaelBarge{ 20.0_in,
+                                             0.0_in,
+                                             0.0_deg};
 }
 
 }

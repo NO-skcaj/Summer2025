@@ -29,15 +29,9 @@
 
 #include <frc2/command/SubsystemBase.h>
 
-<<<<<<< Updated upstream:src/main/include/SwerveModule.h
-#include "TalonFX.h"
-#include "SparkMax.h"
-#include "CANCoder.h"
-=======
 #include "lib/hardware/CANCoder.h"
 #include "lib/hardware/TalonFX.h"
 #include "lib/hardware/SparkMax.h"
->>>>>>> Stashed changes:src/main/include/lib/modules/SwerveModule.h
 
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
@@ -102,13 +96,7 @@ class SwerveModule
         units::angle::radian_t     GetAbsoluteEncoderAngle();
         units::meters_per_second_t GetDriveEncoderRate();
 
-<<<<<<< Updated upstream:src/main/include/SwerveModule.h
-        hardware::TalonFX                  m_driveMotor;
-        hardware::SparkMax                 m_angleMotor;
-        hardware::CANcoder m_angleAbsoluteEncoder;
-=======
         hardware::TalonFX  m_driveMotor;
         hardware::SparkMax m_angleMotor;
         hardware::CANCoder m_angleAbsoluteEncoder;
->>>>>>> Stashed changes:src/main/include/lib/modules/SwerveModule.h
 };

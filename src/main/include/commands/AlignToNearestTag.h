@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 
@@ -26,12 +28,21 @@ namespace Constants
 
 }
 
-class AlignToNearest : public frc2::CommandHelper<frc2::Command, AlignToNearest>
+class AlignToNearestTag : public frc2::CommandHelper<frc2::Command, AlignToNearestTag>
 {
     public:
 
-        explicit AlignToNearest(Drivetrain *drivetrain) : m_drivetrain    {drivetrain}, 
-                                                          m_targetPosition{},
+        explicit AlignToNearestTag(Drivetrain *drivetrain) : m_drivetrain    {drivetrain}, 
+                                                             m_targetPosition{},
+
+                                                          m_transXPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
+                                                          m_transYPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
+                                                          m_rotPID   {Constants::AlignPID::rotP,   Constants::AlignPID::rotI,   Constants::AlignPID::rotD}
+        {}
+
+        explicit AlignToNearestTag(Drivetrain *drivetrain, frc::Pose2d offset) : m_drivetrain    {drivetrain}, 
+                                                                                 m_targetPosition{},
+                                                                                 m_targetOffset  {offset},
 
                                                           m_transXPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
                                                           m_transYPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
@@ -73,9 +84,21 @@ class AlignToNearest : public frc2::CommandHelper<frc2::Command, AlignToNearest>
         }
 
     private:
+
+        inline frc::Pose2d GetTargetWithOffset()
+        {
+            // # Rotate offset
+            return frc::Pose2d{
+                m_targetPosition.X() +                  m_targetOffset.Translation().X() * std::cos(m_targetPosition.Rotation().Radians().value()) - m_targetOffset.Translation().Y() * std::sin(m_targetPosition.Rotation().Radians().value()),
+                m_targetPosition.Y() +                  m_targetOffset.Translation().X() * std::sin(m_targetPosition.Rotation().Radians().value()) + m_targetOffset.Translation().Y() * std::cos(m_targetPosition.Rotation().Radians().value()),
+                m_targetPosition.Rotation().Degrees() + m_targetOffset.Rotation().Degrees()};
+        }
+
         Drivetrain        *m_drivetrain; // The drivetrain subsystem
 
         frc::Pose2d        m_targetPosition;
+
+        frc::Pose2d        m_targetOffset;
 
         frc::PIDController m_transXPID;
         frc::PIDController m_transYPID;

@@ -10,6 +10,24 @@
 
 namespace hardware
 {
+    /// @brief Configuration structure for the SparkMax motor controller.
+    /// @details This structure contains the configuration parameters for the SparkMax motor controller.
+    // // The brake mode will hold the motor in place when not powered or not
+    // enum MotorConfiguration::NeutralMode
+    // {
+    //     Brake,
+    //     Coast
+    // };
+    /// @param NeutralMode                   NeutralMode
+    /// @param CurrentLimit                  units::ampere_t
+    /// @param StatorCurrentLimitEnable      bool
+    /// @param P                             double
+    /// @param I                             double
+    /// @param D                             double
+    /// @param Inverted                      bool
+    /// @param PositionWrappingEnabled       bool
+    /// @param PositionWrappingInputRangeMin double
+    /// @param PositionWrappingInputRangeMax double
     struct SparkMaxConfiguration : MotorConfiguration
     {
         // // The brake mode will hold the motor in place when not powered or not

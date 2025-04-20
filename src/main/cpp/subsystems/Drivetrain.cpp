@@ -233,18 +233,14 @@ bool Drivetrain::GetFieldCentricity()
 /// @return Pose of the nearest tag
 frc::Pose2d Drivetrain::GetNearestTag()
 {
-    frc::Translation2d pose{GetPose().ToMatrix()};
+    // searches through a list of all tags and returns the closest one
+    auto nearestTag = *std::min_element(Constants::Vision::AprilTagLocations::tagsSpan.begin(), Constants::Vision::AprilTagLocations::tagsSpan.end(),
+                            [this](frc::Pose3d a, frc::Pose3d b) {
+                                return GetPose().Translation().Distance(a.Translation().ToTranslation2d()) < 
+                                       GetPose().Translation().Distance(b.Translation().ToTranslation2d());
+                            });
 
-    std::vector<frc::Translation2d> tags;
-
-    for (frc::Pose3d tagPose : Constants::Vision::AprilTagLocations::tags)
-    {
-        tags.push_back(frc::Translation2d{tagPose.ToPose2d().ToMatrix()});
-    }
-
-    auto nearestTag = pose.Nearest(tags); // basically the nearest pose lol
-
-    return frc::Pose2d{nearestTag.X(), nearestTag.Y(), nearestTag.Angle()};
+    return nearestTag.ToPose2d();
 }
 
 /// @brief Method to get the relative chassis speeds.
