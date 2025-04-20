@@ -46,12 +46,15 @@ namespace hardware
                 ctre::phoenix6::configs::TalonFXConfiguration talonFXConfiguration{};
                 // Add the "Motor Output" section settings
                 ctre::phoenix6::configs::MotorOutputConfigs &motorOutputConfigs = talonFXConfiguration.MotorOutput;
-                motorOutputConfigs.NeutralMode = config.NeutralMode == hardware::MotorConfiguration::Brake ? ctre::phoenix6::signals::NeutralModeValue::Brake : 
-                                                                                                             ctre::phoenix6::signals::NeutralModeValue::Coast;
+                motorOutputConfigs.NeutralMode = //
+                    config.NeutralMode == hardware::MotorConfiguration::Brake ? ctre::phoenix6::signals::NeutralModeValue::Brake : 
+                                                                                ctre::phoenix6::signals::NeutralModeValue::Coast;
+                
                 // Add the "Current Limits" section settings
                 ctre::phoenix6::configs::CurrentLimitsConfigs &currentLimitsConfigs = talonFXConfiguration.CurrentLimits;
                 currentLimitsConfigs.StatorCurrentLimit       = config.CurrentLimit;
                 currentLimitsConfigs.StatorCurrentLimitEnable = config.StatorCurrentLimitEnable;
+
                 // Add the "Slot0" section settings
                 ctre::phoenix6::configs::Slot0Configs &slot0Configs = talonFXConfiguration.Slot0;
                 slot0Configs.kP = config.P;
@@ -60,25 +63,18 @@ namespace hardware
                 slot0Configs.kV = config.V;
                 slot0Configs.kA = config.A;
                 
-                    // Configure Motion Magic
-                    ctre::phoenix6::configs::MotionMagicConfigs &motionMagicConfigs = talonFXConfiguration.MotionMagic;
-                    motionMagicConfigs.MotionMagicCruiseVelocity = config.MotionMagicCruiseVelocity;
-                    motionMagicConfigs.MotionMagicAcceleration   = config.MotionMagicAcceleration;
-                    motionMagicConfigs.MotionMagicJerk           = config.MotionMagicJerk;
+                // Configure Motion Magic
+                ctre::phoenix6::configs::MotionMagicConfigs &motionMagicConfigs = talonFXConfiguration.MotionMagic;
+                motionMagicConfigs.MotionMagicCruiseVelocity = config.MotionMagicCruiseVelocity;
+                motionMagicConfigs.MotionMagicAcceleration   = config.MotionMagicAcceleration;
+                motionMagicConfigs.MotionMagicJerk           = config.MotionMagicJerk;
 
+                ApplyConfiguration(talonFXConfiguration);
+            }
 
-                ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-                for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
-                {
-                    // Apply the configuration to the drive motor
-                    status = m_motor.GetConfigurator().Apply(talonFXConfiguration);
-                    // Check if the configuration was successful
-                    if (status.IsOK())
-                    break;
-                }
-                // Determine if the last configuration load was successful
-                if (!status.IsOK())
-                    std::cout << "***** ERROR: Could not configure TalonFX motor (" << m_motor.GetDeviceID() <<"). Error: " << status.GetName() << std::endl;
+            inline void ConfigureMotor(ctre::phoenix6::configs::TalonFXConfiguration config)  // Configure the motor with default settings
+            {
+                ApplyConfiguration(config);
             }
 
             inline void SetSpeed(double motorInput) override // output to motor within (-1,1)
@@ -116,6 +112,22 @@ namespace hardware
             }
 
         private:
+
+            inline void ApplyConfiguration(ctre::phoenix6::configs::TalonFXConfiguration talonFXConfiguration)
+            {
+                ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
+                for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
+                {
+                    // Apply the configuration to the drive motor
+                    status = m_motor.GetConfigurator().Apply(talonFXConfiguration);
+                    // Check if the configuration was successful
+                    if (status.IsOK())
+                    break;
+                }
+                // Determine if the last configuration load was successful
+                if (!status.IsOK())
+                    std::cout << "***** ERROR: Could not configure TalonFX motor (" << m_motor.GetDeviceID() <<"). Error: " << status.GetName() << std::endl;
+            }
 
 
             ctre::phoenix6::hardware::TalonFX             m_motor;  // TalonFX motor controller        

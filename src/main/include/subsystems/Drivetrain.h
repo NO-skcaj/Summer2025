@@ -1,7 +1,5 @@
 #pragma once
 
-#include "studica/AHRS.h"
-
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
@@ -29,7 +27,9 @@
 #include <numbers>
 
 #include "subsystems/Vision.h"
-#include "SwerveModule.h"
+
+#include "lib/modules/SwerveModule.h"
+#include "lib/hardware/Navx.h"
 
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
@@ -57,14 +57,6 @@ namespace ChassisPose
     constexpr double PXController           = 4.0;
     constexpr double PYController           = 4.0;
     constexpr double PProfileController     = 5.0;
-
-    extern const frc::TrapezoidProfile<units::radians>::Constraints ThetaControllerConstraints;
-}
-
-namespace PathPlanner
-{
-    const pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq}; // The constraints for this path.
-
 }
 
 }
@@ -109,6 +101,8 @@ class Drivetrain : public frc2::SubsystemBase
            
         void                          SetWheelAnglesToZero();                 // Sets the wheels to forward based on the absolute encoder
            
+        frc::Pose2d                   GetNearestTag();
+
         frc::ChassisSpeeds            GetRobotRelativeSpeeds();               // Reads the robot relative speeds
 
         frc::SwerveDriveKinematics<4> GetKinematics();             // Returns the kinematics of the robot
@@ -131,7 +125,7 @@ class Drivetrain : public frc2::SubsystemBase
 
         Vision                           m_vision;
 
-        studica::AHRS                    m_gyro{studica::AHRS::NavXComType::kMXP_SPI};  // The gyro sensor
+        hardware::Navx                   m_gyro;  // The gyro sensor
 
         bool                             m_fieldCentricity = true;                      // Field centricity flag
 

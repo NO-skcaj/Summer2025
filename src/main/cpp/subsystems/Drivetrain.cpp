@@ -5,7 +5,8 @@ using namespace pathplanner;
 
 /// @brief The Constructor for the Drivetrain class.
 Drivetrain::Drivetrain()
-    : m_frontLeft {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
+    : m_gyro      {},
+      m_frontLeft {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
       m_frontRight{SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
       m_rearLeft  {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
       m_rearRight {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
@@ -143,7 +144,7 @@ void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredSt
 frc::Rotation2d Drivetrain::GetRotation2d()
 {
     // Return the robot rotation
-    return m_gyro.GetRotation2d();
+    return m_gyro.GetRotation().ToRotation2d();
 }
 
 /// @brief Method to get the robot heading.
@@ -151,21 +152,21 @@ frc::Rotation2d Drivetrain::GetRotation2d()
 units::degree_t Drivetrain::GetHeading()
 {
     // Return the robot heading
-    return m_gyro.GetRotation2d().Degrees();
+    return m_gyro.GetRotation().ToRotation2d().Degrees();
 }
 
 /// @brief Method to zero the robot heading.
 void Drivetrain::ZeroHeading()
 {
     // Reset the gyro
-    m_gyro.Reset();
+    m_gyro.ResetYaw();
 }
 
 /// @brief Method to zero the robot heading.
 void Drivetrain::ZeroHeadingReverse()
 {
     // Reset the gyro
-    m_gyro.Reset();
+    m_gyro.ResetYaw();
 
     // Reverse the chassis heading
     ReverseHeading();
@@ -175,7 +176,7 @@ void Drivetrain::ZeroHeadingReverse()
 void Drivetrain::ReverseHeading()
 {
     // Reverse the gyro heading
-    m_gyro.SetAngleAdjustment(180);
+    m_gyro.SetOffset(frc::Rotation3d{180_deg, 0_deg, 0_deg});
 }
 
 /// @brief Method to get the pose of the chassis.
@@ -226,6 +227,24 @@ bool Drivetrain::GetFieldCentricity()
 {
     // Return the field centricity setting
     return m_fieldCentricity;
+}
+
+/// @brief Method to get the nearest tag given
+/// @return Pose of the nearest tag
+frc::Pose2d Drivetrain::GetNearestTag()
+{
+    frc::Translation2d pose{GetPose().ToMatrix()};
+
+    std::vector<frc::Translation2d> tags;
+
+    for (frc::Pose3d tagPose : Constants::Vision::AprilTagLocations::tags)
+    {
+        tags.push_back(frc::Translation2d{tagPose.ToPose2d().ToMatrix()});
+    }
+
+    auto nearestTag = pose.Nearest(tags); // basically the nearest pose lol
+
+    return frc::Pose2d{nearestTag.X(), nearestTag.Y(), nearestTag.Angle()};
 }
 
 /// @brief Method to get the relative chassis speeds.

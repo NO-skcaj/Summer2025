@@ -3,7 +3,9 @@
 using namespace Constants::CanIds;
 
 /// @brief Class to support the Climb subsystem.
-Climb::Climb() : m_climbMotor{ClimbMotorCanId}
+Climb::Climb() : m_climbMotor{ClimbMotorCanId},
+                 m_climbLimit  {ClimbConstants::ClimbLimitSwtich},
+                 m_captureLimit{ClimbConstants::CaptureLimitSwitch}
 {
     // Configure the climb motor
     ConfigureClimbMotor(ClimbMotorCanId);
@@ -20,21 +22,7 @@ void Climb::ConfigureClimbMotor(int motorCanId)
     ctre::phoenix6::configs::MotorOutputConfigs &motorOutputConfigs = climbMotorConfiguration.MotorOutput;
     motorOutputConfigs.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
 
-    // Apply the configuration to the drive motor
-    ctre::phoenix::StatusCode status = ctre::phoenix::StatusCode::StatusCodeNotInitialized;
-    for (int attempt = 0; attempt < Constants::CanIds::MotorConfigurationAttempts; attempt++)
-    {
-        // Apply the configuration to the drive motor
-        status = m_climbMotor.GetConfigurator().Apply(climbMotorConfiguration);
-
-        // Ch eck if the configuration was successful
-        if (status.IsOK())
-           break;
-    }
-
-    // Determine if the last configuration load was successful
-    if (!status.IsOK())
-        std::cout << "***** ERROR: Could not configure climb motor. Error: " << status.GetName() << std::endl;
+    m_climbMotor.ConfigureMotor(climbMotorConfiguration);
 }
 
 /// @brief Method to set the climb angle.
@@ -42,14 +30,14 @@ void Climb::ConfigureClimbMotor(int motorCanId)
 void Climb::SetVoltage(units::volt_t voltage)
 {
     // Determine the motor diretion (up or down)
-    if ((voltage > 0_V && m_climbLimit.Get()   == 1) ||
-        (voltage < 0_V && m_captureLimit.Get() == 1))
+    if ((voltage > 0_V && m_climbLimit   == 1) ||
+        (voltage < 0_V && m_captureLimit == 1))
     {
         // Stop the motor
-        m_climbMotor.SetVoltage(0_V);
+        m_climbMotor.SetSpeed(0_V);
         return;
     }
 
     // Set the motor voltage
-    m_climbMotor.SetVoltage(voltage);
+    m_climbMotor.SetSpeed(voltage);
 }

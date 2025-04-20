@@ -2,14 +2,8 @@
 
 #include <frc2/command/SubsystemBase.h>
 
-#include <ctre/phoenix6/CANcoder.hpp>
-#include <ctre/phoenix6/TalonFX.hpp>
-#include <ctre/phoenix6/configs/Configs.hpp>
-
-#include <rev/SparkMax.h>
-#include <rev/config/SparkMaxConfig.h>
-
-#include "TalonFX.h"
+#include "lib/hardware/TalonFX.h"
+#include "lib/hardware/SparkMax.h"
 
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
@@ -154,23 +148,21 @@ class Gripper : public frc2::SubsystemBase
         void ConfigureElevatorMotor();
         void ConfigureArmMotor();
         void ConfigureWristMotor();
-        void ConfigureGripperMotorRight();
-        void ConfigureGripperMotorLeft();
+        void ConfigureGripperMotors();
 
-        hardware::TalonFX                            m_elevatorMotor;
+        hardware::TalonFX      m_elevatorMotor;
                     
-        hardware::TalonFX                            m_armMotor;
+        hardware::TalonFX      m_armMotor;
 
-        rev::spark::SparkMax                         m_wristMotor;
-        rev::spark::SparkRelativeEncoder             m_wristEncoder;
-        rev::spark::SparkClosedLoopController        m_wristTurnClosedLoopController;
-        units::angle::degree_t                       m_wristAngle       = 0_deg;
-        units::angle::degree_t                       m_wristAngleOffset = 0_deg;
+        hardware::SparkMax     m_wristMotor;
+        
+        units::angle::degree_t m_wristAngle       = 0_deg;
+        units::angle::degree_t m_wristAngleOffset = 0_deg;
 
-        rev::spark::SparkMax                         m_gripperMotorFixed;
-        rev::spark::SparkMax                         m_gripperMotorFree;
+        hardware::SparkMax     m_gripperMotorFixed;
+        hardware::SparkMax     m_gripperMotorFree;
 
-        GripperPoseEnum                              m_gripperPose;
+        GripperPoseEnum        m_gripperPose;
 
-        units::voltage::volt_t                       m_gripperVoltage = 0_V;
+        units::voltage::volt_t m_gripperVoltage = 0_V;
 };

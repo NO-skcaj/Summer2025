@@ -1,9 +1,9 @@
 #pragma once
 
-#include <frc/DigitalInput.h>
 #include <frc2/command/SubsystemBase.h>
 
-#include "TalonFX.h"
+#include "lib/hardware/DigitalInput.h"
+#include "lib/hardware/TalonFX.h"
 
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
@@ -26,10 +26,10 @@ class Climb : public frc2::SubsystemBase
 
     private:
 
-        void ConfigureClimbMotor(int motorCanId);
+        void     ConfigureClimbMotor(int motorCanId);
 
         hardware::TalonFX                 m_climbMotor;
 
-        frc::DigitalInput                 m_climbLimit  {ClimbConstants::ClimbLimitSwtich};
-        frc::DigitalInput                 m_captureLimit{ClimbConstants::CaptureLimitSwitch};
+        hardware::DigitalInput                 m_climbLimit;
+        hardware::DigitalInput                 m_captureLimit;
 };

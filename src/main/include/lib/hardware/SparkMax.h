@@ -98,10 +98,9 @@ namespace hardware
             }
 
         private:
-            rev::spark::SparkMax                  m_motor;  // SparkMax motor controller        
-            
-            rev::spark::SparkRelativeEncoder      m_angleEncoder;
-            rev::spark::SparkClosedLoopController m_turnClosedLoopController;
+            rev::spark::SparkMax                  m_motor;                    // SparkMax motor controller
+            rev::spark::SparkRelativeEncoder      m_angleEncoder;             // Relative encoder onboard the sparkmax
+            rev::spark::SparkClosedLoopController m_turnClosedLoopController; // PID Controller for SparkMax
     };
 
 }
