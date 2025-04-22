@@ -22,6 +22,15 @@ namespace Constants
 
 namespace GripperPoseCoral
 {
+    struct GripperPoseState
+    {
+        units::meter_t  ElevatorHeight;
+        units::degree_t ArmAngle;
+        units::degree_t WristAngle;
+        bool            GripperBothWheels;
+        units::volt_t   GripperVoltage;
+    };
+
     constexpr auto CoralGroundPickupVoltage      = 4.0_V;
     constexpr auto CoralGripVoltage              = 0.5_V;
 
