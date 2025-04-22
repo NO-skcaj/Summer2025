@@ -15,92 +15,29 @@
 namespace Constants
 {
 
-    namespace AlignPID
+    namespace AlignConstraints
     {
-        auto transP = 8;
-        auto transI = 0;
-        auto transD = 0;
-        
-        auto rotP = 1;
-        auto rotI = 0;
-        auto rotD = 0;
+        constexpr pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq};
     }
-
 }
 
-class AlignToNearestTag : public frc2::CommandHelper<frc2::Command, AlignToNearestTag>
+namespace AlignToNearestTag
 {
-    public:
 
-        explicit AlignToNearestTag(Drivetrain *drivetrain) : m_drivetrain    {drivetrain}, 
-                                                             m_targetPosition{},
-
-                                                          m_transXPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
-                                                          m_transYPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
-                                                          m_rotPID   {Constants::AlignPID::rotP,   Constants::AlignPID::rotI,   Constants::AlignPID::rotD}
-        {}
-
-        explicit AlignToNearestTag(Drivetrain *drivetrain, frc::Pose2d offset) : m_drivetrain    {drivetrain}, 
-                                                                                 m_targetPosition{},
-                                                                                 m_targetOffset  {offset},
-
-                                                          m_transXPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
-                                                          m_transYPID{Constants::AlignPID::transP, Constants::AlignPID::transI, Constants::AlignPID::transD},
-                                                          m_rotPID   {Constants::AlignPID::rotP,   Constants::AlignPID::rotI,   Constants::AlignPID::rotD}
-        {}
-
-        inline void     Initialize() override
+    // This command will align the robot to the nearest AprilTag
+    // It will use the AprilTag's pose to determine the target position and rotation
+    // The robot will drive towards the target position and rotate to face the target rotation
+    inline frc2::CommandPtr AlignToNearestTag(Drivetrain *drivetrain, frc::Pose2d targetOffset = {0_in, 0_in, 0_deg})
+    {
+        std::function<frc::Pose2d(frc::Pose2d, frc::Pose2d)> getTargetWithOffset = [] (frc::Pose2d targetPosition, frc::Pose2d targetOffset)
         {
-            m_targetPosition = m_drivetrain->GetNearestTag();
-
-            m_rotPID.EnableContinuousInput(-std::numbers::pi, std::numbers::pi);
-
-            m_transXPID.SetSetpoint(m_targetPosition.X().value());
-            m_transYPID.SetSetpoint(m_targetPosition.Y().value());
-
-            m_rotPID.SetSetpoint   (m_targetPosition.Rotation().Degrees().value());
-        }
-        
-        inline void     Execute() override
-        {
-            m_drivetrain->Drive(
-                units::meters_per_second_t {m_transXPID.Calculate(m_drivetrain->GetPose().X().value())},
-                units::meters_per_second_t {m_transYPID.Calculate(m_drivetrain->GetPose().Y().value())},
-
-                units::degrees_per_second_t{m_rotPID.Calculate   (m_drivetrain->GetPose().Rotation().Degrees().value())});
-        }
-
-        inline bool     IsFinished() override
-        {
-            if ((frc::Translation2d{m_drivetrain->GetPose().ToMatrix()}.Distance(frc::Translation2d{m_targetPosition.ToMatrix()}) < 2_in &&
-          std::abs(frc::Translation2d{m_drivetrain->GetPose().ToMatrix()}.Angle().Degrees().value() - frc::Translation2d{m_targetPosition.ToMatrix()}.Angle().Degrees().value()) < 4))
-                return true;
-        }
-
-        inline void     End(bool interrupted) override
-        {
-            m_drivetrain->Drive(0_mps, 0_mps, 0_rad_per_s);
-            m_drivetrain->SetWheelAnglesToZero();
-        }
-
-    private:
-
-        inline frc::Pose2d GetTargetWithOffset()
-        {
-            // # Rotate offset
+            // Rotate offset
             return frc::Pose2d{
-                m_targetPosition.X() +                  m_targetOffset.Translation().X() * std::cos(m_targetPosition.Rotation().Radians().value()) - m_targetOffset.Translation().Y() * std::sin(m_targetPosition.Rotation().Radians().value()),
-                m_targetPosition.Y() +                  m_targetOffset.Translation().X() * std::sin(m_targetPosition.Rotation().Radians().value()) + m_targetOffset.Translation().Y() * std::cos(m_targetPosition.Rotation().Radians().value()),
-                m_targetPosition.Rotation().Degrees() + m_targetOffset.Rotation().Degrees()};
-        }
+                targetPosition.X() +                  targetOffset.Translation().X() * std::cos(targetPosition.Rotation().Radians().value()) - targetOffset.Translation().Y() * std::sin(targetPosition.Rotation().Radians().value()),
+                targetPosition.Y() +                  targetOffset.Translation().X() * std::sin(targetPosition.Rotation().Radians().value()) + targetOffset.Translation().Y() * std::cos(targetPosition.Rotation().Radians().value()),
+                targetPosition.Rotation().Degrees() + targetOffset.Rotation().Degrees()};
+        };
 
-        Drivetrain        *m_drivetrain; // The drivetrain subsystem
-
-        frc::Pose2d        m_targetPosition;
-
-        frc::Pose2d        m_targetOffset;
-
-        frc::PIDController m_transXPID;
-        frc::PIDController m_transYPID;
-        frc::PIDController m_rotPID;
+        return ChassisDrivePose::ChassisDrivePose([drivetrain, getTargetWithOffset] { return drivetrain->GetPose(); }, getTargetWithOffset(drivetrain->GetNearestTag(), targetOffset));
+    }
 };

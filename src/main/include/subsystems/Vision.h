@@ -20,6 +20,7 @@
 
 #include <frc/RobotBase.h>
 
+
 namespace Constants 
 {
 
@@ -61,7 +62,7 @@ namespace Vision
         constexpr frc::Pose3d twentyone{209.49_in, 158.50_in, 12.13_in, {0_deg,   0_deg,  0_deg}};
         constexpr frc::Pose3d twentytwo{193.10_in, 130.17_in, 12.13_in, {300_deg, 0_deg,  0_deg}};
  
-        constexpr frc::Pose3d tags[22] = {
+        constexpr frc::Pose3d tags[22] = { 
             one,
             two,
             three,
@@ -108,6 +109,8 @@ class Vision
         void SimPeriodic(frc::Pose2d robotSimPose);
 
         void ResetSimPose(frc::Pose2d pose);
+
+        frc::Pose3d GetNearestTag(frc::Pose3d robotPose);
 
     private:
         photon::PhotonPoseEstimator photonEstimator{

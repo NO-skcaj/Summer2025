@@ -7,6 +7,7 @@
 
 #include "Constants/Controller.h"
 
+
 namespace GripperPose
 {
     inline frc2::CommandPtr GripperPose(GripperPoseEnum gripperPose, Gripper *gripper)

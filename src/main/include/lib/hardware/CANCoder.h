@@ -1,8 +1,11 @@
+#pragma once
+
 #include "Encoder.h"
 
 #include <ctre/phoenix6/CANcoder.hpp>
 
 #include "Constants/CanIds.h"
+
 
 namespace hardware
 {

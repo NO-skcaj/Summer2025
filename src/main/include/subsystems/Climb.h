@@ -8,6 +8,7 @@
 #include "Constants/Controller.h"
 #include "Constants/CanIds.h"
 
+
 namespace ClimbConstants
 {
     constexpr auto ClimbVoltage       = 12_V;

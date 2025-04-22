@@ -35,6 +35,7 @@
 // Commands
 #include "commands/ChassisDrive.h"
 #include "commands/ChassisDrivePose.h"
+#include "commands/AlignToNearestTag.h"
 #include "commands/ChassisSetSwerveWheelAnglesToZero.h"
 #include "commands/GripperActivate.h"
 #include "commands/GripperPose.h"
@@ -44,6 +45,7 @@
 #include "Constants/ChassisPoseAprilTag.h"
 #include "Constants/ChassisPoseAutonomous.h"
 #include "Constants/GripperPoseCoral.h"
+
 
 /// @brief Class to instantiate the robot subsystems and commands along with the operator controls
 class RobotContainer

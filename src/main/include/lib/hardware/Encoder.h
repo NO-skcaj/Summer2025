@@ -1,4 +1,7 @@
+#pragma once
+
 #include <units/angle.h>
+
 
 class Encoder
 {

@@ -1,8 +1,11 @@
+#pragma once
+
 #include "Gyro.h"
 
 #include "studica/AHRS.h"
 
 #include <units/angle.h>
+
 
 namespace hardware
 {

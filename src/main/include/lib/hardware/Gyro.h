@@ -1,6 +1,9 @@
+#pragma once
+
 #include <memory>
 
 #include <frc/geometry/Rotation3d.h>
+
 
 class Gyro
 {

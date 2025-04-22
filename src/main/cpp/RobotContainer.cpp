@@ -1,7 +1,5 @@
 #include "RobotContainer.h"
 
-using namespace pathplanner;
-
 // Reference to the RobotContainer singleton class
 RobotContainer *RobotContainer::m_robotContainer = NULL;
 
@@ -26,34 +24,34 @@ RobotContainer::RobotContainer()
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();
 
-    // frc::SmartDashboard::PutData("Chassis: AprilTag ",      new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
+    // frc::SmartDashboard::PutData("Chassis: AprilTag ",      ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
 
-    // frc::SmartDashboard::PutData("Elevator Jog Up",          new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset( Constants::Elevator::HeightOffset); }));
-    // frc::SmartDashboard::PutData("Elevator Jog Down",        new frc2::InstantCommand([this] { m_gripper.SetElevatorOffset(-Constants::Elevator::HeightOffset); }));
+    // frc::SmartDashboard::PutData("Elevator Jog Up",          frc2::InstantCommand([this] { m_gripper.SetElevatorOffset( Constants::Elevator::HeightOffset); }));
+    // frc::SmartDashboard::PutData("Elevator Jog Down",        frc2::InstantCommand([this] { m_gripper.SetElevatorOffset(-Constants::Elevator::HeightOffset); }));
 
-    // frc::SmartDashboard::PutData("Arm Jog Positive",         new frc2::InstantCommand([this] { m_gripper.SetArmAngleOffset( Constants::Arm::AngleOffset);}));
-    // frc::SmartDashboard::PutData("Arm Jog Negative",         new frc2::InstantCommand([this] { m_gripper.SetArmAngleOffset(-Constants::Arm::AngleOffset);}));
+    // frc::SmartDashboard::PutData("Arm Jog Positive",         frc2::InstantCommand([this] { m_gripper.SetArmAngleOffset( Constants::Arm::AngleOffset);}));
+    // frc::SmartDashboard::PutData("Arm Jog Negative",         frc2::InstantCommand([this] { m_gripper.SetArmAngleOffset(-Constants::Arm::AngleOffset);}));
 
-    // frc::SmartDashboard::PutData("Wrist Jog Positive",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset( Constants::Wrist::AngleOffset);}));
-    // frc::SmartDashboard::PutData("Wrist Jog Negative",       new frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset(-Constants::Wrist::AngleOffset);}));
+    // frc::SmartDashboard::PutData("Wrist Jog Positive",       frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset( Constants::Wrist::AngleOffset);}));
+    // frc::SmartDashboard::PutData("Wrist Jog Negative",       frc2::InstantCommand([this] { m_gripper.SetWristAngleOffset(-Constants::Wrist::AngleOffset);}));
 
     // Build an auto chooser. This will use frc2::cmd::None() as the default option.
     m_autoChooser = AutoBuilder::buildAutoChooser();
 
-    // m_autonomousChooser.AddOption("Place Coral L1",          new AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,
+    // m_autonomousChooser.AddOption("Place Coral L1",          AutonomousOneCoral(GripperPoseEnum::CoralAutonomousL1,
     //                                                                 [this] { return GetAutonomousOneCoralParameters(-5_in, 0_in); },
     //                                                                 &m_drivetrain, &m_gripper));
 
-    // m_autonomousChooser.AddOption("Place Coral L4",          new AutonomousOneCoral(GripperPoseEnum::CoralL4,
+    // m_autonomousChooser.AddOption("Place Coral L4",          AutonomousOneCoral(GripperPoseEnum::CoralL4,
     //                                                                 [this] { return GetAutonomousOneCoralParameters(2_in, 4_in);  },
     //                                                                 &m_drivetrain, &m_gripper));
 
-    // m_autonomousChooser.AddOption("Place Coral L1 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralAutonomousL1,
+    // m_autonomousChooser.AddOption("Place Coral L1 AprilTag", AutonomousOneCoralAprilTag(GripperPoseEnum::CoralAutonomousL1,
     //                                                                 [this] { return GetStartPosition();                           },
     //                                                                 [this] { return GetAutonomousOneCoralAprilTagParameters();    },
     //                                                                 [this] { return GetChassisDriveToAprilTagParameters();        },
     //                                                                 &m_drivetrain, &m_gripper));
-    // m_autonomousChooser.AddOption("Place Coral L4 AprilTag", new AutonomousOneCoralAprilTag(GripperPoseEnum::CoralL4,
+    // m_autonomousChooser.AddOption("Place Coral L4 AprilTag", AutonomousOneCoralAprilTag(GripperPoseEnum::CoralL4,
     //                                                                 [this] { return GetStartPosition();                           },
     //                                                                 [this] { return GetAutonomousOneCoralAprilTagParameters();    },
     //                                                                 [this] { return GetChassisDriveToAprilTagParameters();        },
@@ -100,70 +98,71 @@ void RobotContainer::ConfigureButtonBindings()
 /// @brief Method to bind the driver joystick controls to the robot commands.
 void RobotContainer::ConfigureDriverControls()
 {
-    // // Drive to position using the AprilTag
-    // frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleSide)
-    //     .WhileTrue(new ChassisDriveToAprilTag([this] { return GetChassisDriveToAprilTagParameters(); }, &m_drivetrain));
+    // Drive to position using the AprilTag
+    frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleSide)
+        .WhileTrue(AlignToNearestTag::AlignToNearestTag(&m_drivetrain));
 
     // Use the trigger to activate the operation (Scores/Intakes Algae/Coral)
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleTrigger)
-        .WhileTrue(new GripperActivate(&m_gripper));
+        .WhileTrue(GripperActivate(&m_gripper).ToPtr());
 
     // Reset the gyro angle
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleUpperLeft)
-        .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeading(); }, {&m_drivetrain}));
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain.ZeroHeading(); }, {&m_drivetrain}).ToPtr());
 
     // Reset the gyro angle
-    // frc2::JoystickButton (&m_driverController, Extreme3DConstants::HandleUpperRight)
-        // .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.ZeroHeadingReverse(); }, {&m_drivetrain}));
+    frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleUpperRight)
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain.ZeroHeadingReverse(); }, {&m_drivetrain}).ToPtr());
 
     // Set field centricity on
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleLowerLeft)
-        .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.SetFieldCentricity(true); }, {&m_drivetrain}));
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain.SetFieldCentricity(true); }, {&m_drivetrain}).ToPtr());
 
     // Set field centricity off
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::HandleLowerRight)
-        .OnTrue(new frc2::InstantCommand([this] { m_drivetrain.SetFieldCentricity(false); }, {&m_drivetrain}));
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain.SetFieldCentricity(false); }, {&m_drivetrain}).ToPtr());
 
     // Toggle X mode
     frc2::JoystickButton (&m_driverController, frc::XboxController::Button::kX)
-        .WhileTrue(new frc2::RunCommand([this] { m_drivetrain.SetX(); }, {&m_drivetrain}));
+        .WhileTrue(frc2::RunCommand([this] { m_drivetrain.BECOMEDEFENSE(); }, {&m_drivetrain}).ToPtr());
 
+    // *** Jog Controls
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::Handle12)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(Constants::Elevator::HeightOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetElevatorOffset(Constants::Elevator::HeightOffset);}).ToPtr());
 
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::Handle11)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(-Constants::Elevator::HeightOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetElevatorOffset(-Constants::Elevator::HeightOffset);}).ToPtr());
 
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::Handle10)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetArmAngleOffset(-Constants::Arm::AngleOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetArmAngleOffset(-Constants::Arm::AngleOffset);}).ToPtr());
 
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::Handle9)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetArmAngleOffset(Constants::Arm::AngleOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetArmAngleOffset(Constants::Arm::AngleOffset);}).ToPtr());
 
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::Handle8)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetWristAngleOffset(Constants::Wrist::AngleOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetWristAngleOffset(Constants::Wrist::AngleOffset);}).ToPtr());
 
     frc2::JoystickButton (&m_driverController, Constants::Extreme3D::Handle7)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetWristAngleOffset(-Constants::Wrist::AngleOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetWristAngleOffset(-Constants::Wrist::AngleOffset);}).ToPtr());
 }
 
 /// @brief Method to bind the operator control panel gripper controls.
 void RobotContainer::ConfigureGripperControls()
 {
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::OperatorWheels)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper
-        .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper
+        .SetGripperWheelsVoltage([this] { return PotentiometerWheelVoltage(); }); }, {&m_gripper}).ToPtr());
 
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::Home)
         .OnTrue(GripperPose::GripperPose(GripperPoseEnum::Home, &m_gripper).WithInterruptBehavior(frc2::Command::InterruptionBehavior::kCancelSelf));
 
     // Manually offsets elevator upwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ElevatorUp)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(Constants::Elevator::HeightOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetElevatorOffset(Constants::Elevator::HeightOffset);}).ToPtr());
 
     // Manually offsets elevator downwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ElevatorDown)
-        .WhileTrue(new frc2::RunCommand([this] { m_gripper.SetElevatorOffset(-Constants::Elevator::HeightOffset);}));
+        .WhileTrue(frc2::RunCommand([this] { m_gripper.SetElevatorOffset(-Constants::Elevator::HeightOffset);}).ToPtr());
 }
 
 /// @brief Method to bind the operator control panel scoring/intaking positioning, then pressing activate (ex: L1Score then activate).
@@ -227,13 +226,13 @@ void RobotContainer::ConfigureClimberControls()
 {
     // Manually offsets climb upwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ClimbUp)
-        .WhileTrue(new frc2::RunCommand([this] { m_climb.SetVoltage(ClimbConstants::ClimbVoltage); }, {&m_climb}))
-        .OnFalse(new frc2::InstantCommand([this] { m_climb.SetVoltage(0_V); }, {&m_climb}));
+        .WhileTrue(frc2::RunCommand([this] { m_climb.SetVoltage(ClimbConstants::ClimbVoltage); }, {&m_climb}).ToPtr())
+        .OnFalse(frc2::InstantCommand([this] { m_climb.SetVoltage(0_V); }, {&m_climb}).ToPtr());
 
     // Manually offsets climb downwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ClimbDown)
-        .WhileTrue(new frc2::RunCommand([this] { m_climb.SetVoltage(-ClimbConstants::ClimbVoltage); }, {&m_climb}))
-        .OnFalse(new frc2::InstantCommand([this] { m_climb.SetVoltage(0_V); }, {&m_climb}));
+        .WhileTrue(frc2::RunCommand([this] { m_climb.SetVoltage(-ClimbConstants::ClimbVoltage); }, {&m_climb}).ToPtr())
+        .OnFalse(frc2::InstantCommand([this] { m_climb.SetVoltage(0_V); }, {&m_climb}).ToPtr());
 }
 
 /// @brief Method to return a pointer to the driver joystick.

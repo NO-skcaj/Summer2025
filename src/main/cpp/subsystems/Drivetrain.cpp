@@ -5,25 +5,23 @@ using namespace pathplanner;
 
 /// @brief The Constructor for the Drivetrain class.
 Drivetrain::Drivetrain()
-    : m_gyro      {},
-      m_frontLeft {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
-      m_frontRight{SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
-      m_rearLeft  {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
-      m_rearRight {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
-      m_vision    {},
-      m_estimator  {m_kinematics, GetRotation2d(),
-                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                   m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}}
+    : m_gyro             {},
+      m_frontLeft        {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
+      m_frontRight       {SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
+      m_rearLeft         {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
+      m_rearRight        {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
+      m_vision           {},
+      m_estimator        {m_kinematics, GetRotation2d(),
+                           {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                           m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}},
+      m_config           {RobotConfig::fromGUISettings()},
+      m_setpointGenerator{m_config, 10_rad_per_s} // Initialize the setpoint generator with the config and max speed
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
 
-    // 
+    m_fieldCentricity = true;
 
-    // Load the RobotConfig from the GUI settings. You should probably
-    // store this in your Constants file
-    RobotConfig config = RobotConfig::fromGUISettings();
-    
     // Configure the AutoBuilder last
     AutoBuilder::configure(
         [this](){ return GetPose(); }, // Robot pose supplier
@@ -34,7 +32,7 @@ Drivetrain::Drivetrain()
             PIDConstants(1.0, 0.0, 0.0), // Translation PID constants
             PIDConstants(1.0, 0.0, 0.0) // Rotation PID constants
         ),
-        config, // The robot configuration
+        m_config, // The robot configuration
         []() {
             // Boolean supplier that controls when the path will be mirrored for the red alliance
             // This will flip the path being followed to the red side of the field.
@@ -53,7 +51,7 @@ Drivetrain::Drivetrain()
 /// @brief This method will be called once periodically.
 void Drivetrain::Periodic()
 {
-    frc::SmartDashboard::PutNumber("Gyro Rotation", (double) GetRotation2d().Degrees());
+    frc::SmartDashboard::PutNumber("Gyro Rotation", GetRotation2d().Degrees().value());
 
     // Update the swerve drive odometry
     m_estimator.Update(GetRotation2d(),
@@ -67,40 +65,27 @@ void Drivetrain::Periodic()
 /// @param xSpeed The speed in the X dirction.
 /// @param ySpeed The speed in the Y dirction.
 /// @param rotation The rate of rotation.
-void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
-                       units::meters_per_second_t  ySpeed,
-                       units::radians_per_second_t rotation)
-{
-    // Determine the swerve module states
-    auto states = m_kinematics.ToSwerveModuleStates(m_fieldCentricity ?
-                  frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
-                  frc::ChassisSpeeds{xSpeed, ySpeed, rotation});
-
-    // Set the module states
-    SetModuleStates(states);
-}
-
-/// @brief Method to drive the robot chassis.
-/// @param xSpeed The speed in the X dirction.
-/// @param ySpeed The speed in the Y dirction.
-/// @param rotation The rate of rotation.
 /// @param fieldCentric Boolean to indicate if the robor control should be field centric.
 void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
                        units::meters_per_second_t  ySpeed,
                        units::radians_per_second_t rotation,
-                       bool                        fieldCentric)
+                       std::optional<bool>         fieldCentric)
 {
+    m_previousSetpoint = pathplanner::SwerveSetpoint(this->GetRobotRelativeSpeeds(), this->GetSwerveModuleStates(), DriveFeedforwards::zeros(4));
+
     // Determine the swerve module states
-    auto states = m_kinematics.ToSwerveModuleStates(fieldCentric ?
-                  frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
-                  frc::ChassisSpeeds{xSpeed, ySpeed, rotation});
+    m_previousSetpoint = m_setpointGenerator.generateSetpoint(m_previousSetpoint,
+                                                       fieldCentric.value_or(m_fieldCentricity) ?
+                                                            frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
+                                                            frc::ChassisSpeeds{xSpeed, ySpeed, rotation},
+                                                        0.02_s);
 
     // Set the module states
-    SetModuleStates(states);
+    SetModuleStates(m_previousSetpoint.moduleStates);
 }
 
 /// @brief X MODE MAXIMUM DEFENCE 100% SAFE NO ROBOTS GETTING THROUGH HERE, CHAT
-void Drivetrain::SetX()
+void Drivetrain::BECOMEDEFENSE()
 {
     frc::SwerveModuleState frontLeftState {0_mps, frc::Rotation2d{ 45_deg}};
     frc::SwerveModuleState frontRightState{0_mps, frc::Rotation2d{-45_deg}};
@@ -125,18 +110,13 @@ void Drivetrain::ResetDriveEncoders()
 
 /// @brief Method to set the swerve drive states.
 /// @param desiredStates
-void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates)
+void Drivetrain::SetModuleStates(std::vector<frc::SwerveModuleState> desiredStates)
 {
-    // Normalize the wheel speeds if any individual speed is above the specified maximum
-    m_kinematics.DesaturateWheelSpeeds(&desiredStates, Constants::Drivetrain::MaxSpeed);
-
-    auto [frontLeft, frontRight, rearLeft, rearRight] = desiredStates;
-
     // Set the swerve module states
-    m_frontLeft. SetDesiredState(frontLeft,  "Front Left " );
-    m_frontRight.SetDesiredState(frontRight, "Front Right ");
-    m_rearLeft.  SetDesiredState(rearLeft,   "Rear Left "  );
-    m_rearRight. SetDesiredState(rearRight,  "Rear Right " );
+    m_frontLeft. SetDesiredState(desiredStates[0], "Front Left ");
+    m_frontRight.SetDesiredState(desiredStates[1], "Front Right ");
+    m_rearLeft.  SetDesiredState(desiredStates[2], "Rear Left ");
+    m_rearRight. SetDesiredState(desiredStates[3], "Rear Right ");
 }
 
 /// @brief Method to get the robot heading.
@@ -233,14 +213,7 @@ bool Drivetrain::GetFieldCentricity()
 /// @return Pose of the nearest tag
 frc::Pose2d Drivetrain::GetNearestTag()
 {
-    // searches through a list of all tags and returns the closest one
-    auto nearestTag = *std::min_element(Constants::Vision::AprilTagLocations::tagsSpan.begin(), Constants::Vision::AprilTagLocations::tagsSpan.end(),
-                            [this](frc::Pose3d a, frc::Pose3d b) {
-                                return GetPose().Translation().Distance(a.Translation().ToTranslation2d()) < 
-                                       GetPose().Translation().Distance(b.Translation().ToTranslation2d());
-                            });
-
-    return nearestTag.ToPose2d();
+    return m_vision.GetNearestTag(frc::Pose3d{GetPose()}).ToPose2d();
 }
 
 /// @brief Method to get the relative chassis speeds.
@@ -252,6 +225,14 @@ frc::ChassisSpeeds Drivetrain::GetRobotRelativeSpeeds()
                                        m_rearLeft.GetState(),  m_rearRight.GetState()});
 
 }
+
+std::vector<frc::SwerveModuleState> Drivetrain::GetSwerveModuleStates()
+{
+    // Return the swerve module states
+    return {m_frontLeft.GetState(), m_frontRight.GetState(),
+            m_rearLeft.GetState(),  m_rearRight.GetState()};
+}
+
 
 /// @brief adds vision measurement (if any) to the odometry mesurement
 void Drivetrain::AddVisionMeasurements()

@@ -1,6 +1,9 @@
+#pragma once
+
 #include "lib/hardware/Sensor.h"
 
 #include <frc/DigitalInput.h>
+
 
 namespace hardware
 {
