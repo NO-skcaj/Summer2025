@@ -6,16 +6,17 @@ using namespace pathplanner;
 /// @brief The Constructor for the Drivetrain class.
 Drivetrain::Drivetrain()
     : m_gyro             {},
+      m_vision           {},
+      m_field            {},
       m_frontLeft        {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
       m_frontRight       {SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
       m_rearLeft         {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
       m_rearRight        {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
-      m_vision           {},
+      m_setpointGenerator{m_config, 10_rad_per_s}, // Initialize the setpoint generator with the config and max speed
+      m_config           {RobotConfig::fromGUISettings()},
       m_estimator        {m_kinematics, GetRotation2d(),
                            {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                           m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}},
-      m_config           {RobotConfig::fromGUISettings()},
-      m_setpointGenerator{m_config, 10_rad_per_s} // Initialize the setpoint generator with the config and max speed
+                           m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}}
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
@@ -46,6 +47,30 @@ Drivetrain::Drivetrain()
         },
         this // Reference to this subsystem to set requirements
     );
+
+    frc::SmartDashboard::PutData("Field", m_field.get());
+
+    // Logging callback for current robot pose
+    pathplanner::PathPlannerLogging::setLogCurrentPoseCallback( [this] (frc::Pose2d pose) {
+        // Do whatever you want with the pose here
+        m_field.get()->SetRobotPose(pose);
+    });
+
+    // Logging callback for target robot pose
+    PathPlannerLogging::setLogTargetPoseCallback( [this] (frc::Pose2d pose) {
+        // Do whatever you want with the pose here
+        frc::FieldObject2d* target = m_field.get()->GetObject("target pose");
+
+        target->SetPose(pose);
+    });
+
+    // Logging callback for the active path, this is sent as a vector of poses
+    pathplanner::PathPlannerLogging::setLogActivePathCallback( [this] (std::vector<frc::Pose2d> poses) {
+        // Do whatever you want with the poses here
+        frc::FieldObject2d* path = m_field.get()->GetObject("path");
+        
+        path->SetTrajectory(frc::TrajectoryGenerator::GenerateTrajectory(poses, frc::TrajectoryConfig{0_mps, 0_mps_sq}));
+    });
 }
 
 /// @brief This method will be called once periodically.
@@ -259,10 +284,10 @@ void Drivetrain::AddVisionMeasurements()
 void Drivetrain::SetWheelAnglesToZero()
 {
     // Set the swerve wheel angles to zero
-    m_frontLeft. SetWheelAngleToForward(Constants::Swerve::FrontLeftForwardAngle);
-    m_frontRight.SetWheelAngleToForward(Constants::Swerve::FrontRightForwardAngle);
-    m_rearLeft.  SetWheelAngleToForward(Constants::Swerve::RearLeftForwardAngle);
-    m_rearRight. SetWheelAngleToForward(Constants::Swerve::RearRightForwardAngle);
+    m_frontLeft. SetWheelAngleToForward(Constants::Drivetrain::FrontLeftForwardAngle);
+    m_frontRight.SetWheelAngleToForward(Constants::Drivetrain::FrontRightForwardAngle);
+    m_rearLeft.  SetWheelAngleToForward(Constants::Drivetrain::RearLeftForwardAngle);
+    m_rearRight. SetWheelAngleToForward(Constants::Drivetrain::RearRightForwardAngle);
 }
 
 /// @brief Method to get the kinematics of the robot.

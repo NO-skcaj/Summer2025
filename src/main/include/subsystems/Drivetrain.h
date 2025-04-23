@@ -1,16 +1,21 @@
 #pragma once
 
-#include <pathplanner/lib/util/swerve/SwerveSetpoint.h>
-#include <pathplanner/lib/util/swerve/SwerveSetpointGenerator.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
+#include <pathplanner/lib/util/swerve/SwerveSetpoint.h>
+#include <pathplanner/lib/util/swerve/SwerveSetpointGenerator.h>
+#include <pathplanner/lib/util/PathPlannerLogging.h>
 
 #include <frc/DriverStation.h>
 
 #include <hal/FRCUsageReporting.h>
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/Field2d.h>
+#include <frc/smartdashboard/FieldObject2d.h>
+
+#include <frc/trajectory/TrajectoryGenerator.h>
 
 #include <frc/AnalogPotentiometer.h>
 
@@ -98,6 +103,8 @@ class Drivetrain : public frc2::SubsystemBase
         void AddVisionMeasurements();
 
         Vision                               m_vision;
+
+        std::shared_ptr<frc::Field2d>        m_field;  // The field object for the SmartDashboard
     
         hardware::Navx                       m_gyro;  // The gyro sensor
     
