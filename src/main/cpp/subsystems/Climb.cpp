@@ -4,8 +4,8 @@ using namespace Constants::CanIds;
 
 /// @brief Class to support the Climb subsystem.
 Climb::Climb() : m_climbMotor{ClimbMotorCanId},
-                 m_climbLimit  {ClimbConstants::ClimbLimitSwtich},
-                 m_captureLimit{ClimbConstants::CaptureLimitSwitch}
+                 m_climbLimit  {Constants::Climb::ClimbLimitSwtich},
+                 m_captureLimit{Constants::Climb::CaptureLimitSwitch}
 {
     // Configure the climb motor
     ConfigureClimbMotor(ClimbMotorCanId);

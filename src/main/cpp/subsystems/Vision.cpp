@@ -8,7 +8,7 @@ Vision::Vision()
     {
         visionSim = std::make_unique<photon::VisionSystemSim>("main");
 
-        visionSim->AddAprilTags(Constants::Vision::kTagLayout);
+        visionSim->AddAprilTags(Constants::Vision::TagLayout);
 
         cameraProp = std::make_unique<photon::SimCameraProperties>();
 
@@ -20,7 +20,7 @@ Vision::Vision()
 
         cameraSim = std::make_shared<photon::PhotonCameraSim>(&camera, *cameraProp.get());
 
-        visionSim->AddCamera(cameraSim.get(), Constants::Vision::kRobotToCam);
+        visionSim->AddCamera(cameraSim.get(), Constants::Vision::RobotToCam);
         cameraSim->EnableDrawWireframe(true);
     }
 }
@@ -51,7 +51,7 @@ std::optional<photon::EstimatedRobotPose> Vision::GetEstimatedGlobalPose() {
 
 Eigen::Matrix<double, 3, 1> Vision::GetEstimationStdDevs(frc::Pose2d estimatedPose) {
     Eigen::Matrix<double, 3, 1> estStdDevs =
-        Constants::Vision::kSingleTagStdDevs;
+        Constants::Vision::SingleTagStdDevs;
     auto targets = GetLatestResult().GetTargets();
     int numTags = 0;
     units::meter_t avgDist = 0_m;
@@ -69,7 +69,7 @@ Eigen::Matrix<double, 3, 1> Vision::GetEstimationStdDevs(frc::Pose2d estimatedPo
     }
     avgDist /= numTags;
     if (numTags > 1) {
-        estStdDevs = Constants::Vision::kMultiTagStdDevs;
+        estStdDevs = Constants::Vision::MultiTagStdDevs;
     }
     if (numTags == 1 && avgDist > 4_m) {
         estStdDevs = (Eigen::MatrixXd(3, 1) << std::numeric_limits<double>::max(),
@@ -96,11 +96,11 @@ void Vision::ResetSimPose(frc::Pose2d pose)
 frc::Pose3d Vision::GetNearestTag(frc::Pose3d robotPose)
 {
     // searches through a list of all tags and returns the closest one
-    auto nearestTag = *std::min_element(Constants::Vision::AprilTagLocations::tagsSpan.begin(), Constants::Vision::AprilTagLocations::tagsSpan.end(),
-                            [robotPose, this](frc::Pose3d a, frc::Pose3d b) {
-                                return robotPose.Translation().ToTranslation2d().Distance(a.Translation().ToTranslation2d()) < 
-                                       robotPose.Translation().ToTranslation2d().Distance(b.Translation().ToTranslation2d());
-                            });
+    auto nearestTag = *std::min_element(Constants::Vision::AprilTagLocations::TagsSpan.begin(), Constants::Vision::AprilTagLocations::TagsSpan.end(),
+                                        [robotPose, this](frc::Pose3d a, frc::Pose3d b) {
+                                            return robotPose.Translation().ToTranslation2d().Distance(a.Translation().ToTranslation2d()) < 
+                                                robotPose.Translation().ToTranslation2d().Distance(b.Translation().ToTranslation2d());
+                                        });
 
     return nearestTag;
 }

@@ -226,12 +226,12 @@ void RobotContainer::ConfigureClimberControls()
 {
     // Manually offsets climb upwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ClimbUp)
-        .WhileTrue(frc2::RunCommand([this] { m_climb.SetVoltage(ClimbConstants::ClimbVoltage); }, {&m_climb}).ToPtr())
+        .WhileTrue(frc2::RunCommand([this] { m_climb.SetVoltage(Constants::Climb::ClimbVoltage); }, {&m_climb}).ToPtr())
         .OnFalse(frc2::InstantCommand([this] { m_climb.SetVoltage(0_V); }, {&m_climb}).ToPtr());
 
     // Manually offsets climb downwards
     frc2::JoystickButton (&m_operatorController, Constants::ControlPanel::ClimbDown)
-        .WhileTrue(frc2::RunCommand([this] { m_climb.SetVoltage(-ClimbConstants::ClimbVoltage); }, {&m_climb}).ToPtr())
+        .WhileTrue(frc2::RunCommand([this] { m_climb.SetVoltage(-Constants::Climb::ClimbVoltage); }, {&m_climb}).ToPtr())
         .OnFalse(frc2::InstantCommand([this] { m_climb.SetVoltage(0_V); }, {&m_climb}).ToPtr());
 }
 

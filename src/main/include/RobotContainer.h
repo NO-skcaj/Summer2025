@@ -44,7 +44,7 @@
 #include "Constants/Controller.h"
 #include "Constants/ChassisPoseAprilTag.h"
 #include "Constants/ChassisPoseAutonomous.h"
-#include "Constants/GripperPoseCoral.h"
+#include "Constants/GripperPose.h"
 
 
 /// @brief Class to instantiate the robot subsystems and commands along with the operator controls

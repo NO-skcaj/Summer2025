@@ -20,8 +20,9 @@
 namespace Constants
 {
 
-namespace GripperPoseCoral
+namespace GripperPose
 {
+
     struct GripperPoseState
     {
         units::meter_t  ElevatorHeight;
@@ -31,56 +32,145 @@ namespace GripperPoseCoral
         units::volt_t   GripperVoltage;
     };
 
-    constexpr auto CoralGroundPickupVoltage      = 4.0_V;
-    constexpr auto CoralGripVoltage              = 0.5_V;
+    namespace Coral
+    {
+        constexpr auto CoralGroundPickupVoltage      = 4.0_V;
+        constexpr auto CoralGripVoltage              = 0.5_V;
 
-    constexpr auto HomeElevator                  = 0.05_m;
-    constexpr auto HomeArmAngle                  = 25_deg;
-    constexpr auto HomeWristAngle                = 0.0_deg;
-    constexpr auto HomeGripperBothWheels         = true;
-    constexpr auto HomeGripperVoltage            = CoralGripVoltage;
+        constexpr GripperPoseState HomeState
+        {
+            /*ElevatorHeight   */ 0.05_m,
+            /*ArmAngle         */ 25_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ CoralGripVoltage
+        };
 
-    constexpr auto GroundElevator                = 0.114432_m;
-    constexpr auto GroundArmAngle                = 138.765_deg;
-    constexpr auto GroundWristAngle              = 180.0_deg;
-    constexpr auto GroundGripperBothWheels       = false;
-    constexpr auto GroundGripperVoltage          = CoralGroundPickupVoltage;
+        constexpr GripperPoseState GroundState
+        {
+            /*ElevatorHeight   */ 0.114432_m,
+            /*ArmAngle         */ 138.765_deg,
+            /*WristAngle       */ 180.0_deg,
+            /*GripperBothWheels*/ false,
+            /*GripperVoltage   */ CoralGroundPickupVoltage
+        };
 
-    constexpr auto StationElevator               = 0.053983_m;    //0.055263_m;//0.095_m;
-    constexpr auto StationArmAngle               = 5.439453_deg;  //6.435547_deg;//-19.75_deg;
-    constexpr auto StationWristAngle             = 180.0_deg;
-    constexpr auto StationGripperBothWheels      = true;
-    constexpr auto StationGripperVoltage         = 5.0_V;  // Verify the voltage
+        constexpr GripperPoseState StationState
+        {
+            /*ElevatorHeight   */ 0.053983_m,
+            /*ArmAngle         */ 5.439453_deg,
+            /*WristAngle       */ 180.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ 5.0_V
+        };
 
-    constexpr auto L1Elevator                    = 0.450036_m;
-    constexpr auto L1ArmAngle                    = 97.778320_deg;
-    constexpr auto L1WristAngle                  = 180.0_deg;
-    constexpr auto L1GripperBothWheels           = true;
-    constexpr auto L1GripperVoltage              = CoralGripVoltage;
+        constexpr GripperPoseState L1State
+        {
+            /*ElevatorHeight   */ 0.450036_m,
+            /*ArmAngle         */ 97.778320_deg,
+            /*WristAngle       */ 180.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ CoralGripVoltage
+        };
 
-    constexpr auto AutonomousL1Elevator          = L1Elevator;
-    constexpr auto AutonomousL1ArmAngle          = L1ArmAngle;
-    constexpr auto AutonomousL1WristAngle        = 0.0_deg;
-    constexpr auto AutonomousL1GripperBothWheels = true;
-    constexpr auto AutonomousL1GripperVoltage    = CoralGripVoltage;
+        constexpr GripperPoseState AutonomousL1State
+        {
+            /*ElevatorHeight   */ 0.450036_m,
+            /*ArmAngle         */ 97.778320_deg,
+            /*WristAngle       */ 180.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ CoralGripVoltage
+        };
 
-    constexpr auto L2Elevator                    = 0.369155_m;
-    constexpr auto L2ArmAngle                    = 45.0_deg;
-    constexpr auto L2WristAngle                  = 90.0_deg;
-    constexpr auto L2GripperBothWheels           = true;
-    constexpr auto L2GripperVoltage              = CoralGripVoltage;
+        constexpr GripperPoseState L2State
+        {
+            /*ElevatorHeight   */ 0.369155_m,
+            /*ArmAngle         */ 45.0_deg,
+            /*WristAngle       */ 90.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ CoralGripVoltage
+        };
 
-    constexpr auto L3Elevator                    = 0.789707_m;
-    constexpr auto L3ArmAngle                    = 45.0_deg;
-    constexpr auto L3WristAngle                  = 90.0_deg;
-    constexpr auto L3GripperBothWheels           = true;
-    constexpr auto L3GripperVoltage              = CoralGripVoltage;
+        constexpr GripperPoseState L3State
+        {
+            /*ElevatorHeight   */ 0.789707_m,
+            /*ArmAngle         */ 45.0_deg,
+            /*WristAngle       */ 90.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ CoralGripVoltage
+        };
 
-    constexpr auto L4Elevator                    = 1.68_m;
-    constexpr auto L4ArmAngle                    = 93.579102_deg;
-    constexpr auto L4WristAngle                  = 90.0_deg;
-    constexpr auto L4GripperBothWheels           = true;
-    constexpr auto L4GripperVoltage              = CoralGripVoltage;
+        constexpr GripperPoseState L4State
+        {
+            /*ElevatorHeight   */ 1.68_m,
+            /*ArmAngle         */ 93.579102_deg,
+            /*WristAngle       */ 90.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ CoralGripVoltage
+        };
+    }
+
+    namespace Algae
+    {
+        constexpr auto AlgaeGripVoltage           = 3.0_V;
+        constexpr auto AlgaePickupVoltage         = 5.0_V;
+        constexpr auto AlgaeReefGetVoltage        = 6.5_V;
+
+        constexpr GripperPoseState GroundState
+        {
+            /*ElevatorHeight   */ 0.421899_m,
+            /*ArmAngle         */ 126.918945_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ AlgaePickupVoltage
+        };
+
+        constexpr GripperPoseState OnCoralState
+        {
+            /*ElevatorHeight   */ 0.3_m,
+            /*ArmAngle         */ 90.0_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ AlgaePickupVoltage
+        };
+
+        constexpr GripperPoseState LowState
+        {
+            /*ElevatorHeight   */ 0.411439_m,
+            /*ArmAngle         */ 90.0_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ AlgaeReefGetVoltage
+        };
+
+        constexpr GripperPoseState HighState
+        {
+            /*ElevatorHeight   */ 0.866149_m,
+            /*ArmAngle         */ 90.0_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ AlgaeReefGetVoltage
+        };
+
+        constexpr GripperPoseState ProcessorState
+        {
+            /*ElevatorHeight   */ 0.139206_m,
+            /*ArmAngle         */ 100.0_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ AlgaeGripVoltage
+        };
+
+        constexpr GripperPoseState BargeState
+        {
+            /*ElevatorHeight   */ 1.7_m,
+            /*ArmAngle         */ 63.154297_deg,
+            /*WristAngle       */ 0.0_deg,
+            /*GripperBothWheels*/ true,
+            /*GripperVoltage   */ AlgaeGripVoltage
+        };
+    }
+
 }
 
 }

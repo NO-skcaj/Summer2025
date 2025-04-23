@@ -63,7 +63,7 @@ namespace hardware
                 // Configure the motor controller
                 sparkMaxConfig
                     .Inverted(config.Inverted)
-                    .SetIdleMode(config.NeutralMode == rev::spark::SparkBaseConfig::IdleMode::kBrake ? rev::spark::SparkBaseConfig::IdleMode::kBrake : rev::spark::SparkBaseConfig::IdleMode::kCoast)
+                    .SetIdleMode(config.NeutralMode == hardware::MotorConfiguration::NeutralMode::Brake ? rev::spark::SparkBaseConfig::IdleMode::kBrake : rev::spark::SparkBaseConfig::IdleMode::kCoast)
                     .SmartCurrentLimit(config.CurrentLimit.value());
 
                 // sparkMaxConfig.encoder

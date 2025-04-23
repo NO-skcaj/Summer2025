@@ -24,41 +24,29 @@ void GripperActivate::Initialize()
     {
         case GripperPoseEnum::CoralL1:
         case GripperPoseEnum::CoralAutonomousL1:
-        {
             CoralL1();
             break;
-        }
 
         case GripperPoseEnum::CoralL2:
         case GripperPoseEnum::CoralL3:
-        {
             CoralL23();
             break;
-        }
 
         case GripperPoseEnum::CoralL4:
-        {
             CoralL4();
             break;
-        }
 
         case GripperPoseEnum::AlgaeProcessor:
-        {
             AlgaeProcessor();
             break;
-        }
 
         case GripperPoseEnum::AlgaeBarge:
-        {
             AlgaeBarge();
             break;
-        }
 
         default:
-        {
             m_state      = Complete;
             m_isFinished = true;
-        }
     }
 
     // frc::SmartDashboard::PutNumber("ElevatorOffset", m_stateData.ElevatorOffset.value());
@@ -76,15 +64,12 @@ void GripperActivate::Execute()
     {
 
         case GripperState::ArmMove:
-        {
             m_gripper->SetArmAngleOffset(m_stateData.ArmOffset);  // Move the Arm
             m_timer = frc::GetTime() + m_stateData.ArmMoveWait;   // Time allowed to move the Arm
             m_state = ElevatorMove;                          // Next state is GripperWheelsMove
             break;
-        }
 
         case GripperState::ElevatorMove:
-        {
             if (frc::GetTime() > m_timer)
             {
                 m_gripper->SetElevatorOffset(m_stateData.ElevatorOffset);  // Move the elevator
@@ -92,10 +77,8 @@ void GripperActivate::Execute()
                 m_state = GripperWheelsMove;                                         // Next state is ArmMove
             }
             break;
-        }
 
         case GripperState::GripperWheelsMove:
-        {
             if (frc::GetTime() > m_timer)
             {
                 m_gripper->SetGripperWheelsVoltage(GripperWheelState{m_stateData.BothWheels, m_stateData.GripperVoltage});  // Move the Gripper Wheels
@@ -104,10 +87,8 @@ void GripperActivate::Execute()
 
             }
             break;
-        }
 
         case GripperState::Finish:
-        {
             if (frc::GetTime() > m_timer)
             {
                 m_gripper->SetElevatorOffset(-m_stateData.ElevatorFinish);         // Return the Elevator to the start position
@@ -116,20 +97,16 @@ void GripperActivate::Execute()
                 m_isFinished = true;                                               // State machine is complete
             }
 			break;
-        }
 
         case GripperState::Complete:
-        {
             // Stop the state machine
             m_isFinished = true;
-        }
 
         default:
-        {
             // Stop the state machine
             m_state      = Complete;
             m_isFinished = true;
-        }
+        
     }
 }
 

@@ -247,7 +247,7 @@ void Drivetrain::AddVisionMeasurements()
         auto estPose = visionEst.value().estimatedPose.ToPose2d();
 
         // Get the vision measurement standard deviations
-        auto estStdDevs = m_vision.GetEstimationStdDevs(estPose).array();
+        auto estStdDevs = m_vision.GetEstimationStdDevs(estPose);
 
         // Add the vision measurement to the odometry
         m_estimator.AddVisionMeasurement(estPose, visionEst.value().timestamp,

@@ -5,17 +5,9 @@
 #include "lib/hardware/DigitalInput.h"
 #include "lib/hardware/TalonFX.h"
 
-#include "Constants/Controller.h"
 #include "Constants/CanIds.h"
+#include "Constants/Climb.h"
 
-
-namespace ClimbConstants
-{
-    constexpr auto ClimbVoltage       = 12_V;
-
-    constexpr auto ClimbLimitSwtich   = 0;
-    constexpr auto CaptureLimitSwitch = 1;
-}
 
 class Climb : public frc2::SubsystemBase
 {

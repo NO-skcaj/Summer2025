@@ -8,6 +8,7 @@
 #include "RobotContainer.h"
 
 #include "Constants/Controller.h"
+#include "constants/Gripper.h"
 
 
 class Robot : public frc::TimedRobot

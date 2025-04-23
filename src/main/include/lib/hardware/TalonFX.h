@@ -7,12 +7,24 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/configs/Configs.hpp>
 
-#include <constants/CanIds.h>
+#include "constants/CanIds.h"
 
 
 namespace hardware
 {
 
+    /// @brief The configuration for the TalonFX motor controller.
+    /// @param NeutralMode;              NeutralMode
+    /// @param CurrentLimit;             units::ampere_t
+    /// @param StatorCurrentLimitEnable  bool
+    /// @param P;                        double
+    /// @param I;                        double
+    /// @param D;                        double
+    /// @param V                         double
+    /// @param A                         double
+    /// @param MotionMagicCruiseVelocity units::turns_per_second_t
+    /// @param MotionMagicAcceleration   units::turns_per_second_squared_t
+    /// @param MotionMagicJerk           units::turns_per_second_cubed_t
     struct TalonMotorConfiguration : MotorConfiguration
     {
         // // The brake mode will hold the motor in place when not powered or not
@@ -21,14 +33,14 @@ namespace hardware
         //     Brake,
         //     Coast
         // };
-        // NeutralMode      NeutralMode;
-        // units::ampere_t  CurrentLimit;
-        // bool             StatorCurrentLimitEnable;
-        // double           P;
-        // double           I;
-        // double           D;
-        double      V; // Extra Pid
-        double      A;
+        // NeutralMode                    NeutralMode;
+        // units::ampere_t                CurrentLimit;
+        // bool                           StatorCurrentLimitEnable;
+        // double                         P;
+        // double                         I;
+        // double                         D;
+        double                            V; // Extra Pid
+        double                            A;
         units::turns_per_second_t         MotionMagicCruiseVelocity;
         units::turns_per_second_squared_t MotionMagicAcceleration; 
         units::turns_per_second_cubed_t   MotionMagicJerk;

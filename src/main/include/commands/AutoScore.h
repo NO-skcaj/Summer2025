@@ -2,7 +2,7 @@
 
 #include <frc2/command/WaitCommand.h>
 
-#include "commands/AlignToNearestTag.h"
+#include "commands/PrepareAndAlign.h"
 #include "commands/GripperActivate.h"
 
 

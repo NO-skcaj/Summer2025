@@ -3,10 +3,17 @@
 using namespace std;
 
 /// @brief Class to support an addressable LED string.
-Leds::Leds()
+Leds::Leds() : m_led              {Constants::Led::PwmPort},
+               m_shooting         {frc::LEDPattern::Gradient(frc::LEDPattern::kDiscontinuous, 
+                                   std::array<frc::Color, 2>{frc::Color::kRed, frc::Color::kBlack}
+                                   ).ScrollAtAbsoluteSpeed(0.5_mps, Constants::Led::LedSpacing)},
+               m_scrollingRainbow{frc::LEDPattern::Rainbow(255, 128).ScrollAtAbsoluteSpeed(0.5_mps, Constants::Led::LedSpacing)},
+
+               m_firstPixelHue{0},
+               m_cycleCounter {0}
 {
     // Length is expensive to set, so only set it once, then just update data
-    m_led.SetLength(LedConstants::Length);
+    m_led.SetLength(Constants::Led::Length);
 
     // Set the default mode
     SetMode(LedMode::Off);
@@ -37,18 +44,14 @@ void Leds::Periodic()
             break;
 
         case LedMode::ShootingAnimation:
-        {
             // Apply the shootime pattern to the data buffer
             m_shooting.ApplyTo(m_ledBuffer);
             break;
-        }
 
         case LedMode::Rainbow:
-        {
             // Run the rainbow pattern and apply it to the buffer
             m_scrollingRainbow.ApplyTo(m_ledBuffer);
             break;
-        }
     }
 
     // Set the LEDs
@@ -70,11 +73,11 @@ void Leds::SetMode(LedMode ledMode)
         break;
 
     case LedMode::SolidGreen:
-        SolidColor(0, LedConstants::Green, 0);
+        SolidColor(0, Constants::Led::Green, 0);
         break;
 
     case LedMode::SolidRed:
-        SolidColor(LedConstants::Red, 0, 0);
+        SolidColor(Constants::Led::Red, 0, 0);
         break;
 
     case LedMode::HvaColors:
@@ -102,31 +105,31 @@ void Leds::SetMode(LedMode ledMode)
 void Leds::SolidColor(int red, int green, int blue)
 {
     // Set the value for every pixel
-    for (auto ledIndex = 0; ledIndex < LedConstants::Length; ledIndex++)
-        m_ledBuffer[ledIndex].SetRGB(red * LedConstants::Brightness, green * LedConstants::Brightness, blue * LedConstants::Brightness);
+    for (auto ledIndex = 0; ledIndex < Constants::Led::Length; ledIndex++)
+        m_ledBuffer[ledIndex].SetRGB(red * Constants::Led::Brightness, green * Constants::Led::Brightness, blue * Constants::Led::Brightness);
 }
 
 /// @brief Method to support setting the LED string to HVA alternating color.
 void Leds::HvaColors()
 {
-    int firstColor  = LedConstants::Blue;
+    int firstColor  = Constants::Led::Blue;
     int secondColor = 0;
 
     // Alternate the colors
-    if (m_cycleCounter % LedConstants::HvaDelay < LedConstants::HvaDelay / 2)
+    if (m_cycleCounter % Constants::Led::HvaDelay < Constants::Led::HvaDelay / 2)
     {
         firstColor  = 0;
-        secondColor = LedConstants::Blue;
+        secondColor = Constants::Led::Blue;
     }
 
     // For every pixel
-    for (auto ledIndex = 0; ledIndex < LedConstants::Length; ledIndex++)
+    for (auto ledIndex = 0; ledIndex < Constants::Led::Length; ledIndex++)
     {
         // Set the color based on the pixel index
         if (ledIndex % 2 == 0)
-            m_ledBuffer[ledIndex].SetRGB(0, 0, firstColor * LedConstants::Brightness);
+            m_ledBuffer[ledIndex].SetRGB(0, 0, firstColor * Constants::Led::Brightness);
         else
-            m_ledBuffer[ledIndex].SetRGB(0, 0, secondColor * LedConstants::Brightness);
+            m_ledBuffer[ledIndex].SetRGB(0, 0, secondColor * Constants::Led::Brightness);
     }
 
     // Update the cycle counter
@@ -136,8 +139,8 @@ void Leds::HvaColors()
 /// @brief Method to strobe the LED string.
 void Leds::Strobe()
 {
-    if (m_cycleCounter % LedConstants::StrobeDelay == 0)
-        SolidColor(LedConstants::Red, LedConstants::Green, LedConstants::Blue);
+    if (m_cycleCounter % Constants::Led::StrobeDelay == 0)
+        SolidColor(Constants::Led::Red, Constants::Led::Green, Constants::Led::Blue);
     else
         SolidColor(0, 0, 0);
 

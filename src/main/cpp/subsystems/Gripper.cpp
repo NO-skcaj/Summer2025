@@ -134,170 +134,83 @@ void Gripper::ConfigureGripperMotors()
 /// @param pose The pose to set the gripper.
 void Gripper::SetPose(GripperPoseEnum pose)
 {
-    auto elevatorHeight  = 0_m;
-    auto armAngle        = 0_deg;
-    auto wristAngle      = 0_deg;
-    bool bothwheels      = true;
-    auto gripperVoltage  = 0.0_V;
+
+    GripperPoseState gripperPoseState{};
 
     // Determine the pose
     switch (pose)
     {
         case GripperPoseEnum::Home:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::HomeElevator;
-            armAngle        = Constants::GripperPoseCoral::HomeArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::HomeWristAngle;
-            bothwheels      = Constants::GripperPoseCoral::HomeGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::HomeGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::HomeState;
             break;
-        }
 
         case GripperPoseEnum::CoralGround:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::GroundElevator;
-            armAngle        = Constants::GripperPoseCoral::GroundArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::GroundWristAngle;
-            bothwheels      = Constants::GripperPoseCoral::GroundGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::GroundGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::GroundState;
             break;
-        }
 
         case GripperPoseEnum::CoralStation:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::StationElevator;
-            armAngle        = Constants::GripperPoseCoral::StationArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::StationWristAngle;
-            bothwheels      = Constants::GripperPoseCoral::StationGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::StationGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::StationState;
             break;
-        }
 
         case GripperPoseEnum::CoralAutonomousL1:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::AutonomousL1Elevator;
-            armAngle        = Constants::GripperPoseCoral::AutonomousL1ArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::AutonomousL1WristAngle;
-            bothwheels      = Constants::GripperPoseCoral::AutonomousL1GripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::AutonomousL1GripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::AutonomousL1State;
             break;
-        }
 
         case GripperPoseEnum::CoralL1:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::L1Elevator;
-            armAngle        = Constants::GripperPoseCoral::L1ArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::L1WristAngle;
-            bothwheels      = Constants::GripperPoseCoral::L1GripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::L1GripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::L1State;
             break;
-        }
 
         case GripperPoseEnum::CoralL2:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::L2Elevator;
-            armAngle        = Constants::GripperPoseCoral::L2ArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::L2WristAngle;
-            bothwheels      = Constants::GripperPoseCoral::L2GripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::L2GripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::L2State;
             break;
-        }
 
         case GripperPoseEnum::CoralL3:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::L3Elevator;
-            armAngle        = Constants::GripperPoseCoral::L3ArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::L3WristAngle;
-            bothwheels      = Constants::GripperPoseCoral::L3GripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::L3GripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::L3State;
             break;
-        }
 
         case GripperPoseEnum::CoralL4:
-        {
-            elevatorHeight  = Constants::GripperPoseCoral::L4Elevator;
-            armAngle        = Constants::GripperPoseCoral::L4ArmAngle;
-            wristAngle      = Constants::GripperPoseCoral::L4WristAngle;
-            bothwheels      = Constants::GripperPoseCoral::L4GripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseCoral::L4GripperVoltage;
+            gripperPoseState = Constants::GripperPose::Coral::L4State;
             break;
-        }
 
         case GripperPoseEnum::AlgaeGround:
-        {
-            elevatorHeight  = Constants::GripperPoseAlgae::GroundElevator;
-            armAngle        = Constants::GripperPoseAlgae::GroundArmAngle;
-            wristAngle      = Constants::GripperPoseAlgae::GroundWristAngle;
-            bothwheels      = Constants::GripperPoseAlgae::GroundGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseAlgae::GroundGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Algae::GroundState;
             break;
-        }
 
         case GripperPoseEnum::AlgaeOnCoral:
-        {
-            elevatorHeight  = Constants::GripperPoseAlgae::OnCoralElevator;
-            armAngle        = Constants::GripperPoseAlgae::OnCoralArmAngle;
-            wristAngle      = Constants::GripperPoseAlgae::OnCoralWristAngle;
-            bothwheels      = Constants::GripperPoseAlgae::OnCoralGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseAlgae::OnCoralGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Algae::OnCoralState;
             break;
-        }
 
         case GripperPoseEnum::AlgaeLow:
-        {
-            elevatorHeight  = Constants::GripperPoseAlgae::LowElevator;
-            armAngle        = Constants::GripperPoseAlgae::LowArmAngle;
-            wristAngle      = Constants::GripperPoseAlgae::LowWristAngle;
-            bothwheels      = Constants::GripperPoseAlgae::LowGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseAlgae::LowGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Algae::LowState;
             break;
-        }
 
         case GripperPoseEnum::AlgaeHigh:
-        {
-            elevatorHeight  = Constants::GripperPoseAlgae::HighElevator;
-            armAngle        = Constants::GripperPoseAlgae::HighArmAngle;
-            wristAngle      = Constants::GripperPoseAlgae::HighWristAngle;
-            bothwheels      = Constants::GripperPoseAlgae::HighGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseAlgae::HighGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Algae::HighState;
             break;
-        }
 
         case GripperPoseEnum::AlgaeProcessor:
-        {
-            elevatorHeight  = Constants::GripperPoseAlgae::ProcessorElevator;
-            armAngle        = Constants::GripperPoseAlgae::ProcessorArmAngle;
-            wristAngle      = Constants::GripperPoseAlgae::ProcessorWristAngle;
-            bothwheels      = Constants::GripperPoseAlgae::ProcessorGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseAlgae::ProcessorGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Algae::ProcessorState;
             break;
-        }
 
         case GripperPoseEnum::AlgaeBarge:
-        {
-            elevatorHeight  = Constants::GripperPoseAlgae::BargeElevator;
-            armAngle        = Constants::GripperPoseAlgae::BargeArmAngle;
-            wristAngle      = Constants::GripperPoseAlgae::BargeWristAngle;
-            bothwheels      = Constants::GripperPoseAlgae::BargeGripperBothWheels;
-            gripperVoltage  = Constants::GripperPoseAlgae::BargeGripperVoltage;
+            gripperPoseState = Constants::GripperPose::Algae::BargeState;
             break;
-        }
     }
 
     // Remember the pose
     m_gripperPose = pose;
 
     // Set the elevator height
-    SetElevatorHeight(elevatorHeight);
+    SetElevatorHeight(gripperPoseState.ElevatorHeight);
 
     // Set the arm angle
-    SetArmAngle(armAngle);
+    SetArmAngle(gripperPoseState.ArmAngle);
 
     // Set the wrist angle
-    SetWristAngle(wristAngle);
+    SetWristAngle(gripperPoseState.WristAngle);
 
     // Set the gripper wheels voltage
-    SetGripperWheelsVoltage(GripperWheelState{bothwheels, gripperVoltage});
+    SetGripperWheelsVoltage(GripperWheelState{gripperPoseState.GripperBothWheels, gripperPoseState.GripperVoltage});
 }
 
 /// @brief Method to set the elevator height.
