@@ -19,7 +19,10 @@ RobotContainer *RobotContainer::GetInstance()
 }
 
 /// @brief Method to configure the robot and SmartDashboard configuration.
-RobotContainer::RobotContainer()
+RobotContainer::RobotContainer() : m_setSwerveWheelAnglesToZero{ChassisSetSwerveWheelAnglesToZero::ChassisSetSwerveWheelAnglesToZero(&m_drivetrain)},
+                                   m_driverController  {Constants::Controller::DriverControllerUsbPort},
+                                   m_operatorController{Constants::Controller::JoystickOperatorUsbPort}
+
 {
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();
@@ -70,7 +73,7 @@ RobotContainer::RobotContainer()
     m_leds.SetDefaultCommand(SetLeds(LedMode::Off, &m_leds));
 
     // Set the swerve wheels to zero
-    SetSwerveWheelAnglesToZero();
+    ChassisSetSwerveWheelAnglesToZero::ChassisSetSwerveWheelAnglesToZero(&m_drivetrain).Unwrap()->Schedule();
 
     // Start capturing video from the USB camera
     cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
@@ -260,13 +263,6 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
     // The selected command will be run in autonomous
     return frc2::CommandPtr(std::unique_ptr<frc2::Command>(m_autoChooser.GetSelected()));
 }
-
-/// @brief Method to set the swerve wheels to starting position based on the absolute encoder.
-void RobotContainer::SetSwerveWheelAnglesToZero()
- {
-    // Execute the command
-    m_swerveWheelAnglesToZero.get()->Execute();
- }
 /// @brief Method to return the forward joystick value.
 /// @return The forward joystick meters per second value.
 units::meters_per_second_t RobotContainer::Forward()
@@ -329,6 +325,13 @@ units::radians_per_second_t RobotContainer::Angle()
 
     // Return the rotation speed with rate limiter applied
     return units::radians_per_second_t(-m_rotLimiter.Calculate(smoothedAngle) * Constants::Drivetrain::MaxAngularSpeed * 0.5);
+}
+
+/// @brief Method to set the swerve wheel angles to zero.
+/// @return returns the command to do so
+frc2::CommandPtr RobotContainer::SetSwerveWheelAnglesToZero()
+{
+    return std::move(m_setSwerveWheelAnglesToZero);
 }
 
 /// @brief Method to convert the throttle range to a value between ThrottleMinimum and 1.0.

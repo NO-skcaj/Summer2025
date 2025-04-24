@@ -10,6 +10,6 @@ namespace ChassisSetSwerveWheelAnglesToZero
 {
     inline frc2::CommandPtr ChassisSetSwerveWheelAnglesToZero(Drivetrain *drivetrain)
     {
-        return frc2::cmd::Run( [drivetrain] { drivetrain->SetWheelAnglesToZero(); }, {drivetrain} );
+        return frc2::cmd::RunOnce( [drivetrain] { drivetrain->SetWheelAnglesToZero(); }, {drivetrain} );
     };
 }

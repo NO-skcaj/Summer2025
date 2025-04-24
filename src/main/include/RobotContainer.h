@@ -58,9 +58,6 @@ class RobotContainer
         // Method to get a pointer to the selected autonomous command
         frc2::CommandPtr             GetAutonomousCommand();
 
-        // Method to set the swerve wheels to starting position based on the absolute encoder
-        void                         SetSwerveWheelAnglesToZero();
-
         // Methods to get a reference to the robot joysticks
         frc::Joystick               *GetDriverController();
         frc::XboxController         *GetOperatorController();
@@ -68,6 +65,8 @@ class RobotContainer
         units::meters_per_second_t   Forward();
         units::meters_per_second_t   Strafe();
         units::radians_per_second_t  Angle();
+
+        frc2::CommandPtr             SetSwerveWheelAnglesToZero();
 
         GripperWheelState            PotentiometerWheelVoltage();
 
@@ -103,18 +102,17 @@ class RobotContainer
         Drivetrain                            m_drivetrain;
         Gripper                               m_gripper;
         Leds                                  m_leds;
+
+        frc2::CommandPtr                      m_setSwerveWheelAnglesToZero;
         
         // Joysticks
-        frc::Joystick                         m_driverController{Constants::Controller::DriverControllerUsbPort};
+        frc::Joystick                         m_driverController  {Constants::Controller::DriverControllerUsbPort};
         frc::XboxController                   m_operatorController{Constants::Controller::JoystickOperatorUsbPort};
 
         // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
         frc::SlewRateLimiter<units::scalar>   m_xspeedLimiter{3 / 1_s};
         frc::SlewRateLimiter<units::scalar>   m_yspeedLimiter{3 / 1_s};
         frc::SlewRateLimiter<units::scalar>   m_rotLimiter   {3 / 1_s};
-
-        // Create the command to set the swerve wheel angles to zero based on the absolute encoder
-        frc2::CommandPtr m_swerveWheelAnglesToZero = ChassisSetSwerveWheelAnglesToZero::ChassisSetSwerveWheelAnglesToZero(&m_drivetrain);
 
         frc::SendableChooser<frc2::Command *> m_autoChooser;
 
