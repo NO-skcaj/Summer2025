@@ -24,6 +24,6 @@ namespace ChassisDrivePose
 
     inline frc2::CommandPtr ChassisDrivePoseFlipped(frc::Pose2d targetPose) // End goal state relative to the origin, blue alliance side then flipped to red
     {
-        return AutoBuilder::pathfindToPose(targetPose, Constraints);
+        return AutoBuilder::pathfindToPoseFlipped(targetPose, Constraints);
     }
 };
