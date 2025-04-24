@@ -38,6 +38,6 @@ namespace AlignToNearestTag
                 targetPosition.Rotation().Degrees() + targetOffset.Rotation().Degrees()};
         };
 
-        return ChassisDrivePose::ChassisDrivePose([drivetrain, getTargetWithOffset] { return drivetrain->GetPose(); }, getTargetWithOffset(drivetrain->GetNearestTag(), targetOffset));
+        return ChassisDrivePose::ChassisDrivePose(getTargetWithOffset(drivetrain->GetNearestTag(), targetOffset));
     }
 };
