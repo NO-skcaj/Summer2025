@@ -25,12 +25,11 @@ RobotContainer::RobotContainer() : m_setSwerveWheelAnglesToZero{ChassisSetSwerve
 
                                    // Logging       
                                    m_loggingManager            {LoggingManager::GetInstance()},
-                                //    m_loggedSwerve              {m_drivetrain, "Swerve"},
-                                   m_loggedPotentiometer       {LoggedValue::CreateLoggedValue("Potentiometer", 0.0)}
+                                   m_loggedPotentiometer       {0.0}
 
 {
-    // m_loggingManager->AddLoggerFunction(m_loggedSwerve       .Get());
-    m_loggingManager->AddLoggerFunction(m_loggedPotentiometer.Get());
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Drivetrain",    &m_drivetrain));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Potentiometer", &m_loggedPotentiometer));
 
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();

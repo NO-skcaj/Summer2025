@@ -22,14 +22,13 @@ Drivetrain::Drivetrain()
 
       // Logging
       m_loggingManager   {LoggingManager::GetInstance()},
-      m_loggedField      {LoggedValue::CreateLoggedValue("Field", &m_field)},
-      m_loggedGyro       {LoggedValue::CreateLoggedValue("Gyro Rotation", 0.0)}
+      m_loggedGyro       {0.0}
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
 
-    m_loggingManager->AddLoggerFunction(m_loggedField.Get());
-    m_loggingManager->AddLoggerFunction(m_loggedGyro .Get());
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Field", &m_field));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Gyro Rotation", &m_loggedGyro));
 
     // Configure the AutoBuilder last
     AutoBuilder::configure(
@@ -78,7 +77,7 @@ Drivetrain::Drivetrain()
 /// @brief This method will be called once periodically.
 void Drivetrain::Periodic()
 {
-    m_loggedGyro.Set(GetRotation2d().Degrees().value()); 
+    m_loggedGyro = GetRotation2d().Degrees().value(); 
 
     // Update the swerve drive odometry
     m_estimator.Update(GetRotation2d(),

@@ -140,6 +140,5 @@ class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
         // Logging
         LoggingManager*                      m_loggingManager;  // The logging manager
 
-        BaseLoggedValue<frc::Field2d*>       m_loggedField;  // The field object for the robot
-        BaseLoggedValue<double>              m_loggedGyro;   // The gyro value
+        double                               m_loggedGyro;
 };

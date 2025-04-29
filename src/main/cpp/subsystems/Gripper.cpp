@@ -13,22 +13,26 @@ Gripper::Gripper() : m_elevatorMotor    {ElevatorMotorCanId},
                      // Logging
                      m_loggingManager            {LoggingManager::GetInstance()},
                     //  m_loggedElevatorHeightTarget{0.0, "Elevator Height Target"},
-                     m_loggedElevatorHeight      {LoggedValue::CreateLoggedValue("Elevator Height", 0.0)},
-                     m_loggedElevatorHeightTarget{LoggedValue::CreateLoggedValue("Elevator Height Target", 0.0)},
-                     m_loggedArmAngle            {LoggedValue::CreateLoggedValue("Arm Angle", 0.0)},
-                     m_loggedArmAngleTarget      {LoggedValue::CreateLoggedValue("Arm Angle Target", 0.0)},
-                     m_loggedWristRotation       {LoggedValue::CreateLoggedValue("Wrist Rotation", 0.0)},
-                     m_loggedWristRotationTarget {LoggedValue::CreateLoggedValue("Wrist Rotation Target", 0.0)},
-                     m_loggedWristRotationOffset {LoggedValue::CreateLoggedValue("Wrist Rotation Offset", 0.0)},
-                     m_loggedGripperVoltage      {LoggedValue::CreateLoggedValue("Gripper Wheels Voltage", 0.0)},
-                     m_loggedGripperVoltageTarget{LoggedValue::CreateLoggedValue("Gripper Voltage Target", 0.0)}
+                     m_loggedElevatorHeight      {0.0},
+                     m_loggedElevatorHeightTarget{0.0},
+                     m_loggedArmAngle            {0.0},
+                     m_loggedArmAngleTarget      {0.0},
+                     m_loggedWristRotation       {0.0},
+                     m_loggedWristRotationTarget {0.0},
+                     m_loggedWristRotationOffset {0.0},
+                     m_loggedGripperVoltage      {0.0},
+                     m_loggedGripperVoltageTarget{0.0}
 { 
     // Add logs
-    // m_loggingManager->AddLoggerFunction(m_loggedElevatorHeightTarget.Get());
-    m_loggingManager->AddLoggerFunction(m_loggedArmAngleTarget      .Get());
-    m_loggingManager->AddLoggerFunction(m_loggedWristRotationTarget .Get());
-    m_loggingManager->AddLoggerFunction(m_loggedGripperVoltageTarget.Get());
-    m_loggingManager->AddLoggerFunction(m_loggedWristRotationOffset .Get());
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Elevator Height",        &m_loggedElevatorHeight      ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Elevator Height Target", &m_loggedElevatorHeightTarget));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Arm Angle",              &m_loggedArmAngle            ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Arm Angle Target",       &m_loggedArmAngleTarget      ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Wrist Rotation",         &m_loggedWristRotation       ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Wrist Rotation Target",  &m_loggedWristRotationTarget ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Wrist Rotation Offset",  &m_loggedWristRotationOffset ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Gripper Wheels Voltage", &m_loggedGripperVoltage      ));
+    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Gripper Voltage Target", &m_loggedGripperVoltageTarget));
 
     // Configure the elevator motor
     ConfigureElevatorMotor();
@@ -49,10 +53,10 @@ Gripper::Gripper() : m_elevatorMotor    {ElevatorMotorCanId},
 /// @brief Method to update the logged values periodically.
 void Gripper::UpdateLoggedValues()
 {
-    m_loggedElevatorHeight.Set(GetElevatorHeight().value());
-    m_loggedArmAngle.Set(GetArmAngle().value());
-    m_loggedWristRotation.Set(GetWristAngle().value());
-    m_loggedGripperVoltage.Set(GetGripperWheelsVoltage().value());
+    m_loggedElevatorHeight = GetElevatorHeight().value();
+    m_loggedArmAngle       = GetArmAngle().value();
+    m_loggedWristRotation  = GetWristAngle().value();
+    m_loggedGripperVoltage = GetGripperWheelsVoltage().value();
 }
 
 
@@ -288,7 +292,7 @@ void Gripper::SetArmAngle(units::angle::degree_t angle)
         angle = Constants::Arm::MaximumPosition;
 
     // Log the target arm angle
-    m_loggedArmAngleTarget.Set(angle.value());
+    m_loggedArmAngleTarget = angle.value();
 
     // Compute the number of turns based on the specficied angle
     units::angle::turn_t position = (units::angle::turn_t) (angle.value() / Constants::Arm::AngleToTurnsConversionFactor.value());
@@ -328,8 +332,8 @@ void Gripper::SetWristAngle(units::angle::degree_t angle)
     m_wristAngle = angle;
 
     // Log the target wrist angle and offset
-    m_loggedWristRotationTarget.Set(angle.value());
-    m_loggedWristRotationOffset.Set(m_wristAngleOffset.value());
+    m_loggedWristRotationTarget = angle.value();
+    m_loggedWristRotationOffset = m_wristAngleOffset.value();
 	
     // Converting angle to motor rotations
     units::turn_t position{(angle.value() + m_wristAngleOffset.value()) / Constants::Wrist::AngleToTurnsConversionFactor.value()};
@@ -362,7 +366,7 @@ units::angle::degree_t Gripper::GetWristAngle()
 void Gripper::SetGripperWheelsVoltage(GripperWheelState gripperWheelState)
 {
     // Log the target gripper wheels voltage
-    m_loggedGripperVoltageTarget.Set(gripperWheelState.voltage.value());
+    m_loggedGripperVoltageTarget = gripperWheelState.voltage.value();
 
     // Remember the gripper voltage
     m_gripperVoltage = gripperWheelState.voltage;

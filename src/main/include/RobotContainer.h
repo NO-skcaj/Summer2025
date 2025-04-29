@@ -131,7 +131,6 @@ class RobotContainer
         // Logging
         LoggingManager*                      m_loggingManager;
 
-        // LoggedValue<LoggedSwerve>            m_loggedSwerve;
-        BaseLoggedValue<double>                 m_loggedPotentiometer;
+        double                               m_loggedPotentiometer;
 
 };

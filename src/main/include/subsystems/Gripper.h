@@ -99,16 +99,16 @@ class Gripper : public frc2::SubsystemBase
         // Logging
         LoggingManager*          m_loggingManager;
 
-        BaseLoggedValue<double>  m_loggedElevatorHeight;
-        BaseLoggedValue<double>  m_loggedElevatorHeightTarget;
+        double  m_loggedElevatorHeight;
+        double  m_loggedElevatorHeightTarget;
 
-        BaseLoggedValue<double>  m_loggedArmAngle;
-        BaseLoggedValue<double>  m_loggedArmAngleTarget;
+        double  m_loggedArmAngle;
+        double  m_loggedArmAngleTarget;
 
-        BaseLoggedValue<double>  m_loggedWristRotation;
-        BaseLoggedValue<double>  m_loggedWristRotationTarget;
-        BaseLoggedValue<double>  m_loggedWristRotationOffset;
+        double  m_loggedWristRotation;
+        double  m_loggedWristRotationTarget;
+        double  m_loggedWristRotationOffset;
 
-        BaseLoggedValue<double>  m_loggedGripperVoltage;
-        BaseLoggedValue<double>  m_loggedGripperVoltageTarget;
+        double  m_loggedGripperVoltage;
+        double  m_loggedGripperVoltageTarget;
 };

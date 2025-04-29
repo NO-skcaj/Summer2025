@@ -14,12 +14,12 @@ class LoggingManager
 
         void Log();
 
-        void AddLoggerFunction(std::function<void()>* loggerFunction);
+        void AddLoggerFunction(std::function<void()> loggerFunction);
 
     private:
         LoggingManager() = default;
 
-        std::vector<std::function<void()>*> LoggerFunctions;
+        std::vector<std::function<void()>> LoggerFunctions;
 
         static LoggingManager* instance;
 };

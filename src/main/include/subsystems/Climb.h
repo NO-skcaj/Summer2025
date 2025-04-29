@@ -22,7 +22,7 @@ class Climb : public frc2::SubsystemBase
 
     private:
 
-        void     ConfigureClimbMotor(int motorCanId);
+        void ConfigureClimbMotor(int motorCanId);
 
         hardware::TalonFX       m_climbMotor;
 
@@ -32,5 +32,5 @@ class Climb : public frc2::SubsystemBase
         // Logging
         LoggingManager*         m_loggingManager;
 
-        BaseLoggedValue<double> m_loggedClimbTargetVoltage;
+        double                  m_loggedClimbTargetVoltage;
 };
