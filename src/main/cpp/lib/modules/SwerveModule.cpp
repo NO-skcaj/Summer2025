@@ -68,9 +68,6 @@ void SwerveModule::ConfigureAngleMotor()
 /// @param description String to show the module state on the SmartDashboard.
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& desiredState, std::string description)
 {
-    frc::SmartDashboard::PutNumber(description + "Drive", (double) desiredState.speed);
-    frc::SmartDashboard::PutNumber(description + "Angle", (double) desiredState.angle.Degrees().value());
-
     // Optimize the reference state to avoid spinning further than 90 degrees.
     desiredState.Optimize(frc::Rotation2d(units::radian_t{m_angleMotor.GetPosition().value() * Constants::Drivetrain::AngleRadiansToMotorRevolutions}));
 

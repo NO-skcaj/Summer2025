@@ -5,6 +5,9 @@
 #include "lib/hardware/DigitalInput.h"
 #include "lib/hardware/TalonFX.h"
 
+#include "lib/logging/LoggedValue.h"
+#include "lib/logging/LoggingManager.h"
+
 #include "Constants/CanIds.h"
 #include "Constants/Climb.h"
 
@@ -21,8 +24,13 @@ class Climb : public frc2::SubsystemBase
 
         void     ConfigureClimbMotor(int motorCanId);
 
-        hardware::TalonFX                 m_climbMotor;
+        hardware::TalonFX       m_climbMotor;
 
-        hardware::DigitalInput                 m_climbLimit;
-        hardware::DigitalInput                 m_captureLimit;
+        hardware::DigitalInput  m_climbLimit;
+        hardware::DigitalInput  m_captureLimit;
+
+        // Logging
+        LoggingManager*         m_loggingManager;
+
+        BaseLoggedValue<double> m_loggedClimbTargetVoltage;
 };

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <new>
+
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
@@ -38,11 +40,16 @@
 #include "lib/modules/SwerveModule.h"
 #include "lib/hardware/Navx.h"
 
+#include "lib/logging/LoggingManager.h"
+#include "lib/logging/BaseLoggedValue.h"
+#include "lib/logging/LoggedValue.h"
+#include "lib/logging/LoggedSwerve.h"
+
 #include "Constants/Drivetrain.h"
 #include "Constants/CanIds.h"
 
-
-class Drivetrain : public frc2::SubsystemBase
+ 
+class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
 {
     public:
 
@@ -86,6 +93,7 @@ class Drivetrain : public frc2::SubsystemBase
 
         std::vector<frc::SwerveModuleState> GetSwerveModuleStates();                // Returns the swerve module states
 
+        std::span<double>                   GetData() override;                     // Returns the data for logging
 
 
         // Swerve module order for kinematics calculations
@@ -102,12 +110,12 @@ class Drivetrain : public frc2::SubsystemBase
 
         void AddVisionMeasurements();
 
+        hardware::Navx                       m_gyro;  // The gyro sensor
+
         Vision                               m_vision;
 
-        std::shared_ptr<frc::Field2d>        m_field;  // The field object for the SmartDashboard
-    
-        hardware::Navx                       m_gyro;  // The gyro sensor
-    
+        frc::Field2d                         m_field;
+
         bool                                 m_fieldCentricity;                      // Field centricity flag
     
         SwerveModule                         m_frontLeft;
@@ -128,4 +136,10 @@ class Drivetrain : public frc2::SubsystemBase
             frc::Translation2d{ Constants::Drivetrain::WheelBase / 2, -Constants::Drivetrain::TrackWidth / 2},   // Front Right
             frc::Translation2d{-Constants::Drivetrain::WheelBase / 2,  Constants::Drivetrain::TrackWidth / 2},   // Rear Left
             frc::Translation2d{-Constants::Drivetrain::WheelBase / 2, -Constants::Drivetrain::TrackWidth / 2}};  // Rear Right
+
+        // Logging
+        LoggingManager*                      m_loggingManager;  // The logging manager
+
+        BaseLoggedValue<frc::Field2d*>       m_loggedField;  // The field object for the robot
+        BaseLoggedValue<double>              m_loggedGyro;   // The gyro value
 };

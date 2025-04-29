@@ -9,10 +9,12 @@ void Robot::RobotInit()
     // Report the robot framework usage
     HAL_Report(HALUsageReporting::kResourceType_Framework, HALUsageReporting::kFramework_RobotBuilder);
 
+    // Retrieve Singletons
     m_robotContainer = RobotContainer::GetInstance();
+    m_loggingManager = LoggingManager::GetInstance();
 
     // Reset the debug message
-    frc::SmartDashboard::PutString("Debug", "RobotInit");
+    m_loggingManager->AddLoggerFunction(LoggedValue::CreateLoggedValue("Debug", "RobotInit").Get());
 }
 
 /// @brief Method is called every robot packet, no matter the mode.
@@ -20,26 +22,12 @@ void Robot::RobotPeriodic()
 {
     // Run the command scheduler
     frc2::CommandScheduler::GetInstance().Run();
-
-    // Get the voltage going into the PDP, in Volts
-    double voltage = m_robotContainer->GetPowerDistribution()->GetVoltage();
-    frc::SmartDashboard::PutNumber("Voltage", voltage);
-
-    // Show the present chassis pose
-    frc::Pose2d pressentPose = m_robotContainer->GetChassisPose();
-    frc::SmartDashboard::PutNumber("Present X", pressentPose.X().value() * 39.3701);
-    frc::SmartDashboard::PutNumber("Present Y", pressentPose.Y().value() * 39.3701);
-    frc::SmartDashboard::PutNumber("Present A", pressentPose.Rotation().Degrees().value());
-
-    // Show the control panel Gripper wheels potentiometer value
-    frc::SmartDashboard::PutNumber("Wheels Input", m_robotContainer->GetOperatorController()->GetRawAxis(Constants::ControlPanel::GripperMotor));
-
+    
     // Show the Gripper pose positions
-    frc::SmartDashboard::PutNumber("Elevator", m_robotContainer->GetGripper()->GetElevatorHeight().value());
-    frc::SmartDashboard::PutNumber("Arm",      m_robotContainer->GetGripper()->GetArmAngle().to<double>());
-    frc::SmartDashboard::PutNumber("Wrist",    m_robotContainer->GetGripper()->GetWristAngle().value());
-    frc::SmartDashboard::PutNumber("Wheels",   m_robotContainer->GetGripper()->GetGripperWheelsVoltage().value());
+    m_robotContainer->GetGripper()->UpdateLoggedValues();
 
+    // Log everything
+    LoggingManager::GetInstance()->Log();
 }
 
 /// @brief Method is called when switching to autonomous mode.

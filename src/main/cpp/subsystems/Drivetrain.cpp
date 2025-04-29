@@ -1,5 +1,6 @@
 #include "subsystems/Drivetrain.h"
 
+
 using namespace Constants::CanIds;
 using namespace pathplanner;
 
@@ -8,6 +9,7 @@ Drivetrain::Drivetrain()
     : m_gyro             {},
       m_vision           {},
       m_field            {},
+      m_fieldCentricity  {true}, // Default to field centricity
       m_frontLeft        {SwerveFrontLeftDriveMotorCanId,  SwerveFrontLeftAngleMotorCanId,  SwerveFrontLeftAngleEncoderCanId },
       m_frontRight       {SwerveFrontRightDriveMotorCanId, SwerveFrontRightAngleMotorCanId, SwerveFrontRightAngleEncoderCanId},
       m_rearLeft         {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
@@ -16,12 +18,18 @@ Drivetrain::Drivetrain()
       m_config           {RobotConfig::fromGUISettings()},
       m_estimator        {m_kinematics, GetRotation2d(),
                            {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                           m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}}
+                           m_rearLeft.GetPosition(),  m_rearRight.GetPosition()}, frc::Pose2d{}},
+
+      // Logging
+      m_loggingManager   {LoggingManager::GetInstance()},
+      m_loggedField      {LoggedValue::CreateLoggedValue("Field", &m_field)},
+      m_loggedGyro       {LoggedValue::CreateLoggedValue("Gyro Rotation", 0.0)}
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
 
-    m_fieldCentricity = true;
+    m_loggingManager->AddLoggerFunction(m_loggedField.Get());
+    m_loggingManager->AddLoggerFunction(m_loggedGyro .Get());
 
     // Configure the AutoBuilder last
     AutoBuilder::configure(
@@ -48,35 +56,29 @@ Drivetrain::Drivetrain()
         this // Reference to this subsystem to set requirements
     );
 
-    frc::SmartDashboard::PutData("Field", m_field.get());
-
     // Logging callback for current robot pose
     pathplanner::PathPlannerLogging::setLogCurrentPoseCallback( [this] (frc::Pose2d pose) {
         // Do whatever you want with the pose here
-        m_field.get()->SetRobotPose(pose);
+        m_field.SetRobotPose(pose);
     });
 
     // Logging callback for target robot pose
     PathPlannerLogging::setLogTargetPoseCallback( [this] (frc::Pose2d pose) {
         // Do whatever you want with the pose here
-        frc::FieldObject2d* target = m_field.get()->GetObject("target pose");
-
-        target->SetPose(pose);
+        m_field.GetObject("target pose")->SetPose(pose);
     });
 
     // Logging callback for the active path, this is sent as a vector of poses
     pathplanner::PathPlannerLogging::setLogActivePathCallback( [this] (std::vector<frc::Pose2d> poses) {
-        // Do whatever you want with the poses here
-        frc::FieldObject2d* path = m_field.get()->GetObject("path");
-        
-        path->SetTrajectory(frc::TrajectoryGenerator::GenerateTrajectory(poses, frc::TrajectoryConfig{0_mps, 0_mps_sq}));
+        // Do whatever you want with the pose here
+        m_field.GetObject("path")->SetTrajectory(frc::TrajectoryGenerator::GenerateTrajectory(poses, frc::TrajectoryConfig(1_mps, 1_mps_sq)));;
     });
 }
 
 /// @brief This method will be called once periodically.
 void Drivetrain::Periodic()
 {
-    frc::SmartDashboard::PutNumber("Gyro Rotation", GetRotation2d().Degrees().value());
+    m_loggedGyro.Set(GetRotation2d().Degrees().value()); 
 
     // Update the swerve drive odometry
     m_estimator.Update(GetRotation2d(),
@@ -256,6 +258,18 @@ std::vector<frc::SwerveModuleState> Drivetrain::GetSwerveModuleStates()
     // Return the swerve module states
     return {m_frontLeft.GetState(), m_frontRight.GetState(),
             m_rearLeft.GetState(),  m_rearRight.GetState()};
+}
+
+std::span<double> Drivetrain::GetData()
+{
+    // Create a data array to hold the swerve module states
+    double dataArray[] = {m_frontLeft. GetState().angle.Degrees().value(), m_frontLeft. GetState().speed.value(),
+                          m_frontRight.GetState().angle.Degrees().value(), m_frontRight.GetState().speed.value(),
+                          m_rearLeft.  GetState().angle.Degrees().value(), m_rearLeft.  GetState().speed.value(),
+                          m_rearRight. GetState().angle.Degrees().value(), m_rearRight. GetState().speed.value(),
+                          GetRotation2d().Degrees().value()};
+
+    return std::span<double>{dataArray, std::size(dataArray)};
 }
 
 

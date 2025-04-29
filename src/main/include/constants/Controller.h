@@ -36,7 +36,7 @@ namespace Controller
 
     constexpr auto ThrottleMinimum         = 0.5;
 
-    constexpr auto JoystickDeadZone        = 0.0;
+    constexpr auto JoystickDeadZone        = 0.1;
     constexpr auto JoystickRotateDeadZone  = 0.08;
 
     constexpr auto ExponentForward         = 2.0;

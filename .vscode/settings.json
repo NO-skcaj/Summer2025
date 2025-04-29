@@ -99,6 +99,23 @@
     "xtr1common": "cpp",
     "xutility": "cpp",
     "charconv": "cpp",
-    "xtree": "cpp"
+    "xtree": "cpp",
+    "xlocmon": "cpp",
+    "coroutine": "cpp",
+    "filesystem": "cpp",
+    "format": "cpp",
+    "ios": "cpp",
+    "locale": "cpp",
+    "queue": "cpp",
+    "stack": "cpp",
+    "xfacet": "cpp",
+    "xhash": "cpp",
+    "xiosbase": "cpp",
+    "xlocale": "cpp",
+    "xlocbuf": "cpp",
+    "xlocinfo": "cpp",
+    "xlocmes": "cpp",
+    "xlocnum": "cpp",
+    "xloctime": "cpp"
   }
 }

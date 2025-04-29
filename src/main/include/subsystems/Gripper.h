@@ -5,10 +5,14 @@
 #include "lib/hardware/TalonFX.h"
 #include "lib/hardware/SparkMax.h"
 
+#include "lib/logging/LoggingManager.h"
+#include "lib/logging/BaseLoggedValue.h"
+#include "lib/logging/LoggedValue.h"
+
 #include "constants/CanIds.h"
 #include "constants/Gripper.h"
 #include "constants/GripperPose.h"
-
+ 
 
 enum GripperPoseEnum
 {
@@ -30,6 +34,9 @@ enum GripperPoseEnum
     AlgaeBarge,
 };
 
+/// @brief Structure to hold a target Gripper wheel state.
+/// @param bothWheels bool
+/// @param voltage    units::voltage::volt_t
 struct GripperWheelState
 {
     bool                   bothWheels = true;
@@ -64,6 +71,8 @@ class Gripper : public frc2::SubsystemBase
 
         GripperPoseEnum        GetPose() { return m_gripperPose; }  // Get the Gripper Pose
 
+        void                   UpdateLoggedValues();
+
     private:
 
         void ConfigureElevatorMotor();
@@ -71,19 +80,35 @@ class Gripper : public frc2::SubsystemBase
         void ConfigureWristMotor();
         void ConfigureGripperMotors();
 
-        hardware::TalonFX      m_elevatorMotor;
+        hardware::TalonFX        m_elevatorMotor;
                     
-        hardware::TalonFX      m_armMotor;
+        hardware::TalonFX        m_armMotor;
 
-        hardware::SparkMax     m_wristMotor;
+        hardware::SparkMax       m_wristMotor;
         
-        units::angle::degree_t m_wristAngle       = 0_deg;
-        units::angle::degree_t m_wristAngleOffset = 0_deg;
+        units::angle::degree_t   m_wristAngle       = 0_deg;
+        units::angle::degree_t   m_wristAngleOffset = 0_deg;
 
-        hardware::SparkMax     m_gripperMotorFixed;
-        hardware::SparkMax     m_gripperMotorFree;
+        hardware::SparkMax       m_gripperMotorFixed;
+        hardware::SparkMax       m_gripperMotorFree;
 
-        GripperPoseEnum        m_gripperPose;
+        GripperPoseEnum          m_gripperPose;
 
-        units::voltage::volt_t m_gripperVoltage = 0_V;
+        units::voltage::volt_t   m_gripperVoltage = 0_V;
+
+        // Logging
+        LoggingManager*          m_loggingManager;
+
+        BaseLoggedValue<double>  m_loggedElevatorHeight;
+        BaseLoggedValue<double>  m_loggedElevatorHeightTarget;
+
+        BaseLoggedValue<double>  m_loggedArmAngle;
+        BaseLoggedValue<double>  m_loggedArmAngleTarget;
+
+        BaseLoggedValue<double>  m_loggedWristRotation;
+        BaseLoggedValue<double>  m_loggedWristRotationTarget;
+        BaseLoggedValue<double>  m_loggedWristRotationOffset;
+
+        BaseLoggedValue<double>  m_loggedGripperVoltage;
+        BaseLoggedValue<double>  m_loggedGripperVoltageTarget;
 };

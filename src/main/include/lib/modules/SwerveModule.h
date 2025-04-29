@@ -12,8 +12,6 @@
 
 #include <rev/config/SparkMaxConfig.h>
 
-#include <frc/smartdashboard/SmartDashboard.h>
-
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
@@ -37,16 +35,6 @@
 #include "constants/Controller.h"
 #include "constants/CanIds.h"
 
-
-namespace Constants
-{
-
-namespace Swerve
-{
-    
-}
-
-}
 
 class SwerveModule
 {

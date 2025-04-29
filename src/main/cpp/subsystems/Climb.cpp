@@ -1,12 +1,20 @@
 #include "subsystems/Climb.h"
 
+
 using namespace Constants::CanIds;
 
 /// @brief Class to support the Climb subsystem.
-Climb::Climb() : m_climbMotor{ClimbMotorCanId},
-                 m_climbLimit  {Constants::Climb::ClimbLimitSwtich},
-                 m_captureLimit{Constants::Climb::CaptureLimitSwitch}
+Climb::Climb() : m_climbMotor    {ClimbMotorCanId},
+                 m_climbLimit    {Constants::Climb::ClimbLimitSwtich},
+                 m_captureLimit  {Constants::Climb::CaptureLimitSwitch},
+
+                 // Logging
+                 m_loggingManager{LoggingManager::GetInstance()},
+
+                 m_loggedClimbTargetVoltage{LoggedValue::CreateLoggedValue("Climb Target Voltage", 0.0)}
 {
+
+
     // Configure the climb motor
     ConfigureClimbMotor(ClimbMotorCanId);
 }
@@ -37,6 +45,8 @@ void Climb::SetVoltage(units::volt_t voltage)
         m_climbMotor.SetSpeed(0_V);
         return;
     }
+
+    // Log the target climb voltage
 
     // Set the motor voltage
     m_climbMotor.SetSpeed(voltage);

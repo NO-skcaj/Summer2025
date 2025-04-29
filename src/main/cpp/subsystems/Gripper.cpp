@@ -1,17 +1,35 @@
 #include "subsystems/Gripper.h"
 
+
 using namespace Constants::CanIds;
 
 /// @brief The Constructor for the Gripper class.
-Gripper::Gripper() : m_elevatorMotor(ElevatorMotorCanId),
+Gripper::Gripper() : m_elevatorMotor    {ElevatorMotorCanId},
+                     m_armMotor         {ArmMotorCanId},
+                     m_wristMotor       {WristMotorCanId, true},
+                     m_gripperMotorFixed{GripperMotorCanIdFixed, true},
+                     m_gripperMotorFree {GripperMotorCanIdFree,   true},
 
-                     m_armMotor(ArmMotorCanId),
+                     // Logging
+                     m_loggingManager            {LoggingManager::GetInstance()},
+                    //  m_loggedElevatorHeightTarget{0.0, "Elevator Height Target"},
+                     m_loggedElevatorHeight      {LoggedValue::CreateLoggedValue("Elevator Height", 0.0)},
+                     m_loggedElevatorHeightTarget{LoggedValue::CreateLoggedValue("Elevator Height Target", 0.0)},
+                     m_loggedArmAngle            {LoggedValue::CreateLoggedValue("Arm Angle", 0.0)},
+                     m_loggedArmAngleTarget      {LoggedValue::CreateLoggedValue("Arm Angle Target", 0.0)},
+                     m_loggedWristRotation       {LoggedValue::CreateLoggedValue("Wrist Rotation", 0.0)},
+                     m_loggedWristRotationTarget {LoggedValue::CreateLoggedValue("Wrist Rotation Target", 0.0)},
+                     m_loggedWristRotationOffset {LoggedValue::CreateLoggedValue("Wrist Rotation Offset", 0.0)},
+                     m_loggedGripperVoltage      {LoggedValue::CreateLoggedValue("Gripper Wheels Voltage", 0.0)},
+                     m_loggedGripperVoltageTarget{LoggedValue::CreateLoggedValue("Gripper Voltage Target", 0.0)}
+{ 
+    // Add logs
+    // m_loggingManager->AddLoggerFunction(m_loggedElevatorHeightTarget.Get());
+    m_loggingManager->AddLoggerFunction(m_loggedArmAngleTarget      .Get());
+    m_loggingManager->AddLoggerFunction(m_loggedWristRotationTarget .Get());
+    m_loggingManager->AddLoggerFunction(m_loggedGripperVoltageTarget.Get());
+    m_loggingManager->AddLoggerFunction(m_loggedWristRotationOffset .Get());
 
-                     m_wristMotor(WristMotorCanId, true),
-
-                     m_gripperMotorFixed(GripperMotorCanIdFixed, true),
-                     m_gripperMotorFree(GripperMotorCanIdFree,   true)
-{
     // Configure the elevator motor
     ConfigureElevatorMotor();
 
@@ -28,11 +46,20 @@ Gripper::Gripper() : m_elevatorMotor(ElevatorMotorCanId),
     SetGripperWheelsVoltage(GripperWheelState{true, 0_V});
 }
 
+/// @brief Method to update the logged values periodically.
+void Gripper::UpdateLoggedValues()
+{
+    m_loggedElevatorHeight.Set(GetElevatorHeight().value());
+    m_loggedArmAngle.Set(GetArmAngle().value());
+    m_loggedWristRotation.Set(GetWristAngle().value());
+    m_loggedGripperVoltage.Set(GetGripperWheelsVoltage().value());
+}
+
+
 /// @brief Method to configure the elevator motor using MotionMagic.
 /// @param motorCanId The CAN identifier for the elevator motor.
 void Gripper::ConfigureElevatorMotor()
 {
-
     // Create the elevator motor configuration
     hardware::TalonMotorConfiguration elevatorMotorConfiguration
     {
@@ -223,8 +250,8 @@ void Gripper::SetElevatorHeight(units::length::meter_t position)
     else if (position > Constants::Elevator::MaximumPosition)
         position = Constants::Elevator::MaximumPosition;
 
-    // Show the target elevator height
-    frc::SmartDashboard::PutNumber("Elevator Target", position.value());
+    // Log target elevator height
+    // m_loggedElevatorHeightTarget.Set(position.value());
 
     // Compute the number of turns based on the specficied position
     units::angle::turn_t newPosition = (units::angle::turn_t) (position.value() * Constants::Elevator::PositionToTurnsConversionFactor);
@@ -260,8 +287,8 @@ void Gripper::SetArmAngle(units::angle::degree_t angle)
     if (angle > Constants::Arm::MaximumPosition)
         angle = Constants::Arm::MaximumPosition;
 
-    // Show the target arm angle
-    frc::SmartDashboard::PutNumber("Arm Target", angle.value());
+    // Log the target arm angle
+    m_loggedArmAngleTarget.Set(angle.value());
 
     // Compute the number of turns based on the specficied angle
     units::angle::turn_t position = (units::angle::turn_t) (angle.value() / Constants::Arm::AngleToTurnsConversionFactor.value());
@@ -300,9 +327,9 @@ void Gripper::SetWristAngle(units::angle::degree_t angle)
     // Remember the wrist angle
     m_wristAngle = angle;
 
-    // Show the target wrist angle
-    frc::SmartDashboard::PutNumber("Wrist Target", angle.value());
-	frc::SmartDashboard::PutNumber("Wrist Offset", m_wristAngleOffset.value());
+    // Log the target wrist angle and offset
+    m_loggedWristRotationTarget.Set(angle.value());
+    m_loggedWristRotationOffset.Set(m_wristAngleOffset.value());
 	
     // Converting angle to motor rotations
     units::turn_t position{(angle.value() + m_wristAngleOffset.value()) / Constants::Wrist::AngleToTurnsConversionFactor.value()};
@@ -334,8 +361,8 @@ units::angle::degree_t Gripper::GetWristAngle()
 /// @param voltage The setpoint for the Gripper wheels voltage.
 void Gripper::SetGripperWheelsVoltage(GripperWheelState gripperWheelState)
 {
-    // Show the target gripper wheels voltage
-    frc::SmartDashboard::PutNumber("Wheels Target", gripperWheelState.voltage.value());
+    // Log the target gripper wheels voltage
+    m_loggedGripperVoltageTarget.Set(gripperWheelState.voltage.value());
 
     // Remember the gripper voltage
     m_gripperVoltage = gripperWheelState.voltage;

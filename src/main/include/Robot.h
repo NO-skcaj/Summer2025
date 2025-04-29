@@ -7,6 +7,8 @@
 
 #include "RobotContainer.h"
 
+#include "lib/logging/LoggingManager.h"
+
 #include "Constants/Controller.h"
 #include "constants/Gripper.h"
 
@@ -37,4 +39,7 @@ class Robot : public frc::TimedRobot
         RobotContainer *m_robotContainer;
 
         bool            m_chassisGyroReversed = false;
+
+        // Logging
+        LoggingManager* m_loggingManager;  // The logging manager
 };

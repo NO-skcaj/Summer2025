@@ -20,10 +20,18 @@ RobotContainer *RobotContainer::GetInstance()
 
 /// @brief Method to configure the robot and SmartDashboard configuration.
 RobotContainer::RobotContainer() : m_setSwerveWheelAnglesToZero{ChassisSetSwerveWheelAnglesToZero::ChassisSetSwerveWheelAnglesToZero(&m_drivetrain)},
-                                   m_driverController  {Constants::Controller::DriverControllerUsbPort},
-                                   m_operatorController{Constants::Controller::JoystickOperatorUsbPort}
+                                   m_driverController          {Constants::Controller::DriverControllerUsbPort},
+                                   m_operatorController        {Constants::Controller::JoystickOperatorUsbPort},
+
+                                   // Logging       
+                                   m_loggingManager            {LoggingManager::GetInstance()},
+                                //    m_loggedSwerve              {m_drivetrain, "Swerve"},
+                                   m_loggedPotentiometer       {LoggedValue::CreateLoggedValue("Potentiometer", 0.0)}
 
 {
+    // m_loggingManager->AddLoggerFunction(m_loggedSwerve       .Get());
+    m_loggingManager->AddLoggerFunction(m_loggedPotentiometer.Get());
+
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();
 
@@ -380,7 +388,7 @@ GripperWheelState RobotContainer::PotentiometerWheelVoltage()
         potentiometer = 0.0;
 
     frc::SmartDashboard::PutNumber("Potentiometer", potentiometer);
-
+ 
     // Convert to a voltage
     auto voltage = units::voltage::volt_t{potentiometer * Constants::Gripper::AnalogConversion};
 

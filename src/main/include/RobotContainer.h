@@ -46,6 +46,10 @@
 #include "Constants/ChassisPoseAutonomous.h"
 #include "Constants/GripperPose.h"
 
+#include "lib/logging/LoggingManager.h"
+#include "lib/logging/LoggedSwerve.h"
+#include "lib/logging/LoggedValue.h"
+
 
 /// @brief Class to instantiate the robot subsystems and commands along with the operator controls
 class RobotContainer
@@ -123,4 +127,11 @@ class RobotContainer
         cs::VideoSink                         m_limelightFeed;
 
         bool                                  m_usbCameraActive = false;
+
+        // Logging
+        LoggingManager*                      m_loggingManager;
+
+        // LoggedValue<LoggedSwerve>            m_loggedSwerve;
+        BaseLoggedValue<double>                 m_loggedPotentiometer;
+
 };

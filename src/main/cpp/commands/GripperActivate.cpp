@@ -101,11 +101,13 @@ void GripperActivate::Execute()
         case GripperState::Complete:
             // Stop the state machine
             m_isFinished = true;
+            break;
 
         default:
             // Stop the state machine
             m_state      = Complete;
             m_isFinished = true;
+            break;
         
     }
 }
