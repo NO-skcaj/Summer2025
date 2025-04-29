@@ -27,8 +27,8 @@ Drivetrain::Drivetrain()
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
 
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Field", &m_field));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Gyro Rotation", &m_loggedGyro));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Field", &m_field));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Gyro Rotation", &m_loggedGyro));
 
     // Configure the AutoBuilder last
     AutoBuilder::configure(

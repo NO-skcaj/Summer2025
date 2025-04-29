@@ -48,7 +48,7 @@
 
 #include "lib/logging/LoggingManager.h"
 #include "lib/logging/LoggedSwerve.h"
-#include "lib/logging/LoggedValue.h"
+#include "lib/logging/LoggerFactory.h"
 
 
 /// @brief Class to instantiate the robot subsystems and commands along with the operator controls
@@ -63,8 +63,8 @@ class RobotContainer
         frc2::CommandPtr             GetAutonomousCommand();
 
         // Methods to get a reference to the robot joysticks
-        frc::Joystick               *GetDriverController();
-        frc::XboxController         *GetOperatorController();
+        frc::Joystick*               GetDriverController();
+        frc::XboxController*         GetOperatorController();
 
         units::meters_per_second_t   Forward();
         units::meters_per_second_t   Strafe();
@@ -110,15 +110,15 @@ class RobotContainer
         frc2::CommandPtr                      m_setSwerveWheelAnglesToZero;
         
         // Joysticks
-        frc::Joystick                         m_driverController  {Constants::Controller::DriverControllerUsbPort};
-        frc::XboxController                   m_operatorController{Constants::Controller::JoystickOperatorUsbPort};
+        frc::Joystick                         m_driverController;
+        frc::XboxController                   m_operatorController;
 
         // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-        frc::SlewRateLimiter<units::scalar>   m_xspeedLimiter{3 / 1_s};
-        frc::SlewRateLimiter<units::scalar>   m_yspeedLimiter{3 / 1_s};
-        frc::SlewRateLimiter<units::scalar>   m_rotLimiter   {3 / 1_s};
+        frc::SlewRateLimiter<units::scalar>   m_xspeedLimiter;
+        frc::SlewRateLimiter<units::scalar>   m_yspeedLimiter;
+        frc::SlewRateLimiter<units::scalar>   m_rotLimiter;
 
-        frc::SendableChooser<frc2::Command *> m_autoChooser;
+        frc::SendableChooser<frc2::Command*> m_autoChooser;
 
         frc::PowerDistribution                m_powerDistribution;
 

@@ -41,8 +41,8 @@
 #include "lib/hardware/Navx.h"
 
 #include "lib/logging/LoggingManager.h"
-#include "lib/logging/BaseLoggedValue.h"
-#include "lib/logging/LoggedValue.h"
+
+#include "lib/logging/LoggerFactory.h"
 #include "lib/logging/LoggedSwerve.h"
 
 #include "Constants/Drivetrain.h"

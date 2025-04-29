@@ -5,7 +5,7 @@
 #include "lib/hardware/DigitalInput.h"
 #include "lib/hardware/TalonFX.h"
 
-#include "lib/logging/LoggedValue.h"
+#include "lib/logging/LoggerFactory.h"
 #include "lib/logging/LoggingManager.h"
 
 #include "Constants/CanIds.h"

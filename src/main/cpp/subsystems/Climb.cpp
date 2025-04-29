@@ -13,7 +13,7 @@ Climb::Climb() : m_climbMotor    {ClimbMotorCanId},
 
                  m_loggedClimbTargetVoltage{0.0}
 {
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Climb Target Voltage", &m_loggedClimbTargetVoltage));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Climb Target Voltage", &m_loggedClimbTargetVoltage));
 
     // Configure the climb motor
     ConfigureClimbMotor(ClimbMotorCanId);

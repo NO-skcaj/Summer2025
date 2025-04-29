@@ -23,13 +23,17 @@ RobotContainer::RobotContainer() : m_setSwerveWheelAnglesToZero{ChassisSetSwerve
                                    m_driverController          {Constants::Controller::DriverControllerUsbPort},
                                    m_operatorController        {Constants::Controller::JoystickOperatorUsbPort},
 
+                                   m_xspeedLimiter{3 / 1_s},
+                                   m_yspeedLimiter{3 / 1_s},
+                                   m_rotLimiter   {3 / 1_s},
+
                                    // Logging       
                                    m_loggingManager            {LoggingManager::GetInstance()},
                                    m_loggedPotentiometer       {0.0}
 
 {
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Drivetrain",    &m_drivetrain));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Potentiometer", &m_loggedPotentiometer));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Drivetrain",    &m_drivetrain));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Potentiometer", &m_loggedPotentiometer));
 
     // Bind the joystick controls to the robot commands
     ConfigureButtonBindings();

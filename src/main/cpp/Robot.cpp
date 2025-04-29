@@ -13,8 +13,11 @@ void Robot::RobotInit()
     m_robotContainer = RobotContainer::GetInstance();
     m_loggingManager = LoggingManager::GetInstance();
 
+    // Debug message
+    m_loggedDebug = "RobotInit";
+
     // Reset the debug message
-    m_loggingManager->AddLoggerFunction(LoggedValue::CreateLoggedValue("Debug", "RobotInit").Get());
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Debug", &m_loggedDebug));
 }
 
 /// @brief Method is called every robot packet, no matter the mode.

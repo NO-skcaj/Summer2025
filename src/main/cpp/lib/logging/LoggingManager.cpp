@@ -17,13 +17,11 @@ void LoggingManager::Log()
 {
     for (auto logger : LoggerFunctions)
     {
-        auto logfunc = *logger;
-
-        logfunc();
+        logger();
     }
 }
 
-void LoggingManager::AddLoggerFunction(std::function<void()>* loggerFunction)
+void LoggingManager::AddLoggerFunction(std::function<void()> loggerFunction)
 {
     LoggerFunctions.push_back(loggerFunction);
 }

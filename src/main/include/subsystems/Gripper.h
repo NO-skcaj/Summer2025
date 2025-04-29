@@ -6,8 +6,8 @@
 #include "lib/hardware/SparkMax.h"
 
 #include "lib/logging/LoggingManager.h"
-#include "lib/logging/BaseLoggedValue.h"
-#include "lib/logging/LoggedValue.h"
+
+#include "lib/logging/LoggerFactory.h"
 
 #include "constants/CanIds.h"
 #include "constants/Gripper.h"

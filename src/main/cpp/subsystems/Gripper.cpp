@@ -24,15 +24,15 @@ Gripper::Gripper() : m_elevatorMotor    {ElevatorMotorCanId},
                      m_loggedGripperVoltageTarget{0.0}
 { 
     // Add logs
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Elevator Height",        &m_loggedElevatorHeight      ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Elevator Height Target", &m_loggedElevatorHeightTarget));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Arm Angle",              &m_loggedArmAngle            ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Arm Angle Target",       &m_loggedArmAngleTarget      ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Wrist Rotation",         &m_loggedWristRotation       ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Wrist Rotation Target",  &m_loggedWristRotationTarget ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Wrist Rotation Offset",  &m_loggedWristRotationOffset ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Gripper Wheels Voltage", &m_loggedGripperVoltage      ));
-    m_loggingManager->AddLoggerFunction(Logger::CreateLoggedValue("Gripper Voltage Target", &m_loggedGripperVoltageTarget));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Elevator Height",        &m_loggedElevatorHeight      ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Elevator Height Target", &m_loggedElevatorHeightTarget));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Arm Angle",              &m_loggedArmAngle            ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Arm Angle Target",       &m_loggedArmAngleTarget      ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Wrist Rotation",         &m_loggedWristRotation       ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Wrist Rotation Target",  &m_loggedWristRotationTarget ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Wrist Rotation Offset",  &m_loggedWristRotationOffset ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Gripper Wheels Voltage", &m_loggedGripperVoltage      ));
+    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Gripper Voltage Target", &m_loggedGripperVoltageTarget));
 
     // Configure the elevator motor
     ConfigureElevatorMotor();

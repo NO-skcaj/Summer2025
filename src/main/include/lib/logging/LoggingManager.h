@@ -3,9 +3,8 @@
 #include <vector>
 #include <functional>
 
-#include "lib/logging/BaseLoggedValue.h"
 
-
+/// @brief Class to manage the logging of data
 class LoggingManager
 {
     public:

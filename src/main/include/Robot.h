@@ -8,6 +8,7 @@
 #include "RobotContainer.h"
 
 #include "lib/logging/LoggingManager.h"
+#include "lib/logging/LoggerFactory.h"
 
 #include "Constants/Controller.h"
 #include "constants/Gripper.h"
@@ -36,10 +37,12 @@ class Robot : public frc::TimedRobot
         std::unique_ptr<frc2::Command>  m_autonomousCommand;
 
         // Instantiate the Robot container and get a pointer to the class
-        RobotContainer *m_robotContainer;
+        RobotContainer*                 m_robotContainer;
 
-        bool            m_chassisGyroReversed = false;
+        bool                            m_chassisGyroReversed = false;
 
         // Logging
-        LoggingManager* m_loggingManager;  // The logging manager
+        LoggingManager*                 m_loggingManager;  // The logging manager
+
+        std::string_view                m_loggedDebug;
 };
