@@ -11,7 +11,7 @@
 
 namespace PrepareAndAlign
 {
-    frc2::CommandPtr PrepareAndAlign(Drivetrain *drivetrain, Gripper *gripper, std::pair<frc::Transform2d, GripperPoseEnum> scoreState)
+    inline frc2::CommandPtr PrepareAndAlign(Drivetrain *drivetrain, Gripper *gripper, std::pair<frc::Transform2d, GripperPoseEnum> scoreState)
     {
         return AlignToNearestTag::AlignToNearestTag(drivetrain, scoreState.first)
                .AlongWith(GripperPose::GripperPose(scoreState.second, gripper));
