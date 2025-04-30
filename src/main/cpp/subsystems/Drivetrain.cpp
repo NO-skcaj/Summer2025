@@ -32,10 +32,10 @@ Drivetrain::Drivetrain()
 
     // Configure the AutoBuilder last
     AutoBuilder::configure(
-        [this](){ return GetPose(); }, // Robot pose supplier
-        [this](frc::Pose2d pose){ ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
-        [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        [this](auto speeds, auto feedforwards){ Drive(speeds.vx, speeds.vy, speeds.omega, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+        [this] (){ return GetPose(); },                // Robot pose supplier
+        [this] (frc::Pose2d pose){ ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this] (){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        [this] (auto speeds, auto feedforwards){ Drive(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
             PIDConstants(1.0, 0.0, 0.0), // Translation PID constants
             PIDConstants(1.0, 0.0, 0.0) // Rotation PID constants
@@ -89,21 +89,17 @@ void Drivetrain::Periodic()
 
 /// @brief Method to drive the robot chassis.
 /// @param xSpeed The speed in the X dirction.
-/// @param ySpeed The speed in the Y dirction.
-/// @param rotation The rate of rotation.
 /// @param fieldCentric Boolean to indicate if the robor control should be field centric.
-void Drivetrain::Drive(units::meters_per_second_t  xSpeed,
-                       units::meters_per_second_t  ySpeed,
-                       units::radians_per_second_t rotation,
-                       std::optional<bool>         fieldCentric)
+void Drivetrain::Drive(frc::ChassisSpeeds  speeds,
+                       std::optional<bool> fieldCentric)
 {
     m_previousSetpoint = pathplanner::SwerveSetpoint(this->GetRobotRelativeSpeeds(), this->GetSwerveModuleStates(), DriveFeedforwards::zeros(4));
 
     // Determine the swerve module states
     m_previousSetpoint = m_setpointGenerator.generateSetpoint(m_previousSetpoint,
                                                        fieldCentric.value_or(m_fieldCentricity) ?
-                                                            frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotation, GetRotation2d()) :
-                                                            frc::ChassisSpeeds{xSpeed, ySpeed, rotation},
+                                                            frc::ChassisSpeeds::FromFieldRelativeSpeeds(speeds, GetRotation2d()) :
+                                                            frc::ChassisSpeeds{speeds},
                                                         0.02_s);
 
     // Set the module states

@@ -27,9 +27,9 @@ namespace AlignToNearestTag
     // This command will align the robot to the nearest AprilTag
     // It will use the AprilTag's pose to determine the target position and rotation
     // The robot will drive towards the target position and rotate to face the target rotation
-    inline frc2::CommandPtr AlignToNearestTag(Drivetrain *drivetrain, frc::Pose2d targetOffset = {0_in, 0_in, 0_deg})
+    inline frc2::CommandPtr AlignToNearestTag(Drivetrain *drivetrain, frc::Transform2d targetOffset = {0_in, -18_in, 0_deg})
     {
-        std::function<frc::Pose2d(frc::Pose2d, frc::Pose2d)> getTargetWithOffset = [] (frc::Pose2d targetPosition, frc::Pose2d targetOffset)
+        std::function<frc::Pose2d(frc::Pose2d, frc::Transform2d)> getTargetWithOffset = [] (frc::Pose2d targetPosition, frc::Transform2d targetOffset)
         {
             // Rotate offset
             return frc::Pose2d{

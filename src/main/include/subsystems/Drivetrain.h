@@ -57,10 +57,8 @@ class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
                  
         void                                Periodic() override;
            
-        void                                Drive(units::meters_per_second_t  xSpeed,
-                                                  units::meters_per_second_t  ySpeed,
-                                                  units::radians_per_second_t rotation,
-                                                  std::optional<bool>         fieldCentric);
+        void                                Drive(frc::ChassisSpeeds  speeds,
+                                                  std::optional<bool> fieldCentric);
                   
         void                                BECOMEDEFENSE();                                 // Sets the wheels into an X formation to prevent movement
                   

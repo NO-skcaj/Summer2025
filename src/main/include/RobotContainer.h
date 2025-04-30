@@ -2,11 +2,6 @@
 
 #include <utility>
 
-#include <frc/filter/SlewRateLimiter.h>
-
-#include <frc/XboxController.h>
-#include <frc/Joystick.h>
-
 #include <frc/MathUtil.h>
 #include <frc/PowerDistribution.h>
 
@@ -24,6 +19,7 @@
 #include <cameraserver/CameraServer.h>
 
 #include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 
 // Subsystems
 #include "subsystems/Climb.h"
@@ -32,12 +28,14 @@
 #include "subsystems/Vision.h"
 #include "subsystems/Leds.h"
 
+#include "OperatorController.h"
+#include "DriveController.h"
+
 // Commands
 #include "commands/ChassisDrive.h"
-#include "commands/ChassisDrivePose.h"
 #include "commands/AlignToNearestTag.h"
+#include "commands/AutoScore.h"
 #include "commands/ChassisSetSwerveWheelAnglesToZero.h"
-#include "commands/GripperActivate.h"
 #include "commands/GripperPose.h"
 #include "commands/SetLeds.h"
 
@@ -62,17 +60,7 @@ class RobotContainer
         // Method to get a pointer to the selected autonomous command
         frc2::CommandPtr             GetAutonomousCommand();
 
-        // Methods to get a reference to the robot joysticks
-        frc::Joystick*               GetDriverController();
-        frc::XboxController*         GetOperatorController();
-
-        units::meters_per_second_t   Forward();
-        units::meters_per_second_t   Strafe();
-        units::radians_per_second_t  Angle();
-
         frc2::CommandPtr             SetSwerveWheelAnglesToZero();
-
-        GripperWheelState            PotentiometerWheelVoltage();
 
         frc::Pose2d                  GetChassisPose();
         void                         ReverseChassisGryo();
@@ -86,18 +74,6 @@ class RobotContainer
         // Private class constructor to configure the robot and SmartDashboard configuration
         RobotContainer();
 
-        // Method to bind the joystick controls to the robot commands
-        void                     ConfigureButtonBindings();
-
-        void                     ConfigureDriverControls();
-        void                     ConfigureCoralPoseControls();
-        void                     ConfigureAlgaePoseControls();
-        void                     ConfigureGripperControls();
-        void                     ConfigureClimberControls();
-
-        double                   GetThrottleRange();
-        double                   GetExponentialValue(double joystickValue, double exponent);
-
         // Singleton reference to the class (returned by the GetInstance Method)
         static RobotContainer                *m_robotContainer;
 
@@ -109,14 +85,10 @@ class RobotContainer
 
         frc2::CommandPtr                      m_setSwerveWheelAnglesToZero;
         
-        // Joysticks
-        frc::Joystick                         m_driverController;
-        frc::XboxController                   m_operatorController;
+        // Controllers
+        OperatorController                    m_operatorController;
+        DriveController                       m_driverController;
 
-        // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-        frc::SlewRateLimiter<units::scalar>   m_xspeedLimiter;
-        frc::SlewRateLimiter<units::scalar>   m_yspeedLimiter;
-        frc::SlewRateLimiter<units::scalar>   m_rotLimiter;
 
         frc::SendableChooser<frc2::Command*> m_autoChooser;
 
@@ -125,8 +97,6 @@ class RobotContainer
         cs::VideoSink                         m_server;
         cs::UsbCamera                         m_usbCamera;
         cs::VideoSink                         m_limelightFeed;
-
-        bool                                  m_usbCameraActive = false;
 
         // Logging
         LoggingManager*                      m_loggingManager;

@@ -8,11 +8,9 @@
 
 namespace ChassisDrive
 {
-    inline frc2::CommandPtr ChassisDrive(std::function<units::meters_per_second_t()>  forward,
-                                  std::function<units::meters_per_second_t()>  strafe,
-                                  std::function<units::radians_per_second_t()> angle,
+    inline frc2::CommandPtr ChassisDrive(std::function<frc::ChassisSpeeds()>  speedsGetter,
                                   Drivetrain                                  *drivetrain)
     {
-        return frc2::cmd::Run( [forward, strafe, angle, drivetrain] { drivetrain->Drive(forward(), strafe(), angle(), std::nullopt); }, {drivetrain});
+        return frc2::cmd::Run( [speedsGetter, drivetrain] { drivetrain->Drive(speedsGetter(), std::nullopt); }, {drivetrain});
     }
 }
