@@ -12,7 +12,7 @@ namespace ChassisDrivePose
 {
     const pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq}; // The constraints for this path.
 
-    inline frc2::CommandPtr ChassisDrivePose(auto CommandName)
+    inline frc2::CommandPtr ChassisDrivePose(std::string CommandName)
     {
         return AutoBuilder::followPath(PathPlannerPath::fromPathFile(CommandName));
     }
