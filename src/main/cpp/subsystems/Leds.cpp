@@ -10,6 +10,8 @@ Leds::Leds() : m_led              {Constants::Led::PwmPort},
                                    ).ScrollAtAbsoluteSpeed(0.5_mps, Constants::Led::LedSpacing)},
                m_scrollingRainbow{frc::LEDPattern::Rainbow(255, 128).ScrollAtAbsoluteSpeed(0.5_mps, Constants::Led::LedSpacing)},
 
+               m_ledMode      {LedMode::Rainbow},
+
                m_firstPixelHue{0},
                m_cycleCounter {0}
 {

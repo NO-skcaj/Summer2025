@@ -29,14 +29,16 @@ namespace AlignToNearestTag
     // The robot will drive towards the target position and rotate to face the target rotation
     inline frc2::CommandPtr AlignToNearestTag(Drivetrain *drivetrain, frc::Transform2d targetOffset = {0_in, -18_in, 0_deg})
     {
-        std::function<frc::Pose2d(frc::Pose2d, frc::Transform2d)> getTargetWithOffset = [] (frc::Pose2d targetPosition, frc::Transform2d targetOffset)
-        {
-            // Rotate offset
-            return frc::Pose2d{
-                targetPosition.X() +                  targetOffset.Translation().X() * std::cos(targetPosition.Rotation().Radians().value()) - targetOffset.Translation().Y() * std::sin(targetPosition.Rotation().Radians().value()),
-                targetPosition.Y() +                  targetOffset.Translation().X() * std::sin(targetPosition.Rotation().Radians().value()) + targetOffset.Translation().Y() * std::cos(targetPosition.Rotation().Radians().value()),
-                targetPosition.Rotation().Degrees() + targetOffset.Rotation().Degrees()};
-        };
+        // This doesn't need to be a variable. When I wrote this, I just really liked using lambdas.
+        std::function<frc::Pose2d(frc::Pose2d, frc::Transform2d)> getTargetWithOffset = 
+            [] (frc::Pose2d targetPosition, frc::Transform2d targetOffset)
+            {
+                // Rotate offset
+                return frc::Pose2d{
+                    targetPosition.X() +                  targetOffset.Translation().X() * std::cos(targetPosition.Rotation().Radians().value()) - targetOffset.Translation().Y() * std::sin(targetPosition.Rotation().Radians().value()),
+                    targetPosition.Y() +                  targetOffset.Translation().X() * std::sin(targetPosition.Rotation().Radians().value()) + targetOffset.Translation().Y() * std::cos(targetPosition.Rotation().Radians().value()),
+                    targetPosition.Rotation().Degrees() + targetOffset.Rotation().Degrees()};
+            };
 
         return ChassisDrivePose::ChassisDrivePose(getTargetWithOffset(drivetrain->GetNearestTag(), targetOffset));
     }

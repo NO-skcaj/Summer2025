@@ -3,14 +3,15 @@
 
 /// @brief Constructor for the DriveController class.
 /// @param gripper reference to the gripper subsystem.
-DriveController::DriveController(Drivetrain* drivetrain, Gripper* gripper) : m_driveController {Constants::Controller::DriverControllerUsbPort},
-
-                                                                             m_drivetrain      {drivetrain},
-                                                                             m_gripper         {gripper},
-                     
-                                                                             m_xspeedLimiter   {3 / 1_s},
-                                                                             m_yspeedLimiter   {3 / 1_s},
-                                                                             m_rotLimiter      {3 / 1_s}
+DriveController::DriveController(Drivetrain* drivetrain, Gripper* gripper) 
+    : m_driveController {Constants::Controller::DriverControllerUsbPort},
+      
+      m_xspeedLimiter   {3 / 1_s},
+      m_yspeedLimiter   {3 / 1_s},
+      m_rotLimiter      {3 / 1_s},
+      
+      m_drivetrain      {drivetrain},
+      m_gripper         {gripper}
 {
     // Configure the operator controller
     Configure();
