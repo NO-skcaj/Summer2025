@@ -56,7 +56,7 @@ Drivetrain::Drivetrain()
     );
 
     // Logging callback for current robot pose
-    pathplanner::PathPlannerLogging::setLogCurrentPoseCallback( [this] (frc::Pose2d pose) {
+    PathPlannerLogging::setLogCurrentPoseCallback( [this] (frc::Pose2d pose) {
         // Do whatever you want with the pose here
         m_field.SetRobotPose(pose);
     });
@@ -68,7 +68,7 @@ Drivetrain::Drivetrain()
     });
 
     // Logging callback for the active path, this is sent as a vector of poses
-    pathplanner::PathPlannerLogging::setLogActivePathCallback( [this] (std::vector<frc::Pose2d> poses) {
+    PathPlannerLogging::setLogActivePathCallback( [this] (std::vector<frc::Pose2d> poses) {
         // Do whatever you want with the pose here
         m_field.GetObject("path")->SetTrajectory(frc::TrajectoryGenerator::GenerateTrajectory(poses, frc::TrajectoryConfig(1_mps, 1_mps_sq)));;
     });
@@ -235,7 +235,7 @@ bool Drivetrain::GetFieldCentricity()
 /// @return Pose of the nearest tag
 frc::Pose2d Drivetrain::GetNearestTag()
 {
-    return m_vision.GetNearestTag(frc::Pose3d{GetPose()}).ToPose2d();
+    return m_vision.GetNearestTag(frc::Pose3d{GetPose()});
 }
 
 /// @brief Method to get the relative chassis speeds.

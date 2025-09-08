@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pathplanner/lib/path/PathPlannerPath.h>
+
 #include <units/length.h>
 #include <units/velocity.h>
 #include <units/acceleration.h>
@@ -58,6 +60,11 @@ namespace ChassisPose
     constexpr double PXController           = 4.0;
     constexpr double PYController           = 4.0;
     constexpr double PProfileController     = 5.0;
+}
+
+namespace PathPlanner
+{
+    constexpr pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq};
 }
 
 }

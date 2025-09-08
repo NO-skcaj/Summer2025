@@ -5,13 +5,13 @@
 
 #include <frc2/command/Command.h>
 
+#include "constants/Drivetrain.h"
+
 
 using namespace pathplanner;
 
 namespace ChassisDrivePose
 {
-    const pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq}; // The constraints for this path.
-
     inline frc2::CommandPtr ChassisDrivePose(std::string CommandName)
     {
         return AutoBuilder::followPath(PathPlannerPath::fromPathFile(CommandName));
@@ -19,11 +19,11 @@ namespace ChassisDrivePose
 
     inline frc2::CommandPtr ChassisDrivePose(frc::Pose2d targetPose) // End goal state relative to the origin, blue alliance side
     {
-        return AutoBuilder::pathfindToPose(targetPose, Constraints);
+        return AutoBuilder::pathfindToPose(targetPose, Constants::PathPlanner::Constraints);
     }
 
     inline frc2::CommandPtr ChassisDrivePoseFlipped(frc::Pose2d targetPose) // End goal state relative to the origin, blue alliance side then flipped to red
     {
-        return AutoBuilder::pathfindToPoseFlipped(targetPose, Constraints);
+        return AutoBuilder::pathfindToPoseFlipped(targetPose, Constants::PathPlanner::Constraints);
     }
 };

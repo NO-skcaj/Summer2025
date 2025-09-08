@@ -35,7 +35,7 @@ class Vision
 
         void ResetSimPose(frc::Pose2d pose);
 
-        frc::Pose3d GetNearestTag(frc::Pose3d robotPose);
+        frc::Pose2d GetNearestTag(frc::Pose3d robotPose);
 
     private:
         photon::PhotonPoseEstimator photonEstimator{

@@ -55,17 +55,17 @@ RobotContainer::RobotContainer() : m_climb     {},
     pathplanner::NamedCommands::registerCommand("AlignToNearestTag", AlignToNearestTag::AlignToNearestTag(&m_drivetrain));
     
     // Commands to align with, ready the gripper, and score
-    pathplanner::NamedCommands::registerCommand("ScoreL4", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL4ReefLeft,  GripperPoseEnum::CoralL4}));
-    pathplanner::NamedCommands::registerCommand("ScoreR4", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL4ReefRight, GripperPoseEnum::CoralL4}));
+    pathplanner::NamedCommands::registerCommand("ScoreL4", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL4ReefLeft,  GripperPoseEnum::CoralL4})));
+    pathplanner::NamedCommands::registerCommand("ScoreR4", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL4ReefRight, GripperPoseEnum::CoralL4})));
 
-    pathplanner::NamedCommands::registerCommand("ScoreL3", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefLeft,  GripperPoseEnum::CoralL3}));
-    pathplanner::NamedCommands::registerCommand("ScoreR3", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefRight, GripperPoseEnum::CoralL3}));
+    pathplanner::NamedCommands::registerCommand("ScoreL3", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefLeft,  GripperPoseEnum::CoralL3})));
+    pathplanner::NamedCommands::registerCommand("ScoreR3", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefRight, GripperPoseEnum::CoralL3})));
 
-    pathplanner::NamedCommands::registerCommand("ScoreL2", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefLeft,  GripperPoseEnum::CoralL2}));
-    pathplanner::NamedCommands::registerCommand("ScoreR2", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefRight, GripperPoseEnum::CoralL2}));
+    pathplanner::NamedCommands::registerCommand("ScoreL2", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefLeft,  GripperPoseEnum::CoralL2})));
+    pathplanner::NamedCommands::registerCommand("ScoreR2", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL23ReefRight, GripperPoseEnum::CoralL2})));
 
-    pathplanner::NamedCommands::registerCommand("ScoreL1", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL1ReefLeft,  GripperPoseEnum::CoralL1}));
-    pathplanner::NamedCommands::registerCommand("ScoreR1", AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL1ReefRight, GripperPoseEnum::CoralL1}));
+    pathplanner::NamedCommands::registerCommand("ScoreL1", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL1ReefLeft,  GripperPoseEnum::CoralL1})));
+    pathplanner::NamedCommands::registerCommand("ScoreR1", std::move(AutoScore::AutoScore(&m_drivetrain, &m_gripper, std::pair<frc::Transform2d, GripperPoseEnum>{Constants::ChassisAprilTagToPose::CoralL1ReefRight, GripperPoseEnum::CoralL1})));
 
     // Commands to intake
 
@@ -74,7 +74,7 @@ RobotContainer::RobotContainer() : m_climb     {},
     frc::SmartDashboard::PutData("Autonomous Mode", &m_autoChooser);
 
     // Set the default commands for the subsystems
-    m_drivetrain.SetDefaultCommand(ChassisDrive::ChassisDrive([this] { return m_driverController.GetChassisSpeeds(); },
+    m_drivetrain.SetDefaultCommand(ChassisDrive::ChassisDrive([this] { return m_driverController.GetXChassisSpeeds(); },
                                                               &m_drivetrain));
      
     // Set the LED default command

@@ -11,15 +11,8 @@
 
 #include "commands/ChassisDrivePose.h"
 
+#include "constants/Drivetrain.h"
 
-namespace Constants
-{
-
-    namespace AlignConstraints
-    {
-        constexpr pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq};
-    }
-}
 
 namespace AlignToNearestTag
 {

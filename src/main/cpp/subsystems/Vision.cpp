@@ -94,14 +94,7 @@ void Vision::ResetSimPose(frc::Pose2d pose)
     }
 }
 
-frc::Pose3d Vision::GetNearestTag(frc::Pose3d robotPose)
+frc::Pose2d Vision::GetNearestTag(frc::Pose3d robotPose)
 {
-    // searches through a list of all tags and returns the closest one
-    auto nearestTag = *std::min_element(Constants::Vision::AprilTagLocations::TagsSpan.begin(), Constants::Vision::AprilTagLocations::TagsSpan.end(),
-                                        [robotPose, this](frc::Pose3d a, frc::Pose3d b) {
-                                            return robotPose.Translation().ToTranslation2d().Distance(a.Translation().ToTranslation2d()) < 
-                                                robotPose.Translation().ToTranslation2d().Distance(b.Translation().ToTranslation2d());
-                                        });
-
-    return nearestTag;
+    return robotPose.ToPose2d().Nearest(Constants::Vision::AprilTagLocations::Pose2dTagsSpan);
 }

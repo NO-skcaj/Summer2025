@@ -20,12 +20,12 @@ DriveController::DriveController(Drivetrain* drivetrain, Gripper* gripper)
 /// @brief Method to get the voltage for the gripper wheels based on the potentiometer value.
 void DriveController::Configure()
 {
-    ConfigureDriverControls();
-    ConfigureJogControls();
+    ConfigureXDriverControls();
+    ConfigureXJogControls();
 }
 
 /// @brief Method to bind the driver joystick controls to the robot commands.
-void DriveController::ConfigureDriverControls()
+void DriveController::ConfigureXDriverControls()
 {
     // Drive to position using the AprilTag
     frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleSide)
@@ -58,7 +58,41 @@ void DriveController::ConfigureDriverControls()
     
 }
 
-void DriveController::ConfigureJogControls()
+/// @brief Method to bind the driver joystick controls to the robot commands.
+void DriveController::ConfigureXBoxDriverControls()
+{
+    // Drive to position using the AprilTag
+    frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleSide)
+        .WhileTrue(AlignToNearestTag::AlignToNearestTag(m_drivetrain));
+
+    // Use the trigger to activate the operation (Scores/Intakes Algae/Coral)
+    frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleTrigger)
+        .WhileTrue(GripperActivate(m_gripper).ToPtr());
+
+    // Reset the gyro angle
+    frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleUpperLeft)
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain->ZeroHeading(); }, {m_drivetrain}).ToPtr());
+
+    // Reset the gyro angle
+    frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleUpperRight)
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain->ZeroHeadingReverse(); }, {m_drivetrain}).ToPtr());
+
+    // Set field centricity on
+    frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleLowerLeft)
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain->SetFieldCentricity(true); }, {m_drivetrain}).ToPtr());
+
+    // Set field centricity off
+    frc2::JoystickButton (&m_driveController, Constants::Extreme3D::HandleLowerRight)
+        .OnTrue(frc2::InstantCommand([this] { m_drivetrain->SetFieldCentricity(false); }, {m_drivetrain}).ToPtr());
+
+    // Toggle X mode
+    frc2::JoystickButton (&m_driveController, frc::XboxController::Button::kX)
+        .WhileTrue(frc2::RunCommand([this] { m_drivetrain->BECOMEDEFENSE(); }, {m_drivetrain}).ToPtr());
+
+    
+}
+
+void DriveController::ConfigureXJogControls()
 {
     // *** Jog Controls ***
     frc2::JoystickButton (&m_driveController, Constants::Extreme3D::Handle12)
@@ -80,7 +114,7 @@ void DriveController::ConfigureJogControls()
         .WhileTrue(frc2::RunCommand([this] { m_gripper->SetWristAngleOffset(-Constants::Wrist::AngleOffset);}).ToPtr());
 }
 
-frc::ChassisSpeeds DriveController::GetChassisSpeeds()
+frc::ChassisSpeeds DriveController::GetXChassisSpeeds()
 {
     // Get the forward joystick setting
     double joystickForward = m_driveController.GetRawAxis(Constants::Controller::JoystickForwardIndex);

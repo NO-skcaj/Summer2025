@@ -26,12 +26,15 @@ class DriveController
         public:
             DriveController(Drivetrain* drivetrain, Gripper* gripper);
         
-            frc::ChassisSpeeds GetChassisSpeeds();
+            frc::ChassisSpeeds GetXChassisSpeeds();
 
         private:
             void   Configure();
-            void   ConfigureDriverControls();
-            void   ConfigureJogControls();
+            void   ConfigureXDriverControls();
+            void   ConfigureXJogControls();
+
+            void   ConfigureXBoxDriverControls();
+            void   ConfigureXBoxJogControls();
 
             double GetThrottleRange();
             double GetExponentialValue(double joystickValue, double exponent);
