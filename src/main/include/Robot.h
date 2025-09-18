@@ -13,6 +13,8 @@
 #include "Constants/Controller.h"
 #include "constants/Gripper.h"
 
+#include "commands/SimpleCommands.h"
+
 
 class Robot : public frc::TimedRobot
 {
@@ -34,7 +36,7 @@ class Robot : public frc::TimedRobot
     private:
 
         // Pointer to the autonomous command
-        std::unique_ptr<frc2::Command>  m_autonomousCommand;
+        frc2::Command*  m_autonomousCommand;
 
         // Instantiate the Robot container and get a pointer to the class
         RobotContainer*                 m_robotContainer;

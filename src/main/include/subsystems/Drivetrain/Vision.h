@@ -21,13 +21,13 @@
 class Vision 
 {
     public:
-        Vision();
+        static Vision* GetInstance();
 
         photon::PhotonPipelineResult GetLatestResult() { return m_latestResult; }
 
-        std::optional<photon::EstimatedRobotPose> GetEstimatedGlobalPose();
+        std::optional<std::pair<frc::Pose2d, units::second_t>> GetEstimatedGlobalPose();
 
-        Eigen::Matrix<double, 3, 1> GetEstimationStdDevs(frc::Pose2d estimatedPose);
+        wpi::array<double, 3> GetEstimationStdDevs(frc::Pose2d estimatedPose);
 
         frc::Field2d& GetSimDebugField() { return visionSim->GetDebugField(); }
 
@@ -38,6 +38,10 @@ class Vision
         frc::Pose2d GetNearestTag(frc::Pose3d robotPose);
 
     private:
+        Vision();
+
+        static Vision* m_vision;
+
         photon::PhotonPoseEstimator photonEstimator{
             Constants::Vision::TagLayout,
             photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,

@@ -12,73 +12,49 @@
 #include "constants/CanIds.h"
 #include "constants/Gripper.h"
 #include "constants/GripperPose.h"
- 
+#include "Constants/GripperPoseActivate.h"
 
-enum GripperPoseEnum
-{
-    Home,
 
-    CoralGround,
-    CoralStation,
-    CoralL1,
-    CoralL2,
-    CoralL3,
-    CoralL4,
-    CoralAutonomousL1,
-
-    AlgaeGround,
-    AlgaeOnCoral,
-    AlgaeLow,
-    AlgaeHigh,
-    AlgaeProcessor,
-    AlgaeBarge,
-};
-
-/// @brief Structure to hold a target Gripper wheel state.
-/// @param bothWheels bool
-/// @param voltage    units::voltage::volt_t
-struct GripperWheelState
-{
-    bool                   bothWheels = true;
-    units::voltage::volt_t voltage    = 0_V;
-};
-
-typedef Constants::GripperPose::GripperPoseState GripperPoseState;
+using namespace Constants::GripperPose;
+using namespace Constants::GripperPoseActivate;
 
 class Gripper : public frc2::SubsystemBase
 {
     public:
-
-        explicit               Gripper();
+        static Gripper*        GetInstance();
 
         void                   SetPose(GripperPoseEnum pose);
 
         void                   SetElevatorHeight(units::length::meter_t position);
-        void                   SetElevatorOffset(units::length::meter_t offset);
+        void                   AddElevatorOffset(units::length::meter_t offset);
         units::length::meter_t GetElevatorHeight();
 
         void                   SetArmAngle(units::angle::degree_t angle);
-        void                   SetArmAngleOffset(units::angle::degree_t angleOffset);
+        void                   AddArmAngleOffset(units::angle::degree_t angleOffset);
         units::angle::degree_t GetArmAngle();
 
         void                   SetWristAngle(units::angle::degree_t angle);
-        void                   SetWristAngleOffset(units::angle::degree_t angleOffset);
+        void                   AddWristAngleOffset(units::angle::degree_t angleOffset);
         units::angle::degree_t GetWristAngle();
 
         void                   SetGripperWheelsVoltage(GripperWheelState gripperWheelState);
         void                   SetGripperWheelsVoltage(std::function<GripperWheelState()> gripperWheelState);
         units::voltage::volt_t GetGripperWheelsVoltage();
 
-        GripperPoseEnum        GetPose() { return m_gripperPose; }  // Get the Gripper Pose
+        GripperPoseEnum        GetState() { return m_gripperPose; }  // Get the Gripper Pose
+        GripperActivationData  GetActivationState();               // Get the Gripper Pose State
 
         void                   UpdateLoggedValues();
 
     private:
+        Gripper();
 
         void ConfigureElevatorMotor();
         void ConfigureArmMotor();
         void ConfigureWristMotor();
         void ConfigureGripperMotors();
+
+        static Gripper*          m_gripper;  // The gripper singleton class
 
         hardware::TalonFX        m_elevatorMotor;
                     

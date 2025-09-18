@@ -69,7 +69,7 @@ namespace ChassisAprilTagToPose
                                                 0.0_deg};
 
     //*************************** Algae Barge ***************************************
-    constexpr frc::Transform2d AlgaelBarge{ 20.0_in,
+    constexpr frc::Transform2d AlgaeBarge{ 20.0_in,
                                              0.0_in,
                                              0.0_deg};
 }

@@ -16,13 +16,17 @@ class Climb : public frc2::SubsystemBase
 {
     public:
 
-        explicit Climb(); 
+        static Climb*        GetInstance();
 
         void     SetVoltage(units::volt_t voltage);
 
     private:
 
+        Climb(); 
+
         void ConfigureClimbMotor(int motorCanId);
+
+        static Climb*            m_climb;
 
         hardware::TalonFX       m_climbMotor;
 

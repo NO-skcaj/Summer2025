@@ -1,5 +1,16 @@
-#include "subsystems/Vision.h"
+#include "subsystems/Drivetrain/Vision.h"
 
+
+Vision* Vision::m_vision = nullptr;
+
+Vision* Vision::GetInstance() 
+{
+    if (m_vision == nullptr) 
+    {
+        m_vision = new Vision();
+    }
+    return m_vision;
+}
 
 Vision::Vision() 
 {
@@ -23,63 +34,85 @@ Vision::Vision()
 
         visionSim->AddCamera(cameraSim.get(), Constants::Vision::RobotToCam);
         cameraSim->EnableDrawWireframe(true);
+
+        frc::SmartDashboard::PutData("VisionSimField", &visionSim->GetDebugField());
     }
 }
 
-std::optional<photon::EstimatedRobotPose> Vision::GetEstimatedGlobalPose() {
+std::optional<std::pair<frc::Pose2d, units::second_t>> Vision::GetEstimatedGlobalPose() 
+{
     std::optional<photon::EstimatedRobotPose> visionEst;
 
     // Run each new pipeline result through our pose estimator
-    for (const auto& result : camera.GetAllUnreadResults()) {
+    for (const auto& result : camera.GetAllUnreadResults()) 
+    {
         // cache result and update pose estimator
         auto visionEst = photonEstimator.Update(result);
         m_latestResult = result;
 
         // In sim only, add our vision estimate to the sim debug field
-        if (frc::RobotBase::IsSimulation()) {
-        if (visionEst) {
-            GetSimDebugField()
-                .GetObject("VisionEstimation")
-                ->SetPose(visionEst->estimatedPose.ToPose2d());
-        } else {
-            GetSimDebugField().GetObject("VisionEstimation")->SetPoses({});
-        }
+        if (frc::RobotBase::IsSimulation()) 
+        {
+            if (visionEst) 
+            {
+                GetSimDebugField()
+                    .GetObject("VisionEstimation")
+                    ->SetPose(visionEst->estimatedPose.ToPose2d());
+            } else {
+                GetSimDebugField().GetObject("VisionEstimation")->SetPoses({});
+            }
         }
     }
 
-    return visionEst;
+    // Check if the vision estimate is valid
+    if (visionEst.has_value()) 
+    {
+        // Get the vision measurement pose
+        auto estPose = visionEst.value().estimatedPose.ToPose2d();
+
+        // Add the vision measurement to the odometry
+        return std::optional<std::pair<frc::Pose2d, units::second_t>>{{estPose, visionEst.value().timestamp}};
+    }
+
+    return std::nullopt;
 }
 
-Eigen::Matrix<double, 3, 1> Vision::GetEstimationStdDevs(frc::Pose2d estimatedPose) {
+wpi::array<double, 3> Vision::GetEstimationStdDevs(frc::Pose2d estimatedPose) 
+{
     Eigen::Matrix<double, 3, 1> estStdDevs =
         Constants::Vision::SingleTagStdDevs;
     auto targets = GetLatestResult().GetTargets();
     int numTags = 0;
     units::meter_t avgDist = 0_m;
-    for (const auto& tgt : targets) {
+    for (const auto& tgt : targets) 
+    {
         auto tagPose =
             photonEstimator.GetFieldLayout().GetTagPose(tgt.GetFiducialId());
-        if (tagPose) {
+        if (tagPose) 
+        {
         numTags++;
         avgDist += tagPose->ToPose2d().Translation().Distance(
             estimatedPose.Translation());
         }
     }
-    if (numTags == 0) {
-        return estStdDevs;
+    if (numTags == 0) 
+    {
+        return {estStdDevs[0], estStdDevs[1], estStdDevs[2]};
     }
     avgDist /= numTags;
-    if (numTags > 1) {
+    if (numTags > 1) 
+    {
         estStdDevs = Constants::Vision::MultiTagStdDevs;
     }
-    if (numTags == 1 && avgDist > 4_m) {
+    if (numTags == 1 && avgDist > 4_m) 
+    {
         estStdDevs = (Eigen::MatrixXd(3, 1) << std::numeric_limits<double>::max(),
                       std::numeric_limits<double>::max(),
                       std::numeric_limits<double>::max()).finished();
     } else {
         estStdDevs = estStdDevs * (1 + (avgDist.value() * avgDist.value() / 30));
     }
-    return estStdDevs;
+    return {estStdDevs[0], estStdDevs[1], estStdDevs[2]};
 }
 
 void Vision::SimPeriodic(frc::Pose2d robotSimPose) 
@@ -89,7 +122,8 @@ void Vision::SimPeriodic(frc::Pose2d robotSimPose)
 
 void Vision::ResetSimPose(frc::Pose2d pose) 
 {
-    if (frc::RobotBase::IsSimulation()) {
+    if (frc::RobotBase::IsSimulation()) 
+    {
         this->visionSim->ResetRobotPose(pose);
     }
 }

@@ -22,6 +22,25 @@ namespace Constants
 
 namespace GripperPose
 {
+    enum class GripperPoseEnum
+    {
+        Home,
+
+        CoralGround,
+        CoralStation,
+        CoralL1,
+        CoralL2,
+        CoralL3,
+        CoralL4,
+        CoralAutonomousL1,
+
+        AlgaeGround,
+        AlgaeOnCoral,
+        AlgaeLow,
+        AlgaeHigh,
+        AlgaeProcessor,
+        AlgaeBarge,
+    };
 
     struct GripperPoseState
     {
@@ -30,6 +49,12 @@ namespace GripperPose
         units::degree_t WristAngle;
         bool            GripperBothWheels;
         units::volt_t   GripperVoltage;
+    };
+
+    struct GripperWheelState
+    {
+        bool                   bothWheels = true;
+        units::voltage::volt_t voltage    = 0_V;
     };
 
     namespace Coral

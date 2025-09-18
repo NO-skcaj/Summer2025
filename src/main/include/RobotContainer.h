@@ -3,7 +3,6 @@
 #include <utility>
 
 #include <frc/MathUtil.h>
-#include <frc/PowerDistribution.h>
 
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/trajectory/Trajectory.h>
@@ -23,21 +22,14 @@
 
 // Subsystems
 #include "subsystems/Climb.h"
-#include "subsystems/Drivetrain.h"
+#include "subsystems/Drivetrain/Drivetrain.h"
 #include "subsystems/Gripper.h"
-#include "subsystems/Vision.h"
 #include "subsystems/Leds.h"
 
-#include "OperatorController.h"
-#include "DriveController.h"
+#include "Controller.h"
 
 // Commands
-#include "commands/ChassisDrive.h"
-#include "commands/AlignToNearestTag.h"
-#include "commands/AutoScore.h"
-#include "commands/ChassisSetSwerveWheelAnglesToZero.h"
-#include "commands/GripperPose.h"
-#include "commands/SetLeds.h"
+#include "commands/SimpleCommands.h"
 
 #include "Constants/Controller.h"
 #include "Constants/ChassisPoseAprilTag.h"
@@ -55,19 +47,10 @@ class RobotContainer
     public:
 
         // Method that returns a pointer to the singleton instance of the RobotContainer class
-        static RobotContainer       *GetInstance();
+        static RobotContainer*       GetInstance();
 
         // Method to get a pointer to the selected autonomous command
-        frc2::CommandPtr             GetAutonomousCommand();
-
-        frc2::CommandPtr             SetSwerveWheelAnglesToZero();
-
-        frc::Pose2d                  GetChassisPose();
-        void                         ReverseChassisGryo();
-
-        Gripper                     *GetGripper();
-
-        frc::PowerDistribution      *GetPowerDistribution();
+        frc2::Command*             GetAutonomousCommand();
 
     private:
 
@@ -78,21 +61,16 @@ class RobotContainer
         static RobotContainer                *m_robotContainer;
 
         // Instantiate the robot subsystems
-        Climb                                 m_climb;
-        Drivetrain                            m_drivetrain;
-        Gripper                               m_gripper;
-        Leds                                  m_leds;
-
-        frc2::CommandPtr                      m_setSwerveWheelAnglesToZero;
+        Climb*                                m_climb;
+        Drivetrain*                           m_drivetrain;
+        Gripper*                              m_gripper;
+        Odometry*                             m_odometry;
+        Leds*                                 m_leds;
         
         // Controllers
-        OperatorController                    m_operatorController;
-        DriveController                       m_driverController;
+        Controller                            m_controller;
 
-
-        frc::SendableChooser<frc2::Command*> m_autoChooser;
-
-        frc::PowerDistribution                m_powerDistribution;
+        frc::SendableChooser<frc2::Command*>  m_autoChooser;
 
         cs::VideoSink                         m_server;
         cs::UsbCamera                         m_usbCamera;

@@ -69,7 +69,8 @@ void SwerveModule::ConfigureAngleMotor()
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& desiredState, std::string description)
 {
     // Optimize the reference state to avoid spinning further than 90 degrees.
-    desiredState.Optimize(frc::Rotation2d(units::radian_t{m_angleMotor.GetPosition().value() * Constants::Drivetrain::AngleRadiansToMotorRevolutions}));
+    desiredState.Optimize(GetPosition().angle);
+    desiredState.speed *= (desiredState.angle - GetPosition().angle).Cos();
 
     // Set the motor speed and angle
     m_driveMotor.SetSpeed(units::turns_per_second_t(desiredState.speed.value() / Constants::Drivetrain::DriveMotorConversion.value()));
@@ -85,7 +86,7 @@ frc::SwerveModuleState SwerveModule::GetState()
     auto driveVelocity = units::meters_per_second_t {
         (double) m_driveMotor.GetVelocity() * Constants::Drivetrain::DriveMotorConversion.value()};
 
-    auto anglePosition = units::radian_t{m_angleMotor.GetPosition() * Constants::Drivetrain::AngleRadiansToMotorRevolutions};
+    auto anglePosition = units::radian_t{m_angleMotor.GetPosition() * Constants::Drivetrain::AngleRadiansToMotorRevolutions}; // ????
 
     // Return the swerve module state
     return {driveVelocity, anglePosition};

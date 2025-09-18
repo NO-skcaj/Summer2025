@@ -11,7 +11,7 @@
 
 
 /// @brief modes for the LED string.
-enum LedMode
+enum class LedMode
 {
     Off,
     SolidGreen,
@@ -25,13 +25,14 @@ enum LedMode
 class Leds : public frc2::SubsystemBase
 {
     public:
-
-        explicit Leds();
+        static Leds* GetInstance();
 
         void     Periodic() override;
         void     SetMode(LedMode ledMode);
 
     private:
+
+        Leds();
 
         void Off();
         void SolidColor(int red, int green, int blue);
@@ -39,6 +40,8 @@ class Leds : public frc2::SubsystemBase
         void HvaColors();
         void Strobe();
         void ShootingAnimation();
+
+        static Leds*         m_ledInstance;
 
         frc::AddressableLED m_led;
 

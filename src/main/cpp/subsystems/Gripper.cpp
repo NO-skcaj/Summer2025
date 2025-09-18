@@ -3,6 +3,17 @@
 
 using namespace Constants::CanIds;
 
+Gripper* Gripper::m_gripper = nullptr;
+
+Gripper* Gripper::GetInstance()
+{
+    if (m_gripper == nullptr)
+    {
+        m_gripper = new Gripper();
+    }
+    return m_gripper;
+}
+
 /// @brief The Constructor for the Gripper class.
 Gripper::Gripper() : m_elevatorMotor    {ElevatorMotorCanId},
                      m_armMotor         {ArmMotorCanId},
@@ -266,7 +277,7 @@ void Gripper::SetElevatorHeight(units::length::meter_t position)
 
 /// @brief Moves the elevator by the given offset
 /// @param offset The Given offset
-void Gripper::SetElevatorOffset(units::length::meter_t offset)
+void Gripper::AddElevatorOffset(units::length::meter_t offset)
 {
     // Set the elevator height based on the offset
     SetElevatorHeight(GetElevatorHeight() + offset);
@@ -303,7 +314,7 @@ void Gripper::SetArmAngle(units::angle::degree_t angle)
 
 /// @brief Method to set the arm angle.
 /// @param position The setpoint for the arm angle. Takes -180 -> 180
-void Gripper::SetArmAngleOffset(units::angle::degree_t angleOffset)
+void Gripper::AddArmAngleOffset(units::angle::degree_t angleOffset)
 {
     // Set the arm angle based on the offset
     SetArmAngle(GetArmAngle() + angleOffset);
@@ -344,7 +355,7 @@ void Gripper::SetWristAngle(units::angle::degree_t angle)
 
 /// @brief Method to set the Wrist angle.
 /// @param position The setpoint for the Wrist angle.
-void Gripper::SetWristAngleOffset(units::angle::degree_t angleOffset)
+void Gripper::AddWristAngleOffset(units::angle::degree_t angleOffset)
 {
     // Increase the wrist angle offset
     m_wristAngleOffset += angleOffset;
@@ -387,6 +398,38 @@ void Gripper::SetGripperWheelsVoltage(std::function<GripperWheelState()> gripper
 {
     // Set the voltage of the Gripper wheels
     SetGripperWheelsVoltage(gripperWheelState());
+}
+
+GripperActivationData Gripper::GetActivationState()
+{
+    switch (this->GetState())
+    {
+        case GripperPoseEnum::CoralL1:
+        case GripperPoseEnum::CoralAutonomousL1:
+            return Constants::GripperPoseActivate::Coral1;
+            break;
+
+        case GripperPoseEnum::CoralL2:
+        case GripperPoseEnum::CoralL3:
+            return Constants::GripperPoseActivate::Coral23;
+            break;
+
+        case GripperPoseEnum::CoralL4:
+            return Constants::GripperPoseActivate::Coral4;
+            break;
+
+        case GripperPoseEnum::AlgaeProcessor:
+            return Constants::GripperPoseActivate::AlgaeProcessor;
+            break;
+
+        case GripperPoseEnum::AlgaeBarge:
+            return Constants::GripperPoseActivate::AlgaeBarge;
+            break;
+
+        default:
+            break;
+    }
+    return GripperActivationData{};
 }
 
 /// @brief Method to get the Gripper wheels voltage.

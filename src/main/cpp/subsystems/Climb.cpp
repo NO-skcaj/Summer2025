@@ -3,6 +3,17 @@
 
 using namespace Constants::CanIds;
 
+Climb* Climb::m_climb = nullptr;
+
+Climb* Climb::GetInstance()
+{
+    if (m_climb == nullptr)
+    {
+        m_climb = new Climb();
+    }
+    return m_climb;
+}
+
 /// @brief Class to support the Climb subsystem.
 Climb::Climb() : m_climbMotor    {ClimbMotorCanId},
                  m_climbLimit    {Constants::Climb::ClimbLimitSwtich},
@@ -38,8 +49,8 @@ void Climb::ConfigureClimbMotor(int motorCanId)
 void Climb::SetVoltage(units::volt_t voltage)
 {
     // Determine the motor diretion (up or down)
-    if ((voltage > 0_V && m_climbLimit   == 1) ||
-        (voltage < 0_V && m_captureLimit == 1))
+    if ((voltage > 0_V && Constants::Climb::ClimbLimitSwtich   == 1) ||
+        (voltage < 0_V && Constants::Climb::CaptureLimitSwitch == 1))
     {
         // Stop the motor
         m_climbMotor.SetSpeed(0_V);

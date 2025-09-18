@@ -3,9 +3,20 @@
 
 using namespace std;
 
+Leds* Leds::m_ledInstance = nullptr;
+
+Leds* Leds::GetInstance()
+{
+    if (m_ledInstance == nullptr)
+    {
+        m_ledInstance = new Leds();
+    }
+    return m_ledInstance;
+}
+
 /// @brief Class to support an addressable LED string.
-Leds::Leds() : m_led              {Constants::Led::PwmPort},
-               m_shooting         {frc::LEDPattern::Gradient(frc::LEDPattern::kDiscontinuous, 
+Leds::Leds() : m_led          {Constants::Led::PwmPort},
+               m_shooting     {frc::LEDPattern::Gradient(frc::LEDPattern::kDiscontinuous, 
                                    std::array<frc::Color, 2>{frc::Color::kRed, frc::Color::kBlack}
                                    ).ScrollAtAbsoluteSpeed(0.5_mps, Constants::Led::LedSpacing)},
                m_scrollingRainbow{frc::LEDPattern::Rainbow(255, 128).ScrollAtAbsoluteSpeed(0.5_mps, Constants::Led::LedSpacing)},
