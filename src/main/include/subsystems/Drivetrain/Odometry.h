@@ -3,6 +3,8 @@
 #include <frc/geometry/Pose2d.h>
 
 #include <frc/kinematics/SwerveDriveKinematics.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
+#include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
 
 #include "lib/hardware/Navx.h"
@@ -40,7 +42,10 @@ class Odometry : public frc2::SubsystemBase
         Vision*          m_vision;
 
         // Odometry class for tracking robot pose for the swerve modules modules
-        frc::SwerveDrivePoseEstimator<4>     m_estimator;
+        frc::SwerveDriveOdometry<4>     m_estimator;
 
         frc::SwerveDriveKinematics<4>        m_kinematics;
+        nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModuleStatePublisher;
+        nt::DoubleArrayPublisher                         m_loggedModulePositionsPublisher;
+        nt::StructPublisher<frc::Pose2d>                 m_loggedPosePublisher;
 };

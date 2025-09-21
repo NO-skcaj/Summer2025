@@ -91,5 +91,5 @@ class Drivetrain : public frc2::SubsystemBase
 
         // Logging
         double                   m_loggedGyro;
-        nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModulePublisher;
+        nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModuleStatePublisher;
 };

@@ -40,7 +40,7 @@ void Navx::SetOffset(frc::Rotation3d offset)
     m_offset = offset;
 }
 
-void Navx::SimUpdate(units::radians_per_second_t rate)
+void Navx::SimPeriodic(units::radians_per_second_t rate)
 {
     m_simRate = rate;
     m_simYaw += m_simRate * 0.02_s; // assuming 20ms loop time

@@ -74,21 +74,38 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& desiredState)
     // desiredState.speed *= (desiredState.angle - GetPosition().angle).Cos();
 
     // Set the motor speed and angle
-    m_driveMotor.SetSpeed(units::turns_per_second_t(desiredState.speed.value() / Constants::Drivetrain::DriveMotorConversion.value()));
+    if (frc::RobotBase::IsSimulation())
+    {
+        m_driveMotor.SetSpeed(units::turns_per_second_t(desiredState.speed.value()));
 
-    m_angleMotor.SetPosition(units::turn_t(desiredState.angle.Radians().value() * Constants::Drivetrain::AngleRadiansToMotorRevolutions));
+        m_angleMotor.SetPosition(units::turn_t(desiredState.angle.Radians().value()));
+    } else
+    {
+        m_driveMotor.SetSpeed(units::turns_per_second_t(desiredState.speed.value() / Constants::Drivetrain::DriveMotorConversion.value()));
 
+        m_angleMotor.SetPosition(units::turn_t(desiredState.angle.Radians().value() * Constants::Drivetrain::AngleRadiansToMotorRevolutions));
+    }
 }
 
 /// @brief  Method to retrieve the swerve module state.
 /// @return The swerve module speed and angle state.
 frc::SwerveModuleState SwerveModule::GetState()
 {
+    units::meters_per_second_t driveVelocity;
+    units::radian_t            anglePosition;
+
     // Determine the module wheel velocity
-    auto driveVelocity = units::meters_per_second_t{m_driveMotor.GetVelocity().value() * Constants::Drivetrain::DriveMotorConversion.value()};
+    if (frc::RobotBase::IsSimulation())
+    {
+        driveVelocity = units::meters_per_second_t{m_driveMotor.GetVelocity().value()};
 
-    auto anglePosition = units::radian_t{m_angleMotor.GetPosition().value() / Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()}; // ????
+        anglePosition = units::radian_t{m_angleMotor.GetPosition().value()};
+    } else
+    {
+        driveVelocity = units::meters_per_second_t{m_driveMotor.GetVelocity().value() * Constants::Drivetrain::DriveMotorConversion.value()};
 
+        anglePosition = units::radian_t{m_angleMotor.GetPosition().value() / Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()}; // ????
+    }
     // Return the swerve module state
     return {driveVelocity, anglePosition};
 }
@@ -96,10 +113,24 @@ frc::SwerveModuleState SwerveModule::GetState()
 /// @brief Method to retrieve the swerve module position.
 frc::SwerveModulePosition SwerveModule::GetPosition()
 {
+    units::meter_t  drivePosition;
+    units::radian_t anglePosition;
+    
     // Determine the module wheel position
-    auto drivePosition = m_driveMotor.GetPosition().value() * Constants::Drivetrain::DriveMotorConversion;
+    if (frc::RobotBase::IsSimulation())
+    {
+        drivePosition = m_driveMotor.GetPosition().value() * 1.0_m; // Conversion factor is 1 in sim
 
-    auto anglePosition = units::radian_t{m_angleMotor.GetPosition().value() / Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()};
+        anglePosition = units::radian_t{m_angleMotor.GetPosition().value()};
+
+        // Return the swerve module position
+        return {drivePosition, anglePosition};
+    } else
+    {
+        drivePosition = m_driveMotor.GetPosition().value() * Constants::Drivetrain::DriveMotorConversion;
+
+        anglePosition = units::radian_t{m_angleMotor.GetPosition().value() / Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()};
+    }
 
     // Return the swerve module position
     return {drivePosition, anglePosition};

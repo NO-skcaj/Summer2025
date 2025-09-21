@@ -27,7 +27,7 @@ Drivetrain::Drivetrain()
 
       // Logging
       m_loggedGyro           {0.0},
-      m_loggedModulePublisher{nt::NetworkTableInstance::GetDefault()
+      m_loggedModuleStatePublisher{nt::NetworkTableInstance::GetDefault()
                 .GetStructArrayTopic<frc::SwerveModuleState>("/Data/SwerveStates").Publish()}
 {
     // Usage reporting for MAXSwerve template
@@ -59,7 +59,7 @@ void Drivetrain::Drive(frc::ChassisSpeeds speeds, bool centricity)
             : speeds);
     SetModuleStates(states);
 
-    m_loggedModulePublisher.Set(GetModuleStates());
+    m_loggedModuleStatePublisher.Set(GetModuleStates());
 }
 
 /// @brief Method to reset the drive encoders for each swerve module.
@@ -115,6 +115,12 @@ wpi::array<frc::SwerveModuleState, 4> Drivetrain::GetModuleStates()
 /// @brief Method to set the swerve wheel to the absoulute encoder angle then zero the PID controller angle.
 void Drivetrain::SetWheelAnglesToZero()
 {
+    // We don't want to do this in sim; there isnt actual motors
+    if (frc::RobotBase::IsSimulation())
+    {
+        return;
+    }
+
     // Set the swerve wheel angles to zero
     m_frontLeft. SetWheelAngleToForward(Constants::Drivetrain::FrontLeftForwardAngle);
     m_frontRight.SetWheelAngleToForward(Constants::Drivetrain::FrontRightForwardAngle);

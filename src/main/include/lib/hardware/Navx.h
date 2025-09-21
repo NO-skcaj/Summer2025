@@ -33,7 +33,7 @@ class Navx : Gyro
         // Set the offset of the gyro
         void SetOffset(frc::Rotation3d offset);
 
-        void SimUpdate(units::radians_per_second_t rate); // updates in sim
+        void SimPeriodic(units::radians_per_second_t rate); // updates in sim
 
     private:
         // Constructor for the NavX class

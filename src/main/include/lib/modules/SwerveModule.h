@@ -4,6 +4,8 @@
 #include <cmath>
 #include "string.h"
 
+#include <frc/RobotBase.h>
+
 #include <ctre/phoenix6/CANcoder.hpp>
 #include <ctre/phoenix6/configs/Configs.hpp>
 #include <ctre/phoenix6/TalonFX.hpp>

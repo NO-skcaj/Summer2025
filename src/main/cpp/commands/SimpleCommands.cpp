@@ -49,7 +49,7 @@ frc2::CommandPtr ChassisDrive(std::function<frc::ChassisSpeeds()>  speedsGetter)
 frc2::CommandPtr ChassisZeroHeading()
 {
     return frc2::InstantCommand(
-        [] {Drivetrain::GetInstance()->ZeroHeading(); }, {Drivetrain::GetInstance()}).ToPtr();
+        [] {hardware::Navx::GetInstance()->ResetYaw(); }, {Drivetrain::GetInstance()}).ToPtr();
 }
 
 frc2::CommandPtr FlipFieldCentricity()
@@ -61,17 +61,20 @@ frc2::CommandPtr FlipFieldCentricity()
 
 frc2::CommandPtr ChassisDrivePose(std::string CommandName)
 {
-    return AutoBuilder::followPath(PathPlannerPath::fromPathFile(CommandName));
+    // return AutoBuilder::followPath(PathPlannerPath::fromPathFile(CommandName));
+    return frc2::WaitCommand(0.0_s).ToPtr(); // Placeholder until we have paths
 }
 
 frc2::CommandPtr ChassisDrivePose(frc::Pose2d targetPose) // End goal state relative to the origin, blue alliance side
 {
-    return AutoBuilder::pathfindToPose(targetPose, Constants::PathPlanner::Constraints);
+    // return AutoBuilder::pathfindToPose(targetPose, Constants::PathPlanner::Constraints);
+    return frc2::WaitCommand(0.0_s).ToPtr(); // Placeholder until we have paths
 }
 
 frc2::CommandPtr ChassisDrivePoseFlipped(frc::Pose2d targetPose) // End goal state relative to the origin, blue alliance side then flipped to red
 {
-    return AutoBuilder::pathfindToPoseFlipped(targetPose, Constants::PathPlanner::Constraints);
+    // return AutoBuilder::pathfindToPoseFlipped(targetPose, Constants::PathPlanner::Constraints);
+    return frc2::WaitCommand(0.0_s).ToPtr(); // Placeholder until we have paths
 }
 
 // This command will align the robot to the nearest AprilTag
