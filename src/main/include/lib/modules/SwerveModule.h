@@ -29,7 +29,6 @@
 
 #include "lib/hardware/CANCoder.h"
 #include "lib/hardware/TalonFX.h"
-#include "lib/hardware/SparkMax.h"
 
 #include "constants/Drivetrain.h"
 #include "constants/Controller.h"
@@ -42,7 +41,7 @@ class SwerveModule
 
         explicit                   SwerveModule(int driveMotorCanId, int angleMotorCanId, int angleEncoderCanId);
 
-        void                       SetDesiredState(frc::SwerveModuleState& state, std::string description);  // Sets the desired state for the module
+        void                       SetDesiredState(frc::SwerveModuleState& state);  // Sets the desired state for the module
 
         frc::SwerveModuleState     GetState();                                            // Returns the current state of the module
 
@@ -52,6 +51,8 @@ class SwerveModule
 
         void                       SetWheelAngleToForward(units::angle::radian_t desiredAngle);
 
+        void                       SimPeriodic();
+
     private:
 
         void                       ConfigureDriveMotor();
@@ -59,7 +60,7 @@ class SwerveModule
 
         units::angle::radian_t     GetAbsoluteEncoderAngle();
 
-        hardware::TalonFX  m_driveMotor;
-        hardware::SparkMax m_angleMotor;
-        hardware::CANCoder m_angleAbsoluteEncoder;
+        hardware::TalonFX   m_driveMotor;
+        hardware::TalonFX   m_angleMotor;
+        hardware::CANCoder  m_angleAbsoluteEncoder;
 };

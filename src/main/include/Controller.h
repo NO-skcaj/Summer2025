@@ -23,24 +23,24 @@ class Controller
         public:
             Controller();
         
-            std::function<frc::ChassisSpeeds()> GetChassisSpeeds();
+            std::function<frc::ChassisSpeeds()> GetChassisSpeedsGetter();
 
         private:
-            void              ConfigureOperator();
+            void                                ConfigureOperator();
 
-            GripperWheelState GetWheelInput();
+            GripperWheelState                   GetWheelInput();
 
-            void              ConfigureDriverControls();
-            void              ConfigureDriverJogControls();
+            void                                ConfigureDriverControls();
+            void                                ConfigureDriverJogControls();
         
-            double            GetThrottleRange();
-            double            GetExponentialValue(double joystickValue, double exponent);
+            double                              GetThrottleRange();
+            double                              GetExponentialValue(double joystickValue, double exponent);
             
-            frc::Joystick       m_driveController;
-            frc::XboxController m_operatorController;
+            frc::XboxController                 m_driveController;
+            frc::XboxController                 m_operatorController;
 
             // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-            frc::SlewRateLimiter<units::scalar>   m_xspeedLimiter;
-            frc::SlewRateLimiter<units::scalar>   m_yspeedLimiter;
-            frc::SlewRateLimiter<units::scalar>   m_rotLimiter;
+            frc::SlewRateLimiter<units::scalar> m_xspeedLimiter;
+            frc::SlewRateLimiter<units::scalar> m_yspeedLimiter;
+            frc::SlewRateLimiter<units::scalar> m_rotLimiter;
 };

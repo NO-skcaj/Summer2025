@@ -7,8 +7,8 @@ using namespace Constants::CanIds;
 /// @param angleMotorCanId The CAN ID for the swerve module angle motor.
 /// @param angleEncoderCanId The CAN ID for the swerve module angle encoder.
 SwerveModule::SwerveModule(int driveMotorCanId, int angleMotorCanId, int angleEncoderCanId) :
-                           m_driveMotor(driveMotorCanId),
-                           m_angleMotor(angleMotorCanId, true),
+                           m_driveMotor(hardware::TalonFX{driveMotorCanId}),
+                           m_angleMotor(hardware::TalonFX{angleMotorCanId}),
                            m_angleAbsoluteEncoder(angleEncoderCanId)
 
 {
@@ -45,7 +45,7 @@ void SwerveModule::ConfigureDriveMotor()
 /// @brief Method to configure the angle motor and encoder.
 void SwerveModule::ConfigureAngleMotor()
 {
-    hardware::SparkMaxConfiguration sparkMaxConfig
+    hardware::TalonMotorConfiguration sparkMaxConfig
     {
         hardware::MotorConfiguration::NeutralMode::Brake,
         units::ampere_t{Constants::Drivetrain::AngleMaximumAmperage},
@@ -53,10 +53,11 @@ void SwerveModule::ConfigureAngleMotor()
         Constants::Drivetrain::AngleP,
         Constants::Drivetrain::AngleI,
         Constants::Drivetrain::AngleD,
-        false,
-        true,
         0.0,
-        2.0 * std::numbers::pi
+        0.0,
+        0.0_tps,
+        0.0_tr_per_s_sq,
+        0.0_tr_per_s_cu
     };
 
     // Write the configuration to the motor controller
@@ -66,16 +67,17 @@ void SwerveModule::ConfigureAngleMotor()
 /// @brief Method to set the swerve module state to the desired state.
 /// @param desiredState The desired swerve module velocity and angle.
 /// @param description String to show the module state on the SmartDashboard.
-void SwerveModule::SetDesiredState(frc::SwerveModuleState& desiredState, std::string description)
+void SwerveModule::SetDesiredState(frc::SwerveModuleState& desiredState)
 {
     // Optimize the reference state to avoid spinning further than 90 degrees.
     desiredState.Optimize(GetPosition().angle);
-    desiredState.speed *= (desiredState.angle - GetPosition().angle).Cos();
+    // desiredState.speed *= (desiredState.angle - GetPosition().angle).Cos();
 
     // Set the motor speed and angle
     m_driveMotor.SetSpeed(units::turns_per_second_t(desiredState.speed.value() / Constants::Drivetrain::DriveMotorConversion.value()));
-    
+
     m_angleMotor.SetPosition(units::turn_t(desiredState.angle.Radians().value() * Constants::Drivetrain::AngleRadiansToMotorRevolutions));
+
 }
 
 /// @brief  Method to retrieve the swerve module state.
@@ -83,10 +85,9 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& desiredState, std::st
 frc::SwerveModuleState SwerveModule::GetState()
 {
     // Determine the module wheel velocity
-    auto driveVelocity = units::meters_per_second_t {
-        (double) m_driveMotor.GetVelocity() * Constants::Drivetrain::DriveMotorConversion.value()};
+    auto driveVelocity = units::meters_per_second_t{m_driveMotor.GetVelocity().value() * Constants::Drivetrain::DriveMotorConversion.value()};
 
-    auto anglePosition = units::radian_t{m_angleMotor.GetPosition() * Constants::Drivetrain::AngleRadiansToMotorRevolutions}; // ????
+    auto anglePosition = units::radian_t{m_angleMotor.GetPosition().value() / Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()}; // ????
 
     // Return the swerve module state
     return {driveVelocity, anglePosition};
@@ -96,10 +97,9 @@ frc::SwerveModuleState SwerveModule::GetState()
 frc::SwerveModulePosition SwerveModule::GetPosition()
 {
     // Determine the module wheel position
-    auto drivePosition = units::meter_t{
-        ((double) m_driveMotor.GetPosition()) * Constants::Drivetrain::DriveMotorConversion.value()};
+    auto drivePosition = m_driveMotor.GetPosition().value() * Constants::Drivetrain::DriveMotorConversion;
 
-    auto anglePosition = units::radian_t{m_angleMotor.GetPosition() * Constants::Drivetrain::AngleRadiansToMotorRevolutions};
+    auto anglePosition = units::radian_t{m_angleMotor.GetPosition().value() / Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()};
 
     // Return the swerve module position
     return {drivePosition, anglePosition};
@@ -119,7 +119,7 @@ void SwerveModule::SetWheelAngleToForward(units::angle::radian_t forwardAngle)
     m_driveMotor.SetPosition(0_tr);
 
     // Set the motor angle encoder position to the forward direction
-    m_angleMotor.OffsetEncoder(units::turn_t((GetAbsoluteEncoderAngle().value() - forwardAngle.value()) * Constants::Drivetrain::AngleRadiansToMotorRevolutions));
+    m_angleMotor.OffsetEncoder(units::turn_t((GetAbsoluteEncoderAngle().value() - forwardAngle.value()) * Constants::Drivetrain::AngleRadiansToMotorRevolutions.value()));
 
     // Set the motor angle to the forward direction
     m_angleMotor.SetPosition(0.0_tr);
@@ -134,4 +134,10 @@ units::angle::radian_t SwerveModule::GetAbsoluteEncoderAngle()
 
     // To convert to radians
     return encoderValue * 2.0_rad * std::numbers::pi;
+}
+
+void SwerveModule::SimPeriodic()
+{
+    m_driveMotor.SimPeriodic();
+    m_angleMotor.SimPeriodic();
 }

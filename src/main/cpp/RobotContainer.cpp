@@ -1,8 +1,6 @@
 #include "RobotContainer.h"
 
 
-using namespace pathplanner;
-
 // Reference to the RobotContainer singleton class
 RobotContainer *RobotContainer::m_robotContainer = NULL;
 
@@ -28,44 +26,17 @@ RobotContainer::RobotContainer() : m_climb     {Climb::GetInstance()},
                                    m_odometry  {Odometry::GetInstance()},
                                    m_leds      {Leds::GetInstance()},
 
-                                   m_controller        {},
+                                   m_controller{},
 
                                    // Logging       
-                                   m_loggingManager            {LoggingManager::GetInstance()},
-                                   m_loggedPotentiometer       {0.0}
+                                   m_loggingManager     {LoggingManager::GetInstance()},
+                                   m_loggedPotentiometer{0.0}
 
 {
-    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Drivetrain",    m_drivetrain));
     m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Potentiometer", &m_loggedPotentiometer));    
 
-    // Command to go to the nearest AprilTag, default offset puts the bumpers slightly behind the tag
-    NamedCommands::registerCommand("AlignToNearestTag", AlignToNearestTag());
-    
-    NamedCommands::registerCommand("ScoreL4", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL4ReefLeft,  Constants::GripperPose::GripperPoseEnum::CoralL4)));
-    NamedCommands::registerCommand("ScoreR4", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL4ReefRight, Constants::GripperPose::GripperPoseEnum::CoralL4)));
-
-    NamedCommands::registerCommand("ScoreL3", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL23ReefLeft,  Constants::GripperPose::GripperPoseEnum::CoralL3)));
-    NamedCommands::registerCommand("ScoreR3", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL23ReefRight, Constants::GripperPose::GripperPoseEnum::CoralL3)));
-
-    NamedCommands::registerCommand("ScoreL2", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL23ReefLeft,  Constants::GripperPose::GripperPoseEnum::CoralL2)));
-    NamedCommands::registerCommand("ScoreR2", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL23ReefRight, Constants::GripperPose::GripperPoseEnum::CoralL2)));
-
-    NamedCommands::registerCommand("ScoreL1", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL1ReefLeft,  Constants::GripperPose::GripperPoseEnum::CoralL1)));
-    NamedCommands::registerCommand("ScoreR1", std::move(AutoScore(Constants::ChassisAprilTagToPose::CoralL1ReefRight, Constants::GripperPose::GripperPoseEnum::CoralL1)));
-
-    NamedCommands::registerCommand("ScoreBarge", std::move(AutoScore(Constants::ChassisAprilTagToPose::AlgaeBarge, Constants::GripperPose::GripperPoseEnum::AlgaeBarge)));
-
-    NamedCommands::registerCommand("IntakeCoralAuto", std::move(frc2::WaitCommand(6_s).ToPtr()));
-    NamedCommands::registerCommand("HighAlgaeIntake", std::move(frc2::WaitCommand(6_s).ToPtr()));
-    NamedCommands::registerCommand("LowAlgaeIntake", std::move(frc2::WaitCommand(6_s).ToPtr()));
-
-    m_autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
-
-    // Send the autonomous mode chooser to the SmartDashboard
-    frc::SmartDashboard::PutData("Autonomous Mode", &m_autoChooser);
-
     // Set the default commands for the subsystems
-    m_drivetrain->SetDefaultCommand(ChassisDrive(m_controller.GetChassisSpeeds()));
+    m_drivetrain->SetDefaultCommand(ChassisDrive(m_controller.GetChassisSpeedsGetter()));
      
     m_leds->SetDefaultCommand(SetLeds(LedMode::Off, 10_s));
 
@@ -81,6 +52,15 @@ RobotContainer::RobotContainer() : m_climb     {Climb::GetInstance()},
     // Set the resolution and frame rate of the camera
     camera.SetResolution(640, 480);
     camera.SetFPS(30);
+}
+
+void RobotContainer::ScheduleTeleopCommands()
+{
+    // Schedule the default commands for the subsystems
+    m_drivetrain->GetDefaultCommand()->Schedule();
+    m_leds->GetDefaultCommand()->Schedule();
+    m_climb->GetDefaultCommand()->Schedule();
+    m_odometry->GetDefaultCommand()->Schedule();
 }
 
 /// @brief Method to return a pointer to the autonomous command.

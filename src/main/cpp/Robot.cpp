@@ -65,6 +65,8 @@ void Robot::TeleopInit()
         m_autonomousCommand->Cancel();
     }
 
+    m_robotContainer->ScheduleTeleopCommands();
+
     // Ensure the arm angle is past the elevator
     if (Gripper::GetInstance()->GetArmAngle() < Constants::Arm::PastElevatorPosition)
     {

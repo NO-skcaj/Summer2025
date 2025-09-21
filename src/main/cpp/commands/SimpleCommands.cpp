@@ -158,5 +158,5 @@ frc2::CommandPtr GripperActivate()
 
 frc2::CommandPtr UpdateOdometry()
 {
-    return frc2::InstantCommand{[] {Odometry::GetInstance()->Update();}, {Odometry::GetInstance()}}.AlongWith(frc2::WaitCommand(0.2_s).ToPtr());
+    return frc2::InstantCommand{[] {Odometry::GetInstance()->Update();}, {Odometry::GetInstance()}}.ToPtr();
 }

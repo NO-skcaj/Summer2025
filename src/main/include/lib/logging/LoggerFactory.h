@@ -8,8 +8,6 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/smartdashboard/Field2d.h>
 
-#include "lib/logging/LoggedSwerve.h"
-
 
 namespace LoggerFactory
 {
@@ -31,10 +29,5 @@ namespace LoggerFactory
     inline std::function<void()> CreateLoggedValue(std::string_view name, bool* value)
     {
         return [name, value]() {frc::SmartDashboard::PutBoolean(name, *value);};
-    }
-
-    inline std::function<void()> CreateLoggedValue(std::string_view name, LoggedSwerve* value)
-    {
-        return [name, value]() {frc::SmartDashboard::PutData(name, value);};
     }
 };

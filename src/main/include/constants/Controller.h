@@ -7,8 +7,6 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 
-#include <pathplanner/lib/path/PathPlannerPath.h>
-
 #include <units/acceleration.h>
 #include <units/angle.h>
 #include <units/angular_acceleration.h>
@@ -41,7 +39,7 @@ namespace Controller
 
     constexpr auto ExponentForward         = 2.0;
     constexpr auto ExponentStrafe          = 2.0;
-    constexpr auto ExponentAngle           = 5.0;
+    constexpr auto ExponentAngle           = 2.0;
 }
 
 namespace Extreme3D

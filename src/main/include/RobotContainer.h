@@ -17,9 +17,6 @@
 
 #include <cameraserver/CameraServer.h>
 
-#include <pathplanner/lib/auto/AutoBuilder.h>
-#include <pathplanner/lib/auto/NamedCommands.h>
-
 // Subsystems
 #include "subsystems/Climb.h"
 #include "subsystems/Drivetrain/Drivetrain.h"
@@ -37,7 +34,6 @@
 #include "Constants/GripperPose.h"
 
 #include "lib/logging/LoggingManager.h"
-#include "lib/logging/LoggedSwerve.h"
 #include "lib/logging/LoggerFactory.h"
 
 
@@ -47,10 +43,12 @@ class RobotContainer
     public:
 
         // Method that returns a pointer to the singleton instance of the RobotContainer class
-        static RobotContainer*       GetInstance();
+        static RobotContainer* GetInstance();
+
+        void ScheduleTeleopCommands();
 
         // Method to get a pointer to the selected autonomous command
-        frc2::Command*             GetAutonomousCommand();
+        frc2::Command*         GetAutonomousCommand();
 
     private:
 

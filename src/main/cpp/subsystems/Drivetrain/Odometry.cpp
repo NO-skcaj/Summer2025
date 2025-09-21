@@ -40,7 +40,8 @@ void Odometry::Update()
         }
     } else
     {
-        auto moduleStates = Drivetrain::GetInstance()->GetSwerveModuleStates();
+        Drivetrain::GetInstance()->SimPeriodic();
+        auto moduleStates = Drivetrain::GetInstance()->GetModuleStates();
         hardware::Navx::GetInstance()->SimUpdate(m_kinematics.ToChassisSpeeds(moduleStates).omega);
     }
 
@@ -75,7 +76,7 @@ frc::Pose2d Odometry::GetNearestTag()
 frc::ChassisSpeeds Odometry::GetRobotRelativeSpeeds()
 {
     // Return the robot relative speeds
-    return m_kinematics.ToChassisSpeeds(Drivetrain::GetInstance()->GetSwerveModuleStates());
+    return m_kinematics.ToChassisSpeeds(Drivetrain::GetInstance()->GetModuleStates());
 
 }
 

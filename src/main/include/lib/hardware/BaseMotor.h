@@ -41,6 +41,8 @@ namespace hardware
             virtual units::turn_t GetPosition() = 0;  // Returns the position of the motor in turns
             
             virtual units::turns_per_second_t GetVelocity() = 0;  // Returns the velocity of the motor in turns per second
+
+            virtual void SimPeriodic() = 0; // Simulate the motor
     };
 
 }

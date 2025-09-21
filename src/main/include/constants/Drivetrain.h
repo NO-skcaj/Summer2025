@@ -1,8 +1,8 @@
 #pragma once
 
-#include <pathplanner/lib/path/PathPlannerPath.h>
-
 #include <units/length.h>
+#include <units/voltage.h>
+#include <units/current.h>
 #include <units/velocity.h>
 #include <units/acceleration.h>
 #include <units/angular_velocity.h>
@@ -28,7 +28,7 @@ namespace Drivetrain
     constexpr auto RearLeftForwardAngle            =  0.268555 * 2.0_rad * std::numbers::pi;
 
     // Drive motor parameters
-    constexpr auto DriveMaximumAmperage            = 60_A;
+    constexpr auto DriveMaximumAmperage            = 30_A;
     constexpr auto DriveMotorReduction             = 6.75;
     constexpr auto WheelDiameter                   = 0.098022_m;
     constexpr auto WheelCircumference              = WheelDiameter * std::numbers::pi;
@@ -41,9 +41,9 @@ namespace Drivetrain
     constexpr auto DriveA                          = 0.10;
 
     // Angle motor parameters
-    constexpr auto AngleMaximumAmperage            = 20;
+    constexpr auto AngleMaximumAmperage            = 30_A;
     constexpr auto AngleMotorRevolutions           = 21.5;  // The number of motor revolutions per wheel revolutions
-    constexpr auto AngleRadiansToMotorRevolutions  = (2.0 * std::numbers::pi) / AngleMotorRevolutions;  // Radians to motor revolutions	
+    constexpr auto AngleRadiansToMotorRevolutions  = (2.0_rad * std::numbers::pi) / AngleMotorRevolutions;  // Radians to motor revolutions	
 
     constexpr auto AngleP                          = 1.00;
     constexpr auto AngleI                          = 0.00;
@@ -60,11 +60,6 @@ namespace ChassisPose
     constexpr double PXController           = 4.0;
     constexpr double PYController           = 4.0;
     constexpr double PProfileController     = 5.0;
-}
-
-namespace PathPlanner
-{
-    constexpr pathplanner::PathConstraints Constraints{3.0_mps, 3.0_mps_sq, 360_deg_per_s, 720_deg_per_s_sq};
 }
 
 }

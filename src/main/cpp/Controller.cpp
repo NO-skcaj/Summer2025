@@ -4,12 +4,12 @@
 /// @brief Constructor for the DriveController class.
 /// @param gripper reference to the gripper subsystem.
 Controller::Controller() 
-    : m_driveController {Constants::Controller::DriverControllerUsbPort},
-      m_operatorController {Constants::Controller::JoystickOperatorUsbPort},
+    : m_driveController   {Constants::Controller::DriverControllerUsbPort},
+      m_operatorController{Constants::Controller::JoystickOperatorUsbPort},
       
-      m_xspeedLimiter   {1 / 1_s},
-      m_yspeedLimiter   {1 / 1_s},
-      m_rotLimiter      {1 / 1_s}
+      m_xspeedLimiter     {1 / 1_s},
+      m_yspeedLimiter     {1 / 1_s},
+      m_rotLimiter        {1 / 1_s}
 {
     // Configure the operator controller
     std::pair<int, frc2::CommandPtr> controls[] = {
@@ -32,24 +32,24 @@ Controller::Controller()
     }
 }
 
-std::function<frc::ChassisSpeeds()> Controller::GetChassisSpeeds()
+std::function<frc::ChassisSpeeds()> Controller::GetChassisSpeedsGetter()
 {
     return [this]() -> frc::ChassisSpeeds
     {
         // Use exponential function to calculate the forward value for better slow speed control
         auto joystickForward = GetExponentialValue(
-            GetThrottleRange() * m_driveController.GetRawAxis(Constants::Controller::JoystickForwardIndex), Constants::Controller::ExponentForward);
+            GetThrottleRange() * frc::ApplyDeadband(m_driveController.GetLeftY(), Constants::Controller::JoystickDeadZone), Constants::Controller::ExponentForward);
 
         auto joystickStrafe = GetExponentialValue(
-            GetThrottleRange() * m_driveController.GetRawAxis(Constants::Controller::JoystickStrafeIndex), Constants::Controller::ExponentStrafe);
+            GetThrottleRange() * frc::ApplyDeadband(m_driveController.GetLeftX(),  Constants::Controller::JoystickDeadZone), Constants::Controller::ExponentStrafe);
 
         auto joystickAngle = GetExponentialValue(
-            GetThrottleRange() * m_driveController.GetRawAxis(Constants::Controller::JoystickAngleIndex), Constants::Controller::ExponentAngle);
+            GetThrottleRange() * frc::ApplyDeadband(m_driveController.GetRightX(), Constants::Controller::JoystickRotateDeadZone), Constants::Controller::ExponentAngle);
 
         // Return the x speed
-        return {Constants::Drivetrain::MaxSpeed        * -m_xspeedLimiter.Calculate(frc::ApplyDeadband(joystickForward, Constants::Controller::JoystickDeadZone)),
-                Constants::Drivetrain::MaxSpeed        * -m_yspeedLimiter.Calculate(frc::ApplyDeadband(joystickStrafe,  Constants::Controller::JoystickDeadZone)),
-                Constants::Drivetrain::MaxAngularSpeed * -m_rotLimiter.Calculate(frc::ApplyDeadband(joystickAngle, Constants::Controller::JoystickRotateDeadZone * 0.5))
+        return {Constants::Drivetrain::MaxSpeed        * -m_xspeedLimiter.Calculate(joystickForward),
+                Constants::Drivetrain::MaxSpeed        * -m_yspeedLimiter.Calculate(joystickStrafe),
+                Constants::Drivetrain::MaxAngularSpeed *  m_rotLimiter.   Calculate(joystickAngle)
         };
     };
 }

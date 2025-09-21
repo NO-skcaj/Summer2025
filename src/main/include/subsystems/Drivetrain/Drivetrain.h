@@ -1,35 +1,28 @@
 #pragma once
 
 #include <new>
-
-#include <pathplanner/lib/auto/AutoBuilder.h>
-#include <pathplanner/lib/config/RobotConfig.h>
-#include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
-#include <pathplanner/lib/util/PathPlannerLogging.h>
+#include <numbers>
 
 #include <frc/DriverStation.h>
 
 #include <hal/FRCUsageReporting.h>
 
+#include <units/angle.h>
+#include <units/velocity.h>
+
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc/smartdashboard/FieldObject2d.h>
 
+#include <networktables/StructArrayTopic.h>
+
 #include <frc/trajectory/TrajectoryGenerator.h>
-
-#include <frc/AnalogPotentiometer.h>
-
-#include <frc/filter/SlewRateLimiter.h>
 
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 
-#include <frc/kinematics/ChassisSpeeds.h>
-
 #include <frc2/command/SubsystemBase.h>
-
-#include <numbers>
 
 #include "subsystems/Drivetrain/Odometry.h"
 
@@ -37,15 +30,13 @@
 #include "lib/hardware/Navx.h"
 
 #include "lib/logging/LoggingManager.h"
-
 #include "lib/logging/LoggerFactory.h"
-#include "lib/logging/LoggedSwerve.h"
 
 #include "Constants/Drivetrain.h"
 #include "Constants/CanIds.h"
 
  
-class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
+class Drivetrain : public frc2::SubsystemBase
 {
     public:
 
@@ -55,15 +46,11 @@ class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
            
         void                                     Drive(frc::ChassisSpeeds  speeds);
         void                                     Drive(frc::ChassisSpeeds  speeds, bool centricity);
-                  
-        void                                     BECOMEDEFENSE(); // Sets the wheels into an X formation to prevent movement
-                  
+                                    
         void                                     ResetDriveEncoders(); // Resets the drive encoders to currently read a position of 0
                   
         void                                     SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
                   
-        void                                     ZeroHeading();               // Zeroes the heading of the robot
-
         wpi::array<frc::SwerveModulePosition, 4> GetModulePositions(); // Fix the odometry to a position
                   
         void                                     FlipFieldCentric();       // Sets the field centricity
@@ -71,10 +58,9 @@ class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
                   
         void                                     SetWheelAnglesToZero();      // Sets the wheels to forward based on the absolute encoder
 
-        wpi::array<frc::SwerveModuleState, 4>    GetSwerveModuleStates();     // Returns the swerve module states
+        void                                     SimPeriodic();
 
-        std::span<double>                        GetData() override;          // Returns the data for logging
-
+        wpi::array<frc::SwerveModuleState, 4>    GetModuleStates();     // Returns the swerve module states
 
         // Swerve module order for kinematics calculations
         //
@@ -88,25 +74,22 @@ class Drivetrain : public frc2::SubsystemBase, public LoggedSwerve
 
     private:
     
-        explicit                            Drivetrain();
+        explicit                 Drivetrain();
 
-        static Drivetrain*                   m_drivetrain;  // The drivetrain singleton class
+        static Drivetrain*       m_drivetrain;  // The drivetrain singleton class
 
-        hardware::Navx*                      m_gyro;  // The gyro sensor
+        hardware::Navx*          m_gyro;  // The gyro sensor
 
-        frc::Field2d                         m_field;
+        frc::Field2d             m_field;
 
-        bool                                 m_fieldCentricity;                      // Field centricity flag
+        bool                     m_fieldCentricity;                      // Field centricity flag
     
-        SwerveModule                         m_frontLeft;
-        SwerveModule                         m_frontRight;
-        SwerveModule                         m_rearLeft;
-        SwerveModule                         m_rearRight;
-
-        pathplanner::RobotConfig             m_config;
+        SwerveModule             m_frontLeft;
+        SwerveModule             m_frontRight;
+        SwerveModule             m_rearLeft;
+        SwerveModule             m_rearRight;
 
         // Logging
-        LoggingManager*                      m_loggingManager;  // The logging manager
-
-        double                               m_loggedGyro;
+        double                   m_loggedGyro;
+        nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModulePublisher;
 };
