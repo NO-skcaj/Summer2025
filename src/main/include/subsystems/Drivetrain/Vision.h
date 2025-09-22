@@ -40,8 +40,6 @@ class Vision
     private:
         Vision();
 
-        static Vision* m_vision;
-
         photon::PhotonPoseEstimator photonEstimator{
             Constants::Vision::TagLayout,
             photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,

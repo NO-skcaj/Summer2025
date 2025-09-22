@@ -185,11 +185,12 @@ namespace hardware
                 m_motorSim.SetInputVoltage(motorVoltage);
                 m_motorSim.Update(20_ms); // assume 20 ms loop time
 
-                // apply the new rotor position and velocity to the TalonFX;
-                // note that this is rotor position/velocity (before gear ratio), but
-                // DCMotorSim returns mechanism position/velocity (after gear ratio)
-                talonFXSim.SetRawRotorPosition(m_motorSim.GetAngularPosition());
-                talonFXSim.SetRotorVelocity(m_motorSim.GetAngularVelocity());
+                // Convert radians to rotations for TalonFX (1 rotation = 2π radians)
+                auto rotorPosition = units::turn_t{m_motorSim.GetAngularPosition().value() / (2.0 * std::numbers::pi)};
+                auto rotorVelocity = units::turns_per_second_t{m_motorSim.GetAngularVelocity().value() / (2.0 * std::numbers::pi)};
+                
+                talonFXSim.SetRawRotorPosition(rotorPosition);
+                talonFXSim.SetRotorVelocity(rotorVelocity);
             }
 
         private:

@@ -3,15 +3,10 @@
 
 using namespace std;
 
-Leds* Leds::m_ledInstance = nullptr;
-
 Leds* Leds::GetInstance()
 {
-    if (m_ledInstance == nullptr)
-    {
-        m_ledInstance = new Leds();
-    }
-    return m_ledInstance;
+    static Leds leds;
+    return &leds;
 }
 
 /// @brief Class to support an addressable LED string.

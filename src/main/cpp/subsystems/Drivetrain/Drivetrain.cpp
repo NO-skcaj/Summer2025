@@ -1,17 +1,12 @@
 #include "subsystems/Drivetrain/Drivetrain.h"
 
 
-Drivetrain* Drivetrain::m_drivetrain = nullptr;
-
 using namespace Constants::CanIds;
 
 Drivetrain* Drivetrain::GetInstance()
 {
-    if (m_drivetrain == nullptr)
-    {
-        m_drivetrain = new Drivetrain();
-    }
-    return m_drivetrain;
+    static Drivetrain drivetrain;
+    return &drivetrain;
 }
 
 /// @brief The Constructor for the Drivetrain class.

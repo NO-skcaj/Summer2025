@@ -1,22 +1,12 @@
 #include "RobotContainer.h"
 
 
-// Reference to the RobotContainer singleton class
-RobotContainer *RobotContainer::m_robotContainer = NULL;
-
 /// @brief Method to return a pointer to the RobotContainer class.
 /// @return Pointer to the RobotContainer class.
-RobotContainer *RobotContainer::GetInstance()
+RobotContainer* RobotContainer::GetInstance()
 {
-    // Detrermine if the class has already been instantiated
-    if (m_robotContainer == NULL)
-    {
-        // Instantiate the class
-        m_robotContainer = new RobotContainer();
-    }
-
-    // Return the class pointer
-    return m_robotContainer;
+    static RobotContainer instance;
+    return &instance;
 }
 
 /// @brief Method to configure the robot and SmartDashboard configuration.
@@ -24,19 +14,11 @@ RobotContainer::RobotContainer() : m_climb     {Climb::GetInstance()},
                                    m_drivetrain{Drivetrain::GetInstance()},
                                    m_gripper   {Gripper::GetInstance()},
                                    m_odometry  {Odometry::GetInstance()},
-                                   m_leds      {Leds::GetInstance()},
-
-                                   m_controller{},
-
-                                   // Logging       
-                                   m_loggingManager     {LoggingManager::GetInstance()},
-                                   m_loggedPotentiometer{0.0}
+                                   m_leds      {Leds::GetInstance()}
 
 {
-    m_loggingManager->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Potentiometer", &m_loggedPotentiometer));    
-
     // Set the default commands for the subsystems
-    m_drivetrain->SetDefaultCommand(ChassisDrive(m_controller.GetChassisSpeedsGetter()));
+    m_drivetrain->SetDefaultCommand(ChassisDrive(Controller::GetInstance()->GetChassisSpeedsGetter()));
      
     m_leds->SetDefaultCommand(SetLeds(LedMode::Off, 10_s));
 

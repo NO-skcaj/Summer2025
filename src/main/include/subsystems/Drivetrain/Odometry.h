@@ -36,15 +36,12 @@ class Odometry : public frc2::SubsystemBase
     private:
         Odometry();
 
-        static Odometry* m_odometry;
-
-        hardware::Navx*  m_gyro;
         Vision*          m_vision;
 
-        // Odometry class for tracking robot pose for the swerve modules modules
+        frc::SwerveDriveKinematics<4>        m_kinematics;
+
         frc::SwerveDriveOdometry<4>     m_estimator;
 
-        frc::SwerveDriveKinematics<4>        m_kinematics;
         nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModuleStatePublisher;
         nt::DoubleArrayPublisher                         m_loggedModulePositionsPublisher;
         nt::StructPublisher<frc::Pose2d>                 m_loggedPosePublisher;

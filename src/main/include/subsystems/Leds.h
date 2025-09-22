@@ -40,9 +40,7 @@ class Leds : public frc2::SubsystemBase
         void HvaColors();
         void Strobe();
         void ShootingAnimation();
-
-        static Leds*         m_ledInstance;
-
+        
         frc::AddressableLED m_led;
 
         // Create an LED pattern that displays a red-to-blue gradient, then scroll at one quarter of the LED strip's length per second.

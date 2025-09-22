@@ -1,6 +1,12 @@
 #include "Controller.h"
 
 
+Controller* Controller::GetInstance()
+{
+    static Controller controller;
+    return &controller;
+}
+
 /// @brief Constructor for the DriveController class.
 /// @param gripper reference to the gripper subsystem.
 Controller::Controller() 

@@ -75,9 +75,7 @@ class Drivetrain : public frc2::SubsystemBase
     private:
     
         explicit                 Drivetrain();
-
-        static Drivetrain*       m_drivetrain;  // The drivetrain singleton class
-
+        
         hardware::Navx*          m_gyro;  // The gyro sensor
 
         frc::Field2d             m_field;

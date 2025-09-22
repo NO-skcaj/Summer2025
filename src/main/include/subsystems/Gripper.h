@@ -53,9 +53,7 @@ class Gripper : public frc2::SubsystemBase
         void ConfigureArmMotor();
         void ConfigureWristMotor();
         void ConfigureGripperMotors();
-
-        static Gripper*          m_gripper;  // The gripper singleton class
-
+        
         hardware::TalonFX        m_elevatorMotor;
                     
         hardware::TalonFX        m_armMotor;

@@ -55,28 +55,16 @@ class RobotContainer
         // Private class constructor to configure the robot and SmartDashboard configuration
         RobotContainer();
 
-        // Singleton reference to the class (returned by the GetInstance Method)
-        static RobotContainer                *m_robotContainer;
-
         // Instantiate the robot subsystems
         Climb*                                m_climb;
         Drivetrain*                           m_drivetrain;
         Gripper*                              m_gripper;
         Odometry*                             m_odometry;
         Leds*                                 m_leds;
-        
-        // Controllers
-        Controller                            m_controller;
 
         frc::SendableChooser<frc2::Command*>  m_autoChooser;
 
         cs::VideoSink                         m_server;
         cs::UsbCamera                         m_usbCamera;
         cs::VideoSink                         m_limelightFeed;
-
-        // Logging
-        LoggingManager*                      m_loggingManager;
-
-        double                               m_loggedPotentiometer;
-
 };

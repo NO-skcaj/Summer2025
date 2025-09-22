@@ -3,15 +3,10 @@
 
 using namespace Constants::CanIds;
 
-Climb* Climb::m_climb = nullptr;
-
 Climb* Climb::GetInstance()
 {
-    if (m_climb == nullptr)
-    {
-        m_climb = new Climb();
-    }
-    return m_climb;
+    static Climb climb;
+    return &climb;
 }
 
 /// @brief Class to support the Climb subsystem.

@@ -21,11 +21,13 @@
 class Controller
 {
         public:
-            Controller();
+            static Controller* GetInstance();
         
             std::function<frc::ChassisSpeeds()> GetChassisSpeedsGetter();
 
         private:
+            Controller();
+
             void                                ConfigureOperator();
 
             GripperWheelState                   GetWheelInput();

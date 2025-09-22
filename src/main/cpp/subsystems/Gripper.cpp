@@ -3,15 +3,10 @@
 
 using namespace Constants::CanIds;
 
-Gripper* Gripper::m_gripper = nullptr;
-
 Gripper* Gripper::GetInstance()
 {
-    if (m_gripper == nullptr)
-    {
-        m_gripper = new Gripper();
-    }
-    return m_gripper;
+    static Gripper gripper;
+    return &gripper;
 }
 
 /// @brief The Constructor for the Gripper class.

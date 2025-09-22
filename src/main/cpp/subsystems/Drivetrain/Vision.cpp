@@ -1,15 +1,10 @@
 #include "subsystems/Drivetrain/Vision.h"
 
 
-Vision* Vision::m_vision = nullptr;
-
 Vision* Vision::GetInstance() 
 {
-    if (m_vision == nullptr) 
-    {
-        m_vision = new Vision();
-    }
-    return m_vision;
+    static Vision vision;
+    return &vision;
 }
 
 Vision::Vision() 

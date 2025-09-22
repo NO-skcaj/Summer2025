@@ -1,25 +1,17 @@
 #include "subsystems/Drivetrain/Odometry.h"
 
-
-Odometry* Odometry::m_odometry = nullptr;
-
 Odometry* Odometry::GetInstance()
 {
-    if (m_odometry == nullptr)
-    {
-        m_odometry = new Odometry();
-    }
-    return m_odometry;
+    static Odometry odometry;
+    return &odometry;
 }
 
-Odometry::Odometry() : m_gyro      {hardware::Navx::GetInstance()},
-                       m_vision    {Vision::GetInstance()},
-                       m_kinematics{
+Odometry::Odometry() : m_kinematics{
             frc::Translation2d{ Constants::Drivetrain::WheelBase / 2,  Constants::Drivetrain::TrackWidth / 2},   // Front Left
             frc::Translation2d{ Constants::Drivetrain::WheelBase / 2, -Constants::Drivetrain::TrackWidth / 2},   // Front Right
             frc::Translation2d{-Constants::Drivetrain::WheelBase / 2,  Constants::Drivetrain::TrackWidth / 2},   // Rear Left
             frc::Translation2d{-Constants::Drivetrain::WheelBase / 2, -Constants::Drivetrain::TrackWidth / 2}}, // Rear Right
-                       m_estimator {m_kinematics, m_gyro->GetRotation().ToRotation2d(),
+                       m_estimator {m_kinematics, hardware::Navx::GetInstance()->GetRotation().ToRotation2d(),
                            {Drivetrain::GetInstance()->GetModulePositions()}, 
                            frc::Pose2d{}},
                        m_loggedModuleStatePublisher{nt::NetworkTableInstance::GetDefault()
@@ -46,10 +38,10 @@ void Odometry::Update()
     //                                         m_vision->GetEstimationStdDevs(visionEst.value().first));
     // }
 
+    m_estimator.Update(hardware::Navx::GetInstance()->GetRotation().ToRotation2d(), modulePositions);
+
     Drivetrain::GetInstance()->SimPeriodic();
     hardware::Navx::GetInstance()->SimPeriodic(m_kinematics.ToChassisSpeeds(moduleStates).omega);
-
-    m_estimator.Update(m_gyro->GetRotation().ToRotation2d(), modulePositions);
 
     m_loggedModulePositionsPublisher.Set(std::vector<double>{
         modulePositions[0].distance.value(), modulePositions[0].angle.Degrees().value(),
@@ -75,7 +67,7 @@ void Odometry::ResetPose(frc::Pose2d pose)
     m_estimator.ResetPose(pose);
 
     // Reset the present odometry
-    m_estimator.ResetPosition(m_gyro->GetRotation().ToRotation2d(), Drivetrain::GetInstance()->GetModulePositions(), pose);
+    m_estimator.ResetPosition(hardware::Navx::GetInstance()->GetRotation().ToRotation2d(), Drivetrain::GetInstance()->GetModulePositions(), pose);
 }
 
 /// @brief Method to get the nearest tag given
