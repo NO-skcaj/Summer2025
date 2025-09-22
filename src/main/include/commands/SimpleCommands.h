@@ -11,8 +11,8 @@
 #include "subsystems/Gripper.h"
 #include "subsystems/Climb.h"
 #include "subsystems/Leds.h"
-#include "subsystems/Drivetrain/Drivetrain.h"
-#include "subsystems/Drivetrain/Odometry.h"
+#include "subsystems/drivetrain/drivetrain.h"
+#include "subsystems/drivetrain/Odometry.h"
 
 #include "constants/Climb.h"
 #include "constants/GripperPose.h"

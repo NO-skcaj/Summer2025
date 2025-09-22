@@ -24,15 +24,12 @@
 
 #include <frc2/command/SubsystemBase.h>
 
-#include "subsystems/Drivetrain/Odometry.h"
+#include "subsystems/drivetrain/Odometry.h"
 
-#include "lib/modules/SwerveModule.h"
+#include "subsystems/drivetrain/SwerveModule.h"
 #include "lib/hardware/Navx.h"
 
-#include "lib/logging/LoggingManager.h"
-#include "lib/logging/LoggerFactory.h"
-
-#include "Constants/Drivetrain.h"
+#include "Constants/drivetrain.h"
 #include "Constants/CanIds.h"
 
  
@@ -88,6 +85,5 @@ class Drivetrain : public frc2::SubsystemBase
         SwerveModule             m_rearRight;
 
         // Logging
-        double                   m_loggedGyro;
         nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModuleStatePublisher;
 };

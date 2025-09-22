@@ -9,10 +9,6 @@ void Robot::RobotInit()
 
     // Report the robot framework usage
     HAL_Report(HALUsageReporting::kResourceType_Framework, HALUsageReporting::kFramework_RobotBuilder);
-
-    // Retrieve Singletons
-    m_robotContainer = RobotContainer::GetInstance();
-    m_loggingManager = LoggingManager::GetInstance();
 }
 
 /// @brief Method is called every robot packet, no matter the mode.
@@ -20,9 +16,6 @@ void Robot::RobotPeriodic()
 {
     // Run the command scheduler
     frc2::CommandScheduler::GetInstance().Run();
-
-    // Log everything
-    LoggingManager::GetInstance()->Log();
 }
 
 /// @brief Method is called when switching to autonomous mode.

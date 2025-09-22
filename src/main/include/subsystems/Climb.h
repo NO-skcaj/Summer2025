@@ -5,9 +5,6 @@
 #include "lib/hardware/DigitalInput.h"
 #include "lib/hardware/TalonFX.h"
 
-#include "lib/logging/LoggerFactory.h"
-#include "lib/logging/LoggingManager.h"
-
 #include "Constants/CanIds.h"
 #include "Constants/Climb.h"
 
@@ -32,9 +29,4 @@ class Climb : public frc2::SubsystemBase
 
         hardware::DigitalInput  m_climbLimit;
         hardware::DigitalInput  m_captureLimit;
-
-        // Logging
-        LoggingManager*         m_loggingManager;
-
-        double                  m_loggedClimbTargetVoltage;
 };

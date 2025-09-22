@@ -3,15 +3,13 @@
 #include <frc/geometry/Pose2d.h>
 
 #include <frc/kinematics/SwerveDriveKinematics.h>
-#include <frc/kinematics/SwerveDriveKinematics.h>
-#include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
 
 #include "lib/hardware/Navx.h"
-#include "subsystems/Drivetrain/Vision.h"
-#include "subsystems/Drivetrain/Drivetrain.h"
+#include "subsystems/drivetrain/Vision.h"
+#include "subsystems/drivetrain/drivetrain.h"
 
-#include "constants/Drivetrain.h"
+#include "constants/drivetrain.h"
 #include "constants/Vision.h"
 
 
@@ -40,7 +38,7 @@ class Odometry : public frc2::SubsystemBase
 
         frc::SwerveDriveKinematics<4>        m_kinematics;
 
-        frc::SwerveDriveOdometry<4>     m_estimator;
+        frc::SwerveDrivePoseEstimator<4>     m_estimator;
 
         nt::StructArrayPublisher<frc::SwerveModuleState> m_loggedModuleStatePublisher;
         nt::DoubleArrayPublisher                         m_loggedModulePositionsPublisher;

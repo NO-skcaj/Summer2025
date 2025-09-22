@@ -1,4 +1,4 @@
-#include "subsystems/Drivetrain/Drivetrain.h"
+#include "subsystems/drivetrain/drivetrain.h"
 
 
 using namespace Constants::CanIds;
@@ -20,16 +20,11 @@ Drivetrain::Drivetrain()
       m_rearLeft             {SwerveRearLeftDriveMotorCanId,   SwerveRearLeftAngleMotorCanId,   SwerveRearLeftAngleEncoderCanId  },
       m_rearRight            {SwerveRearRightDriveMotorCanId,  SwerveRearRightAngleMotorCanId,  SwerveRearRightAngleEncoderCanId },
 
-      // Logging
-      m_loggedGyro           {0.0},
       m_loggedModuleStatePublisher{nt::NetworkTableInstance::GetDefault()
                 .GetStructArrayTopic<frc::SwerveModuleState>("/Data/SwerveStates").Publish()}
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive, HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
-
-    LoggingManager::GetInstance()->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Field", &m_field));
-    LoggingManager::GetInstance()->AddLoggerFunction(LoggerFactory::CreateLoggedValue("Gyro Rotation", &m_loggedGyro));
 }
 
 /// @brief This method will be called once periodically.

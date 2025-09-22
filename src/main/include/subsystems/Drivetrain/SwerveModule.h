@@ -32,7 +32,7 @@
 #include "lib/hardware/CANCoder.h"
 #include "lib/hardware/TalonFX.h"
 
-#include "constants/Drivetrain.h"
+#include "constants/drivetrain.h"
 #include "constants/Controller.h"
 #include "constants/CanIds.h"
 

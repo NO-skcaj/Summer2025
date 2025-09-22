@@ -27,9 +27,8 @@ frc2::CommandPtr OffsetWrist(bool isUp, units::degree_t offset )
 
 frc2::CommandPtr ClimbSetVoltage(double isUp, units::volt_t voltage)
 {
-    auto climb = Climb::GetInstance();
     return frc2::RunCommand(
-        [climb, isUp, voltage] { climb->SetVoltage(isUp ? voltage : -voltage); }, {climb}).ToPtr();
+        [isUp, voltage] { Climb::GetInstance()->SetVoltage(isUp ? voltage : -voltage); }, {Climb::GetInstance()}).ToPtr();
 }
 
 // Drive Commands
@@ -61,7 +60,8 @@ frc2::CommandPtr FlipFieldCentricity()
 
 frc2::CommandPtr ChassisDrivePose(std::string CommandName)
 {
-    return AutoBuilder::followPath(PathPlannerPath::fromPathFile(CommandName));
+    // return AutoBuilder::followPath(PathPlannerPath::fromPathFile(CommandName));
+    return frc2::WaitCommand(0.1_s).ToPtr(); // Temporary fix for pathplanner not working correctly when called immediately after another command
 }
 
 frc2::CommandPtr ChassisDrivePose(frc::Pose2d targetPose) // End goal state relative to the origin, blue alliance side

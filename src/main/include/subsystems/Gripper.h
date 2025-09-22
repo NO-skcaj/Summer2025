@@ -5,10 +5,6 @@
 #include "lib/hardware/TalonFX.h"
 #include "lib/hardware/SparkMax.h"
 
-#include "lib/logging/LoggingManager.h"
-
-#include "lib/logging/LoggerFactory.h"
-
 #include "constants/CanIds.h"
 #include "constants/Gripper.h"
 #include "constants/GripperPose.h"
@@ -69,20 +65,4 @@ class Gripper : public frc2::SubsystemBase
         GripperPoseEnum          m_gripperPose;
 
         units::voltage::volt_t   m_gripperVoltage = 0_V;
-
-        // Logging
-        LoggingManager*          m_loggingManager;
-
-        double  m_loggedElevatorHeight;
-        double  m_loggedElevatorHeightTarget;
-
-        double  m_loggedArmAngle;
-        double  m_loggedArmAngleTarget;
-
-        double  m_loggedWristRotation;
-        double  m_loggedWristRotationTarget;
-        double  m_loggedWristRotationOffset;
-
-        double  m_loggedGripperVoltage;
-        double  m_loggedGripperVoltageTarget;
 };

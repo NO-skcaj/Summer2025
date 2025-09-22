@@ -25,7 +25,7 @@ Leds::Leds() : m_led          {Constants::Led::PwmPort},
     m_led.SetLength(Constants::Led::Length);
 
     // Set the default mode
-    SetMode(LedMode::Off);
+    SetMode(LedMode::Rainbow);
 
     // Intialize the LED data
     m_led.SetData(m_ledBuffer);

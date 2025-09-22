@@ -19,7 +19,7 @@
 
 // Subsystems
 #include "subsystems/Climb.h"
-#include "subsystems/Drivetrain/Drivetrain.h"
+#include "subsystems/drivetrain/drivetrain.h"
 #include "subsystems/Gripper.h"
 #include "subsystems/Leds.h"
 
@@ -32,9 +32,6 @@
 #include "Constants/ChassisPoseAprilTag.h"
 #include "Constants/ChassisPoseAutonomous.h"
 #include "Constants/GripperPose.h"
-
-#include "lib/logging/LoggingManager.h"
-#include "lib/logging/LoggerFactory.h"
 
 
 /// @brief Class to instantiate the robot subsystems and commands along with the operator controls

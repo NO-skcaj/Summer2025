@@ -9,7 +9,7 @@
 
 #include <frc/filter/SlewRateLimiter.h>
 
-#include "subsystems/Drivetrain/Drivetrain.h"
+#include "subsystems/drivetrain/drivetrain.h"
 #include "subsystems/Gripper.h"
 #include "subsystems/Climb.h"
 

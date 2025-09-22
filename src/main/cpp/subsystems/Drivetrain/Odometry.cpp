@@ -1,4 +1,4 @@
-#include "subsystems/Drivetrain/Odometry.h"
+#include "subsystems/drivetrain/Odometry.h"
 
 Odometry* Odometry::GetInstance()
 {
@@ -21,7 +21,7 @@ Odometry::Odometry() : m_kinematics{
                        m_loggedPosePublisher{nt::NetworkTableInstance::GetDefault()
                                    .GetStructTopic<frc::Pose2d>("/Data/OdometryPose").Publish()}
 {
-    // m_estimator.SetVisionMeasurementStdDevs(m_vision->GetEstimationStdDevs(frc::Pose2d{}));
+    m_estimator.SetVisionMeasurementStdDevs(m_vision->GetEstimationStdDevs(frc::Pose2d{}));
 }
 
 void Odometry::Update()
@@ -29,14 +29,14 @@ void Odometry::Update()
     auto moduleStates    = Drivetrain::GetInstance()->GetModuleStates();
     auto modulePositions = Drivetrain::GetInstance()->GetModulePositions();
 
-    // // Add vision measurements to the odometry
-    // auto visionEst = m_vision->GetEstimatedGlobalPose();
+    // Add vision measurements to the odometry
+    auto visionEst = m_vision->GetEstimatedGlobalPose();
 
-    // if (visionEst.has_value()) 
-    // {
-    //     m_estimator.AddVisionMeasurement(visionEst.value().first, visionEst.value().second, 
-    //                                         m_vision->GetEstimationStdDevs(visionEst.value().first));
-    // }
+    if (visionEst.has_value()) 
+    {
+        m_estimator.AddVisionMeasurement(visionEst.value().first, visionEst.value().second, 
+                                            m_vision->GetEstimationStdDevs(visionEst.value().first));
+    }
 
     m_estimator.Update(hardware::Navx::GetInstance()->GetRotation().ToRotation2d(), modulePositions);
 
@@ -56,7 +56,7 @@ void Odometry::Update()
 
 frc::Pose2d Odometry::GetPose()
 {
-    return m_estimator.GetPose();
+    return m_estimator.GetEstimatedPosition();
 }
 
 /// @brief Method to reset the chassis position to the orgin.
