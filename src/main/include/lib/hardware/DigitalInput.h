@@ -18,6 +18,11 @@ class DigitalInput : public Sensor<bool>
             return m_sensor.Get() == operand;
         }
 
+        operator bool() override
+        {
+            return m_sensor.Get();
+        }
+
     private:
         frc::DigitalInput m_sensor;
 

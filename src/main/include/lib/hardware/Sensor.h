@@ -10,6 +10,8 @@ class Sensor
     public:
         virtual bool operator==(T operand) = 0;
 
+        virtual operator bool() = 0;
+
 };
 
 }

@@ -2,6 +2,11 @@
 
 #include <frc2/command/SubsystemBase.h>
 
+#include <frc/smartdashboard/Mechanism2d.h>
+#include <frc/smartdashboard/MechanismObject2d.h>
+#include <frc/smartdashboard/MechanismLigament2d.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+
 #include "lib/hardware/DigitalInput.h"
 #include "lib/hardware/TalonFX.h"
 
@@ -29,4 +34,9 @@ class Climb : public frc2::SubsystemBase
 
         hardware::DigitalInput  m_climbLimit;
         hardware::DigitalInput  m_captureLimit;
+
+        frc::Mechanism2d          m_climbMechanism;
+        frc::MechanismLigament2d* m_climbLigament;
+
+
 };
